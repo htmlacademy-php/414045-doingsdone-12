@@ -6,7 +6,7 @@ $projects = [
     'Входящие',
     'Учеба',
     'Работа',
-    'Домащние дела',
+    'Домашние дела',
     'Авто'
 ];
 $tasks = [
@@ -46,7 +46,18 @@ $tasks = [
         'project' => 'Домашние дела',
         'done' => false
     ],
-]
+];
+// добавляем функцию
+function project_count($tasks_list, $name_project){
+    $count_project = 0;
+    foreach($tasks_list as $val){
+        if($name_project == $val['project']){
+            $count_project ++;
+        }
+    }
+    return($count_project);
+};
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -92,7 +103,7 @@ $tasks = [
                         <?php foreach ($projects as $key => $val): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?=$val;?></a>
-                            <span class="main-navigation__list-item-count">0</span>
+                            <span class="main-navigation__list-item-count"><?=project_count($tasks, $val);?></span>
                         </li>
                         <?php endforeach; ?>
                     </ul>
