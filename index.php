@@ -48,15 +48,15 @@ $tasks = [
     ],
 ];
 // добавляем функцию
-function project_count($tasks_list, $name_project){
-    $count_project = 0;
-    foreach($tasks_list as $val){
-        if($name_project == $val['project']){
-            $count_project ++;
-        }
+
+$project_count = array_reduce($tasks, function($carry, $item){
+    if(!isset($carry[$item['project']])){
+        $carry += [$item['project'] => 1];
+    } else {
+        $carry[$item['project']] += 1;
     }
-    return($count_project);
-};
+    return($carry);
+}, []);
 
 ?>
 <!DOCTYPE html>
@@ -103,7 +103,13 @@ function project_count($tasks_list, $name_project){
                         <?php foreach ($projects as $key => $val): ?>
                         <li class="main-navigation__list-item">
                             <a class="main-navigation__list-item-link" href="#"><?=$val;?></a>
-                            <span class="main-navigation__list-item-count"><?=project_count($tasks, $val);?></span>
+                            <span class="main-navigation__list-item-count">
+                                <?php if(!isset($project_count[$val])):?>
+                                0
+                                <?php else:?>
+                                    <?=$project_count[$val];?>
+                                <?php endif;?>
+                            </span>
                         </li>
                         <?php endforeach; ?>
                     </ul>
