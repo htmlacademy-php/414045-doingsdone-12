@@ -77,7 +77,7 @@ $filter = function($input_data) {
 $main_data = [
     'projects' => $projects,
     'tasks' => $tasks,
-    'get_project_count' => $get_project_count,
+    'project_count' => $get_project_count,
     'show_complete_tasks' => $show_complete_tasks,
     'filter' => $filter
 ];

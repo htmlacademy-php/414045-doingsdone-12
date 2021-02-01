@@ -4,10 +4,10 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <!-- добавляем цикл с массивом проектов -->
-            <?php foreach ($projects as $key => $val) : ?>
+            <?php foreach ($projects as $key => $project) : ?>
                 <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= $filter($val); ?></a>
-                    <span class="main-navigation__list-item-count"><?= $get_project_count($filter($val)); ?></span>
+                    <a class="main-navigation__list-item-link" href="#"><?= $filter($project); ?></a>
+                    <span class="main-navigation__list-item-count"><?= $project_count($project); ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -42,14 +42,14 @@
 
     <table class="tasks">
         <!-- добавляем цикл для двумерного массива -->
-        <?php foreach ($tasks as $val) : ?>
-            <?php if ($val['done'] && $show_complete_tasks == 0) : ?>
+        <?php foreach ($tasks as $task) : ?>
+            <?php if ($task['done'] && $show_complete_tasks == 0) : ?>
                 <?php continue; ?>
             <?php endif; ?>
-            <tr class="<?php if ($val['done']) : ?>task--completed<?php endif ?>">
-                <td><?= $filter($val['task']); ?></td>
-                <td><?= $filter($val['date']); ?></td>
-                <td><?= $filter($val['project']); ?></td>
+            <tr class="<?php if ($task['done']) : ?>task--completed<?php endif ?>">
+                <td><?= $filter($task['task']); ?></td>
+                <td><?= $filter($task['date']); ?></td>
+                <td><?= $filter($task['project']); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>
