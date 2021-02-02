@@ -44,12 +44,19 @@
         <!-- добавляем цикл для двумерного массива -->
         <?php foreach ($tasks as $task) : ?>
             <?php if ($task['done'] && $show_complete_tasks == 0) : ?>
-                <?php continue; ?>
+            <?php continue?>
             <?php endif; ?>
-            <tr class="<?php if ($task['done']) : ?>task--completed<?php endif ?>">
-                <td><?= $filter($task['task']); ?></td>
-                <td><?= $filter($task['date']); ?></td>
-                <td><?= $filter($task['project']); ?></td>
+            <tr class="tasks__item task <?php if ($task['done']) :?>task--completed<?php endif;?><?php if ($importance_task($task['date'])) :?> task--important<?php endif;?>">
+                <td class="task__select">
+                    <label class="checkbox task__checkbox">
+                        <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
+                        <span class="checkbox__text"><?= $filter($task['task']); ?></span>
+                    </label>
+                </td>
+                <td class="task__file">
+                    <a class="download-link" href="#">Home.psd</a>
+                </td>
+                <td class="task__date"><?= $filter($task['date']); ?></td>
             </tr>
         <?php endforeach; ?>
     </table>

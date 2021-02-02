@@ -32,7 +32,7 @@ $tasks = [
     ],
     [
         'task' => 'Встреча с другом',
-        'date' => '22.12.2019',
+        'date' => '05.02.2021',
         'project' => 'Входящие',
         'done' => false
     ],
@@ -67,9 +67,17 @@ $get_project_count = function($name_project) use ($tasks) {
 // фильтрация спецсимволов html
 
 $filter = function($input_data) {
-    $filtered_data = htmlspecialchars($input_data);
+    return htmlspecialchars($input_data);
+};
 
-    return $filtered_data;
+// проверка времени до истечения срока задачи
+
+$check_importance_task = function($task_time){
+    $current_time = time();
+    $task_time = strtotime($task_time);
+    if ($task_time - $current_time <= 86400) {
+        return true;
+    }
 };
 
 // данные для main
@@ -79,7 +87,8 @@ $main_data = [
     'tasks' => $tasks,
     'project_count' => $get_project_count,
     'show_complete_tasks' => $show_complete_tasks,
-    'filter' => $filter
+    'filter' => $filter,
+    'importance_task' => $check_importance_task
 ];
 
 // Данные для layout
