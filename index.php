@@ -52,8 +52,8 @@ $tasks = [
 
 // подсчет количества задач
 
-$get_project_count = function($name_project) use ($tasks) {
-    $project_count = array_reduce($tasks, function($carry, $item){
+function get_projects_count($tasks){
+    return array_reduce($tasks, function ($carry, $item){
         if(!isset($carry[$item['project']])){
             $carry += [$item['project'] => 1];
         } else {
@@ -61,34 +61,34 @@ $get_project_count = function($name_project) use ($tasks) {
         }
         return $carry;
     }, []);
-    return $project_count[$name_project] ?? 0;
-};
+}
+
+$projects_count = get_projects_count($tasks);
 
 // фильтрация спецсимволов html
 
-$filter = function($input_data) {
+function filter($input_data): string
+{
     return htmlspecialchars($input_data);
-};
+}
 
 // проверка времени до истечения срока задачи
 
-$check_importance_task = function($task_time){
+function is_importance_task($task_time): bool
+{
     $current_time = time();
     $task_time = strtotime($task_time);
-    if ($task_time - $current_time <= 86400) {
-        return true;
-    }
-};
+    $task_time_to_end_limit = 24 * 3600; //24 часа
+    return $task_time - $current_time < $task_time_to_end_limit;
+}
 
 // данные для main
 
 $main_data = [
     'projects' => $projects,
     'tasks' => $tasks,
-    'project_count' => $get_project_count,
     'show_complete_tasks' => $show_complete_tasks,
-    'filter' => $filter,
-    'importance_task' => $check_importance_task
+    'projects_count' => $projects_count
 ];
 
 // Данные для layout
