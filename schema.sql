@@ -31,7 +31,7 @@ CREATE INDEX t_project_id ON tasks(project_id);
 CREATE TABLE projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(64) NOT NULL,
-    project VARCHAR(64) NOT NULL
+    project_name VARCHAR(64) NOT NULL
 );
 
 CREATE INDEX p_user_id ON projects(user_id);
