@@ -5,54 +5,58 @@ require('./helpers.php');
 $show_complete_tasks = rand(0, 1);
 
 // текущий пользователь
-$curent_user_id = 1;
+$current_user_id = 1;
+
+// функция проверки соединения с БД
+function show_bd_error() {
+    print("Ошибка подключения к БД: " . mysqli_connect_error());
+    die;
+}
 
 // подключаемся к БД
 $con = mysqli_connect("localhost", "root", "root", "doingsdone");
 if (!$con) {
-    print("Ошибка подключения к БД: " . mysqli_connect_error());
+    show_bd_error();
 }
 mysqli_set_charset($con, "utf8");
 
 // получаем из БД список проектов текущего пользователя
 
-$sql = "SELECT title FROM projects WHERE user_id = '$curent_user_id'";
+$safe_current_user_id = intval($current_user_id);
+$sql = "SELECT title FROM projects WHERE user_id = '$safe_current_user_id'";
 $result_sql = mysqli_query($con, $sql);
 
 $projects = [];
 
-if ($result_sql) {
-    $projects_sql = mysqli_fetch_all($result_sql);
-    foreach ($projects_sql as $project) {
-        array_push($projects, $project['0']);
-    }
-} else {
-    print("Ошибка подключения к БД: " . mysqli_connect_error());
+if (!$result_sql) {
+    show_bd_error();
 }
+
+$projects_sql = mysqli_fetch_all($result_sql);
+foreach ($projects_sql as $project) {
+    array_push($projects, $project['0']);
+}
+
 
 // получаем из БД список задач текущего пользователя
 
-$sql = "SELECT t.title, time_end, p.title, is_done FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = '$curent_user_id'";
+$sql = "SELECT t.title, time_end, p.title, is_done FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = '$safe_current_user_id'";
 $result_sql = mysqli_query($con, $sql);
 
 $tasks = [];
 $tasks_key = ['task', 'date', 'project', 'done'];
 
-if ($result_sql) {
-    $tasks_sql = mysqli_fetch_all($result_sql);
-    foreach ($tasks_sql as $task_sql) {
-        $task = array_combine($tasks_key, $task_sql);
-        if($task['date'] != "0000-00-00 00:00:00") {
-            $task['date'] = date("d.m.Y", strtotime($task['date']));
-        } else {
-            $task['date'] = null;
-        }
-        array_push($tasks, $task);
-    }
-} else {
-    print("Ошибка подключения к БД: " . mysqli_connect_error());
-}
 
+$tasks_sql = mysqli_fetch_all($result_sql);
+foreach ($tasks_sql as $task_sql) {
+    $task = array_combine($tasks_key, $task_sql);
+    if($task['date'] != "0000-00-00 00:00:00") {
+        $task['date'] = date("d.m.Y", strtotime($task['date']));
+    } else {
+        $task['date'] = null;
+    }
+    array_push($tasks, $task);
+}
 
 // подсчет количества задач
 
