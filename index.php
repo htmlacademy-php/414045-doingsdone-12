@@ -8,7 +8,7 @@ $show_complete_tasks = rand(0, 1);
 $current_user_id = 1;
 
 // функция проверки соединения с БД
-function show_bd_error() {
+function show_db_error() {
     print("Ошибка подключения к БД: " . mysqli_connect_error());
     die;
 }
@@ -16,7 +16,7 @@ function show_bd_error() {
 // подключаемся к БД
 $con = mysqli_connect("localhost", "root", "root", "doingsdone");
 if (!$con) {
-    show_bd_error();
+    show_db_error();
 }
 mysqli_set_charset($con, "utf8");
 
@@ -29,7 +29,7 @@ $result_sql = mysqli_query($con, $sql);
 $projects = [];
 
 if (!$result_sql) {
-    show_bd_error();
+    show_db_error();
 }
 
 $projects_sql = mysqli_fetch_all($result_sql);
@@ -47,9 +47,9 @@ $tasks = [];
 $tasks_key = ['task', 'date', 'project', 'done'];
 
 
-$tasks_sql = mysqli_fetch_all($result_sql);
-foreach ($tasks_sql as $task_sql) {
-    $task = array_combine($tasks_key, $task_sql);
+$tasks_result = mysqli_fetch_all($result_sql);
+foreach ($tasks_result as $task_result) {
+    $task = array_combine($tasks_key, $task_result);
     if($task['date'] != "0000-00-00 00:00:00") {
         $task['date'] = date("d.m.Y", strtotime($task['date']));
     } else {
