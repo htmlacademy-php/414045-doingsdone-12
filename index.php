@@ -91,6 +91,44 @@ function is_importance_task($task_time): bool
     return $task_time - $current_time < $task_time_to_end_limit;
 }
 
+// задачи выбранного проекта
+
+function show_tasks_chosen_project($id_project, $projects, $tasks): array
+{
+    if (isset($_GET['id_chosen_project'])){
+        $chosen_project = $projects[$id_project];
+        $chosen_project_tasks = [];
+        foreach ($tasks as $task){
+            if ($chosen_project == $task['project']){
+                array_push($chosen_project_tasks, $task);
+            }
+        }
+        return $chosen_project_tasks;
+    } else {
+        return $all_tasks = $tasks;
+    }
+}
+
+// проверка на валидность id проекта
+
+if (isset($_GET['id_chosen_project'])){
+    if ($_GET['id_chosen_project'] > count($projects) && !is_int($_GET['id_chosen_project'])){
+        header('Location: /error404/');
+    } else {
+        $id_chosen_project = intval($_GET['id_chosen_project']);
+        $tasks = show_tasks_chosen_project($id_chosen_project, $projects, $tasks);
+    }
+}
+
+// проверка выбранного проекта
+
+function is_active_project($id_project)
+{
+    if (isset($_GET['id_chosen_project']) && $id_project == $_GET['id_chosen_project']){
+        return true;
+    }
+}
+
 // данные для main
 
 $main_data = [
