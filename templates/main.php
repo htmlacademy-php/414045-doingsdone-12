@@ -14,8 +14,8 @@
         <ul class="main-navigation__list">
             <!-- добавляем цикл с массивом проектов -->
             <?php foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item">
-                    <a class="main-navigation__list-item-link" href="#"><?= filter($project); ?></a>
+                <li class="main-navigation__list-item<?= is_active_project($key) ? " main-navigation__list-item--active": "" ?>">
+                    <a class="main-navigation__list-item-link" href="/?id_chosen_project=<?= $key ?>"><?= filter($project); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project] ?? 0 ?></span>
                 </li>
             <?php endforeach; ?>
