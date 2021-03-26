@@ -7,8 +7,11 @@ function show_db_error() {
 }
 
 // подключаемся к БД
-$con = mysqli_connect("localhost", "root", "root", "doingsdone");
-if (!$con) {
-    show_db_error();
+function connect_db (){
+    $con = mysqli_connect("localhost", "root", "root", "doingsdone");
+    if (!$con) {
+        show_db_error();
+    }
+    mysqli_set_charset($con, "utf8");
+    return $con;
 }
-mysqli_set_charset($con, "utf8");

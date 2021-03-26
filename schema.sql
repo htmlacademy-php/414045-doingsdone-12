@@ -31,7 +31,7 @@ CREATE TABLE tasks (
     is_done INT(1) DEFAULT 0,
     title VARCHAR(64) NOT NULL,
     file_src VARCHAR(128),
-    time_end TIMESTAMP NOT NULL,
+    time_end TIMESTAMP DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );

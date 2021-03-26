@@ -2,7 +2,7 @@
 
 // подсчет количества задач
 
-function get_projects_count($tasks)
+function get_count_task_in_project($tasks)
 {
     return array_reduce($tasks, function ($carry, $item) {
         if (!isset($carry[$item['project']])) {
@@ -13,6 +13,9 @@ function get_projects_count($tasks)
         return $carry;
     }, []);
 }
+
+$projects_count = get_count_task_in_project(get_tasks($current_user_id));
+
 
 // задачи выбранного проекта
 

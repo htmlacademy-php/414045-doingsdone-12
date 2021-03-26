@@ -4,39 +4,14 @@
 $current_user_id = 1;
 
 require_once ('./functions/functions.php');
+
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
-
-// подсчет количества задач
-
-$projects_count = get_projects_count($tasks);
-
-// фильтрация спецсимволов html
-
-function filter($input_data): string
-{
-    return htmlspecialchars($input_data);
-}
-
-
-
-
-
-// проверка на валидность id проекта
-
-if (isset($_GET['id_chosen_project'])){
-    if ($_GET['id_chosen_project'] > count($projects) && !is_int($_GET['id_chosen_project'])){
-        header('Location: /error404/');
-    } else {
-        $id_chosen_project = intval($_GET['id_chosen_project']);
-        $tasks = show_tasks_chosen_project($id_chosen_project, $projects, $tasks);
-    }
-}
-
-
-
 // данные для main
+$projects = get_projects($current_user_id);
+$tasks = get_tasks($current_user_id);
+
 
 $main_data = [
     'projects' => $projects,
@@ -45,11 +20,24 @@ $main_data = [
     'projects_count' => $projects_count
 ];
 
-// Данные для layout
+// данные для form_task
+$form_task = $main_data;
+if (isset($errors)){
+    $form_task['errors'] = $errors;
+}
 
+
+// Данные для layout
 $user_name = 'User';
 $title_name = 'Дела в порядке';
 $content = include_template('main.php', $main_data);
+
+// выбор страниц
+if (isset($_GET['page'])) {
+    if (filter($_GET['page']) == 'add_task') {
+        $content = include_template('form_task.php', $form_task);
+    }
+}
 
 $layout_data = [
     'user' => $user_name,

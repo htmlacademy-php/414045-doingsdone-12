@@ -15,8 +15,8 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php foreach ($projects as $key => $project): ?>
                 <li class="main-navigation__list-item<?= is_active_project($key) ? " main-navigation__list-item--active": "" ?>">
-                    <a class="main-navigation__list-item-link" href="/?id_chosen_project=<?= $key ?>"><?= filter($project); ?></a>
-                    <span class="main-navigation__list-item-count"><?= $projects_count[$project] ?? 0 ?></span>
+                    <a class="main-navigation__list-item-link" href="/?id_chosen_project=<?= $key ?>"><?= filter($project['name']); ?></a>
+                    <span class="main-navigation__list-item-count"><?= $projects_count[$project['name']] ?? 0 ?></span>
                 </li>
             <?php endforeach; ?>
         </ul>
@@ -62,7 +62,7 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <a class="download-link" href="#">Home.psd</a>
+                    <a class="download-link" href="<?= filter($task['file_src']); ?>"><?= filter($task['file_name']); ?></a>
                 </td>
                 <td class="task__date"><?= filter($task['date']); ?></td>
             </tr>
