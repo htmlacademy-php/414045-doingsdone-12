@@ -19,10 +19,13 @@ $projects_count = get_count_task_in_project(get_tasks($current_user_id));
 
 // задачи выбранного проекта
 
-function show_tasks_chosen_project($id_project, $projects, $tasks): array
+function show_tasks_chosen_project($current_user_id): array
 {
+    $projects = get_projects($current_user_id);
+    $tasks = get_tasks($current_user_id);
+    $id_project = $_GET['id_chosen_project'] ?? null;
     if (isset($_GET['id_chosen_project'])) {
-        $chosen_project = $projects[$id_project];
+        $chosen_project = $projects[$id_project]['name'];
         $chosen_project_tasks = [];
         foreach ($tasks as $task) {
             if ($chosen_project == $task['project']) {
@@ -39,14 +42,12 @@ function show_tasks_chosen_project($id_project, $projects, $tasks): array
 
 function is_active_project($id_project)
 {
-    if (isset($_GET['id_chosen_project']) && $id_project == $_GET['id_chosen_project']) {
-        return true;
-    }
+    return (isset($_GET['id_chosen_project']) && $id_project == $_GET['id_chosen_project']) ? true : false;
 }
 
 // проверка времени до истечения срока задачи
 
-function is_importance_task($task_time): bool
+function is_task_important($task_time): bool
 {
     $current_time = time();
     $task_time = strtotime($task_time);

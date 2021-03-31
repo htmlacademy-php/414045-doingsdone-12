@@ -10,7 +10,7 @@ $show_complete_tasks = rand(0, 1);
 
 // данные для main
 $projects = get_projects($current_user_id);
-$tasks = get_tasks($current_user_id);
+$tasks = show_tasks_chosen_project($current_user_id);
 
 
 $main_data = [
@@ -33,12 +33,10 @@ $title_name = 'Дела в порядке';
 $content = include_template('main.php', $main_data);
 
 // выбор страниц
-
-if (isset($_GET['page'])) {
-    if (filter($_GET['page']) == 'add_task') {
+if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
         $content = include_template('form_task.php', $form_task);
-    }
 }
+
 
 $layout_data = [
     'user' => $user_name,

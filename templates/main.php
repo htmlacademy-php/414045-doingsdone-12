@@ -54,7 +54,7 @@
             <?php if ($task['done'] && !$show_complete_tasks): ?>
             <?php continue?>
             <?php endif; ?>
-            <tr class="tasks__item task <?= $task['done'] ? "task--completed" : "" ?><?= is_importance_task($task['date']) ? " task--important" : "" ?>">
+            <tr class="tasks__item task <?= $task['done'] ? "task--completed" : "" ?><?= is_task_important($task['date']) ? " task--important" : "" ?>">
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox" type="checkbox" value="1">
@@ -62,7 +62,7 @@
                     </label>
                 </td>
                 <td class="task__file">
-                    <a class="download-link" href="<?= filter($task['file_src']); ?>"><?= filter($task['file_name']); ?></a>
+                    <a class="download-link" href="<?= $task['file_src']; ?>"><?= $task['file_name']; ?></a>
                 </td>
                 <td class="task__date"><?= filter($task['date']); ?></td>
             </tr>
