@@ -33,6 +33,7 @@ $title_name = 'Дела в порядке';
 $content = include_template('main.php', $main_data);
 
 // выбор страниц
+
 if (isset($_GET['page'])) {
     if (filter($_GET['page']) == 'add_task') {
         $content = include_template('form_task.php', $form_task);

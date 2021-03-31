@@ -30,7 +30,7 @@
 <main class="content__main">
     <h2 class="content__main-heading">Добавление задачи</h2>
 
-    <form class="form"  action="add.php" method="post" autocomplete="off" enctype="multipart/form-data">
+    <form class="form"  action="./add.php" method="post" autocomplete="off" enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
             <?= isset($errors['name']) ? "<p class='form__message'>" . $errors['name'] . "</p>": ""?>
@@ -39,7 +39,7 @@
         <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
             <?= isset($errors['project']) ? "<p class='form__message'>" . $errors['project'] . "</p>": ""?>
-            <select class="form__input form__input--select <?= isset($errors['project']) ? "form__input--error": ""?>" name="project" id="project">
+            <select class="form__input form__input--select <?= isset($errors['project']) ? "form__input--error": ""?>" name="project_id" id="project">
                 <?php foreach ($projects as $key => $project): ?>
                     <option value="<?= $project['id']; ?>"><?= filter($project['name']); ?></option>
                 <?php endforeach; ?>

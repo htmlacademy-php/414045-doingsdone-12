@@ -51,10 +51,15 @@ function get_tasks($user_id)
 }
 
 // добавляем новую задачу
-function add_task($user_id, $project_id, $title, $file_src = null, $time_end = null){
+function add_task_in_db($user_id, $project_id, $title, $file_src = null, $time_end = null){
     $con = connect_db();
     $sql = "INSERT INTO tasks (user_id, project_id, title, file_src, time_end) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'iisss', $user_id, $project_id, $title, $file_src, $time_end);
     mysqli_stmt_execute($stmt);
+
+    if (mysqli_stmt_error($stmt)) {
+        print mysqli_stmt_error($stmt);
+        print $time_end;
+    }
 }
