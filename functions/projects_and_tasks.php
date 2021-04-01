@@ -1,48 +1,29 @@
 <?php
 
-// подсчет количества задач
-
-function get_count_task_in_project($tasks)
-{
-    return array_reduce($tasks, function ($carry, $item) {
-        if (!isset($carry[$item['project']])) {
-            $carry += [$item['project'] => 1];
-        } else {
-            $carry[$item['project']] += 1;
-        }
-        return $carry;
-    }, []);
-}
-
-$projects_count = get_count_task_in_project(get_tasks($current_user_id));
-
-
 // задачи выбранного проекта
 
 function show_tasks_chosen_project($current_user_id): array
 {
-    $projects = get_projects($current_user_id);
     $tasks = get_tasks($current_user_id);
-    $id_project = $_GET['id_chosen_project'] ?? null;
-    if (isset($_GET['id_chosen_project'])) {
-        $chosen_project = $projects[$id_project]['name'];
-        $chosen_project_tasks = [];
-        foreach ($tasks as $task) {
-            if ($chosen_project == $task['project']) {
-                array_push($chosen_project_tasks, $task);
-            }
-        }
-        return $chosen_project_tasks;
-    } else {
-        return $all_tasks = $tasks;
+
+    if (!isset($_GET['id_chosen_project'])) {
+        return $tasks;
     }
+    $id_chosen_project = $_GET['id_chosen_project'];
+    $chosen_project_tasks = [];
+    foreach ($tasks as $task) {
+        if ($id_chosen_project == $task['project_id']) {
+            array_push($chosen_project_tasks, $task);
+        }
+    }
+    return $chosen_project_tasks;
 }
 
 // проверка выбранного проекта
 
-function is_active_project($id_project)
+function is_active_project($id_project): bool
 {
-    return (isset($_GET['id_chosen_project']) && $id_project == $_GET['id_chosen_project']) ? true : false;
+    return isset($_GET['id_chosen_project']) && $id_project == $_GET['id_chosen_project'];
 }
 
 // проверка времени до истечения срока задачи

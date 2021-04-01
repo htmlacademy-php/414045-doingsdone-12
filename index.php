@@ -8,16 +8,20 @@ require_once ('./functions/functions.php');
 // показывать или нет выполненные задачи
 $show_complete_tasks = rand(0, 1);
 
+// проверка id выбранного проекта
+
+
+
 // данные для main
 $projects = get_projects($current_user_id);
+$count_tasks_in_projects = get_count_task_in_projects($current_user_id);
 $tasks = show_tasks_chosen_project($current_user_id);
-
 
 $main_data = [
     'projects' => $projects,
     'tasks' => $tasks,
     'show_complete_tasks' => $show_complete_tasks,
-    'projects_count' => $projects_count
+    'projects_count' => $count_tasks_in_projects
 ];
 
 // данные для form_task
