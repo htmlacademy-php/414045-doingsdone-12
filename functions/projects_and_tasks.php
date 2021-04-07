@@ -2,21 +2,12 @@
 
 // задачи выбранного проекта
 
-function show_tasks_chosen_project($current_user_id): array
+function show_tasks($current_user_id): array
 {
-    $tasks = get_tasks($current_user_id);
-
     if (!isset($_GET['id_chosen_project'])) {
-        return $tasks;
+        return get_user_tasks($current_user_id);
     }
-    $id_chosen_project = $_GET['id_chosen_project'];
-    $chosen_project_tasks = [];
-    foreach ($tasks as $task) {
-        if ($id_chosen_project == $task['project_id']) {
-            array_push($chosen_project_tasks, $task);
-        }
-    }
-    return $chosen_project_tasks;
+    return get_user_tasks($current_user_id, $_GET['id_chosen_project']);
 }
 
 // проверка выбранного проекта
@@ -43,22 +34,18 @@ function save_file()
     if ($_FILES['file']['name']) {
         $file_name = $_FILES['file']['name'];
         $file_path = './';
-        $file_url = "/" . $file_name;
+        $file_url = '/' . $file_name;
         move_uploaded_file($_FILES['file']['tmp_name'], $file_path . $file_name);
     }
     return $file_url;
 }
 
-// добавляем новую задачу, если нет о
-
+// добавляем новую задачу
 function add_new_task($current_user_id, $project_id, $task_name, $task_date)
 {
-//    форматируем дату, если её передали
-    if (!$task_date) {
-        $task_date = null;
-    }
     // сохраняем файл
     $file_url = save_file();
+
     // запись в БД
     add_task_in_db($current_user_id, $project_id, $task_name, $file_url, $task_date);
 }

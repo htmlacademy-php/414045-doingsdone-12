@@ -34,9 +34,9 @@ function get_count_task_in_projects($user_id)
     }
 
     $count_tasks = [];
-    $count_tasks_sql = mysqli_fetch_all($result_sql);
+    $count_tasks_sql = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
     foreach ($count_tasks_sql as $value) {
-        $count_tasks[$value[0]] = $value[1];
+        $count_tasks[$value['project_id']] = $value['count_tasks'];
     }
 
     return $count_tasks;
@@ -46,46 +46,49 @@ function get_count_task_in_projects($user_id)
 function get_projects($user_id)
 {
     $con = connect_db();
-    $sql = "SELECT id, title FROM projects WHERE user_id = ?";
+    $sql = "SELECT id, title AS name FROM projects WHERE user_id = ?";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
-
-    $projects = [];
 
     if (!$result_sql) {
         show_db_error();
     }
 
-    $projects_sql = mysqli_fetch_all($result_sql);
-    $new_key = ['id', 'name'];
-    foreach ($projects_sql as $project) {
-        array_push($projects, array_combine($new_key, $project));
-    }
-    return $projects;
+    $projects_sql = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
+
+    return $projects_sql;
 }
 
 // получаем из БД список задач текущего пользователя
-function get_tasks($user_id)
+function get_user_tasks($user_id, $project_id = null)
 {
     $con = connect_db();
-    $sql = "SELECT t.title, time_end, p.id, p.title, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
+    $sql = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
+    if ($project_id) {
+        $sql = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
+    }
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    if (!$project_id) {
+        mysqli_stmt_bind_param($stmt, 'i', $user_id);
+    } else {
+        mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
+    }
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
-
+    $tasks_result = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
     $tasks = [];
-    $tasks_key = ['task', 'date', 'project_id', 'project', 'done', 'file_src', 'file_name'];
 
-    $tasks_result = mysqli_fetch_all($result_sql);
-    foreach ($tasks_result as $task_result) {
-        $file_name = ltrim($task_result[4], '/');
-        array_push($task_result, $file_name);
-        $task = array_combine($tasks_key, $task_result);
-        if ($task['date']) {
-            $task['date'] = date("d.m.Y", strtotime($task['date']));
+    foreach ($tasks_result as $task) {
+        $file_name = 'файл не загружен';
+        if ($task['file_src']) {
+            $file_name = ltrim($task['file_src'], '/');
+        }
+        $task['file_name'] = $file_name;
+
+        if ($task['time_end']) {
+            $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
         }
         array_push($tasks, $task);
     }
@@ -93,8 +96,11 @@ function get_tasks($user_id)
 }
 
 // добавляем новую задачу
-function add_task_in_db($user_id, $project_id, $title, $file_src = null, $time_end = null)
+function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
+    if ($time_end == '') {
+        $time_end = null;
+    }
     $con = connect_db();
     $sql = "INSERT INTO tasks (user_id, project_id, title, file_src, time_end) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);

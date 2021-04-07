@@ -7,7 +7,7 @@ function filter($input_data)
     return htmlspecialchars($input_data);
 }
 
-// проверка на валидность id проекта
+// проверка на существование проекта у пользователя
 function check_selected_project_id($current_user_id)
 {
     if (isset($_GET['id_chosen_project'])) {
@@ -45,6 +45,12 @@ function validate_date($date): bool
     return check_format_date($date);
 }
 
+// проверка ошибок загрузки файла
+function validate_file(): bool
+{
+    return ($_FILES['file']['error'] == 0 || $_FILES['file']['error'] == 4);
+}
+
 // валидация формы добавления задачи
 function validate($user_id, $task_name, $project_id, $task_date): array
 {
@@ -58,6 +64,9 @@ function validate($user_id, $task_name, $project_id, $task_date): array
     }
     if (!validate_date($task_date)) {
         $errors['date'] = 'Введитие дату в формате ГГГГ-ММ-ДД. Дата ранее создания задачи не может быть выбранна.';
+    }
+    if (!validate_file()) {
+        $errors['file'] = 'Ошибка загрузки файла';
     }
 
     return $errors;

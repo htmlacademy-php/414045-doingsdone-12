@@ -9,13 +9,12 @@ require_once ('./functions/functions.php');
 $show_complete_tasks = rand(0, 1);
 
 // проверка id выбранного проекта
-
-
+check_selected_project_id($current_user_id);
 
 // данные для main
 $projects = get_projects($current_user_id);
 $count_tasks_in_projects = get_count_task_in_projects($current_user_id);
-$tasks = show_tasks_chosen_project($current_user_id);
+$tasks = show_tasks($current_user_id);
 
 $main_data = [
     'projects' => $projects,
