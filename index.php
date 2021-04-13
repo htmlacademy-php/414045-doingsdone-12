@@ -3,25 +3,14 @@
 // текущий пользователь
 $current_user_id = 1;
 
-require_once ('./functions/functions.php');
+require_once (__DIR__ . '/functions/functions.php');
 
-// показывать или нет выполненные задачи
-$show_complete_tasks = rand(0, 1);
+
 
 // проверка id выбранного проекта
 check_selected_project_id($current_user_id);
 
-// данные для main
-$projects = get_projects($current_user_id);
-$count_tasks_in_projects = get_count_task_in_projects($current_user_id);
-$tasks = show_tasks($current_user_id);
-
-$main_data = [
-    'projects' => $projects,
-    'tasks' => $tasks,
-    'show_complete_tasks' => $show_complete_tasks,
-    'projects_count' => $count_tasks_in_projects
-];
+$main_data = get_main_data($current_user_id);
 
 // данные для form_task
 $form_task = $main_data;
