@@ -12,15 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // сохраняем задачу в БД и файл в корень проекта
     if ($errors) {
-    // данные для layout
-        $user_name = 'user';
-        $title_name = 'Дела в порядке';
-        $content = include_template('add_task.php', $main_data);
-        $layout_data = [
-            'user' => $user_name,
-            'title' => $title_name,
-            'content' => $content
-        ];
+        $_GET['page'] = 'add_task';
+        $layout_data = get_layout_data($current_user_id, $errors);
         print(include_template('layout.php', $layout_data));
         exit(1);
     }

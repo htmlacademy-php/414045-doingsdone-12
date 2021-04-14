@@ -15,20 +15,19 @@ function get_main_data ($current_user_id)
 }
 
 // функция получения данных для шаблона form_task
-function get_form_task ($current_user_id)
+function get_form_task ($current_user_id, $errors)
 {
     $form_task_data = get_main_data($current_user_id);
     if (isset($errors)){
-        $form_task['errors'] = $errors;
+        $form_task_data['errors'] = $errors;
     }
     return $form_task_data;
 }
 
 // функция получения данных для шаблона layout
-function get_layout_data ($current_user_id)
+function get_layout_data ($current_user_id, $errors = null)
 {
     $main_data = get_main_data($current_user_id);
-    $form_task_data = get_form_task($current_user_id);
 
     // Данные для layout
     $user_name = 'User';
@@ -40,6 +39,7 @@ function get_layout_data ($current_user_id)
 
     // выбор страниц
     if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
+        $form_task_data = get_form_task($current_user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);
     }
 
