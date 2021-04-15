@@ -1,6 +1,6 @@
 <?php
 // функция получения данных для шаблона main
-function get_main_data ($current_user_id)
+function get_main_data($current_user_id)
 {
     // показывать или нет выполненные задачи
     $show_complete_tasks = rand(0, 1);
@@ -15,17 +15,26 @@ function get_main_data ($current_user_id)
 }
 
 // функция получения данных для шаблона form_task
-function get_form_task ($current_user_id, $errors)
+function get_form_task($current_user_id, $errors)
 {
     $form_task_data = get_main_data($current_user_id);
-    if (isset($errors)){
+    if (isset($errors)) {
         $form_task_data['errors'] = $errors;
     }
     return $form_task_data;
 }
 
+function get_form_registration($errors)
+{
+    $form_registration = [];
+    if (isset($errors)) {
+        $form_registration['errors'] = $errors;
+    }
+    return $form_registration;
+}
+
 // функция получения данных для шаблона layout
-function get_layout_data ($current_user_id, $errors = null)
+function get_layout_data($current_user_id = null, $errors = null)
 {
     $main_data = get_main_data($current_user_id);
 
@@ -41,6 +50,10 @@ function get_layout_data ($current_user_id, $errors = null)
     if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
         $form_task_data = get_form_task($current_user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);
+    }
+    if (isset($_GET['page']) && $_GET['page'] == 'registration') {
+        $registration_data = get_form_registration($errors);
+        $content = include_template('form_registration.php', $registration_data);
     }
 
 

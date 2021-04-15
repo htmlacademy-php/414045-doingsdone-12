@@ -1,54 +1,45 @@
 <?php
-
+/**
+ * @var array $errors
+ */
 ?>
 
 <section class="content__side">
-    <h2 class="content__side-heading">Проекты</h2>
+    <p class="content__side-info">Если у вас уже есть аккаунт, авторизуйтесь на сайте</p>
 
-    <nav class="main-navigation">
-        <ul class="main-navigation__list">
-            <!-- добавляем цикл с массивом проектов -->
-            <?php foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= is_active_project($project['id']) ? " main-navigation__list-item--active" : "" ?>">
-                    <a class="main-navigation__list-item-link"
-                       href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter($project['name']); ?></a>
-                    <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']] ?? 0 ?></span>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </nav>
-
-    <a class="button button--transparent button--plus content__side-button" href="form-project.html">Добавить проект</a>
+    <a class="button button--transparent content__side-button" href="form-authorization.html">Войти</a>
 </section>
 
 <main class="content__main">
-    <h2 class="content__main-heading"> Регистрация аккаунта </h2>
+    <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="index.html" method="post" autocomplete="off">
+    <form class="form" action="/pages/registration.php" method="post" autocomplete="off">
         <div class="form__row">
-            <label class="form__label" for="email"> E - mail <sup>*</sup></label>
+            <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
-            <input class="form__input form__input--error" type="text" name="email" id="email" value=""
-                   placeholder="Введите e-mail">
-
-            <p class="form__message"> E - mail введён некорректно </p>
+            <input class="form__input <?= isset($errors['email']) ? 'form__input--error' : '' ?>" type="text"
+                   name="email" id="email" value="" placeholder="Введите e-mail">
+            <?= isset($errors['email']) ? '<p class="form__message">E-mail введён некорректно</p>' : '' ?>
         </div>
 
         <div class="form__row">
-            <label class="form__label" for="password"> Пароль <sup>*</sup></label>
+            <label class="form__label" for="password">Пароль <sup>*</sup></label>
 
-            <input class="form__input" type="password" name="password" id="password" value=""
-                   placeholder="Введите пароль">
+            <input class="form__input <?= isset($errors['password']) ? 'form__input--error' : '' ?>" type="password"
+                   name="password" id="password" value="" placeholder="Введите пароль">
+            <?= isset($errors['password']) ? '<p class="form__message">Введите пароль</p>' : '' ?>
         </div>
 
         <div class="form__row">
-            <label class="form__label" for="name"> Имя <sup>*</sup></label>
+            <label class="form__label" for="name">Имя <sup>*</sup></label>
 
-            <input class="form__input" type="text" name="name" id="name" value="" placeholder="Введите имя">
+            <input class="form__input <?= isset($errors['name']) ? 'form__input--error' : '' ?>" type="text" name="name"
+                   id="name" value="" placeholder="Введите имя">
+            <?= isset($errors['name']) ? '<p class="form__message">Введите имя</p>' : '' ?>
         </div>
 
         <div class="form__row form__row--controls">
-            <p class="error-message"> Пожалуйста, исправьте ошибки в форме </p>
+            <?= isset($errors) ? '<p class="error-message">Пожалуйста, исправьте ошибки в форме</p>' : '' ?>
 
             <input class="button" type="submit" name="" value="Зарегистрироваться">
         </div>

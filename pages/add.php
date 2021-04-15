@@ -5,10 +5,9 @@ require_once('./../functions/functions.php');
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $required = ['name', 'project'];
 
     // проверяем есть ли ошибки валидачии
-    $errors = validate($current_user_id, $_POST['name'], $_POST['project_id'], $_POST['date']);
+    $errors = validate_task_form($current_user_id, $_POST['name'], $_POST['project_id'], $_POST['date']);
 
     // сохраняем задачу в БД и файл в корень проекта
     if ($errors) {
