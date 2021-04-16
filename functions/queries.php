@@ -110,6 +110,7 @@ function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
     if (mysqli_stmt_error($stmt)) {
         return print mysqli_stmt_error($stmt);
     }
+    return true;
 }
 
 // проверяем есть ли email в БД
@@ -122,10 +123,8 @@ function email_exist($email)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
     $result = mysqli_fetch_assoc($result_sql);
-    if ($result['exist']) {
-        return true;
-    }
-    return false;
+
+    return $result['exist'] > 0;
 }
 
 // сохраняем нового пользователя в БД
@@ -141,4 +140,5 @@ function add_new_user($email, $password, $name)
     if (mysqli_stmt_error($stmt)) {
         return print mysqli_stmt_error($stmt);
     }
+    return true;
 }

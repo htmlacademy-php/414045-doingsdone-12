@@ -15,7 +15,7 @@ function get_main_data($current_user_id)
 }
 
 // функция получения данных для шаблона form_task
-function get_form_task($current_user_id, $errors)
+function get_form_task($current_user_id, $errors = null)
 {
     $form_task_data = get_main_data($current_user_id);
     if (isset($errors)) {
@@ -24,10 +24,10 @@ function get_form_task($current_user_id, $errors)
     return $form_task_data;
 }
 
-function get_form_registration($errors)
+function get_form_registration($errors = null)
 {
     $form_registration = [];
-    if (isset($errors)) {
+    if ($errors !== null) {
         $form_registration['errors'] = $errors;
     }
     return $form_registration;
@@ -55,7 +55,6 @@ function get_layout_data($current_user_id = null, $errors = null)
         $registration_data = get_form_registration($errors);
         $content = include_template('form_registration.php', $registration_data);
     }
-
 
     $layout_data = [
         'user' => $user_name,

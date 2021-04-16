@@ -1,8 +1,7 @@
 <?php
 $current_user_id = 1;
 
-require_once('./../functions/functions.php');
-
+require_once('../bootstrap.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = validate_registration_form();
