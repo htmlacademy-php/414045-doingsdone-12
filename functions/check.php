@@ -52,7 +52,7 @@ function validate_file(): bool
 }
 
 // валидация формы добавления задачи
-function validate($user_id, $task_name, $project_id, $task_date): array
+function validate_task_form($user_id, $task_name, $project_id, $task_date): array
 {
     $errors = [];
 
@@ -69,5 +69,50 @@ function validate($user_id, $task_name, $project_id, $task_date): array
         $errors['file'] = 'Ошибка загрузки файла';
     }
 
+    return $errors;
+}
+
+function validate_email()
+{
+    if (!$_POST['email']) {
+        return false;
+    }
+    if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+        return false;
+    }
+    if (email_exist($_POST['email'])) {
+        return false;
+    }
+    return true;
+}
+
+function validate_password()
+{
+    if (!$_POST['password']) {
+        return false;
+    }
+    return true;
+}
+
+function validate_login()
+{
+    if (!$_POST['name']) {
+        return false;
+    }
+    return true;
+}
+
+function validate_registration_form()
+{
+    $errors = [];
+    if (!validate_email()) {
+        $errors['email'] = 'не введён, или не корректно указан email';
+    }
+    if (!validate_login()) {
+        $errors['name'] = 'введите логин';
+    }
+    if (!validate_password()) {
+        $errors['password'] = 'введите пароль';
+    }
     return $errors;
 }
