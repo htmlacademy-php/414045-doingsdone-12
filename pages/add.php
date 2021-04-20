@@ -1,5 +1,7 @@
 <?php
-$current_user_id = 1;
+
+session_start();
+$current_user_id = $_SESSION['user_id'];
 
 require_once('../bootstrap.php');
 
@@ -11,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // сохраняем задачу в БД и файл в корень проекта
     if ($errors) {
         $_GET['page'] = 'add_task';
-        $layout_data = get_layout_data($current_user_id, $errors);
+        $layout_data = get_layout_data($errors);
         print(include_template('layout.php', $layout_data));
         exit(1);
     }

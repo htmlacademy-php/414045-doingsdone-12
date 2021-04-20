@@ -14,5 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 //    при успехе перенаправляем на главную
     add_new_user($_POST['email'], $_POST['password'], $_POST['name']);
+
+    session_start();
+    $_SESSION['user_id'] = get_user_id($_POST['email']);
+
     header('Location: /');
 }

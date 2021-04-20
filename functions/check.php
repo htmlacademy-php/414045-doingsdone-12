@@ -80,9 +80,6 @@ function validate_email()
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         return false;
     }
-    if (email_exist($_POST['email'])) {
-        return false;
-    }
     return true;
 }
 
@@ -105,7 +102,8 @@ function validate_login()
 function validate_registration_form()
 {
     $errors = [];
-    if (!validate_email()) {
+
+    if (!validate_email() || email_exist($_POST['email'])) {
         $errors['email'] = 'не введён, или не корректно указан email';
     }
     if (!validate_login()) {
@@ -113,6 +111,39 @@ function validate_registration_form()
     }
     if (!validate_password()) {
         $errors['password'] = 'введите пароль';
+    }
+    return $errors;
+}
+
+function validate_auth_form()
+{
+    $errors = [];
+
+    if (!validate_email()) {
+        $errors['email'] = 'некорректно указан email';
+    }
+    if (!validate_password()) {
+        $errors['password'] = 'введите пароль';
+    }
+    return $errors;
+}
+
+function auth_user()
+{
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $errors = [];
+
+    if (!email_exist($email)) {
+        $errors['email'] = 'пользователя с введённым вами email не существует';
+        return $errors;
+    }
+
+    $user_data = get_user_auth_data($email);
+
+    if (!password_verify($password, $user_data['password'])) {
+        $errors['password'] = 'введён неверный пароль';
+        return $errors;
     }
     return $errors;
 }
