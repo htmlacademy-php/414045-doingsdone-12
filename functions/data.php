@@ -53,7 +53,7 @@ function get_layout_data($errors = null)
     $main_data = get_main_data($current_user_id);
 
     // Данные для layout
-    $user = null;
+    $user['id'] = $current_user_id;
     $title_name = 'Дела в порядке';
     $content = include_template('main.php', $main_data);
 
@@ -61,13 +61,13 @@ function get_layout_data($errors = null)
     check_selected_project_id($current_user_id);
 
     // выбор страниц
-    if (!isset($_SESSION['user_id'])) {
+    if (!$current_user_id) {
         $content = include_template('guest.php');
     }
     if (isset($_GET['page']) && $_GET['page'] == 'auth') {
         $form_auth_data = get_form_auth_data($errors);
         $content = include_template('auth.php', $form_auth_data);
-}
+    }
     if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
         $form_task_data = get_form_task($current_user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);

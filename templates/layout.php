@@ -17,18 +17,18 @@
     <link rel="stylesheet" href="../css/flatpickr.min.css">
 </head>
 
-<body <?= !isset($_SESSION['user_id']) ? 'class="body-background"' : '' ?>>
+<body <?= !$user['id'] ? 'class="body-background"' : '' ?>>
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container <?= isset($_SESSION['user_id']) ? 'container--with-sidebar' : ''?>">
+    <div class="container <?= isset($user['id']) ? 'container--with-sidebar' : ''?>">
         <header class="main-header">
             <a href="/">
                 <img src="../img/logo.png" width="153" height="42" alt="Логотип Дела в порядке">
             </a>
 
             <div class="main-header__side">
-                <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (isset($user['id'])): ?>
                     <a class="main-header__side-item button button--plus open-modal" href="?page=add_task">Добавить
                         задачу</a>
                     <div class="main-header__side-item user-menu">
@@ -58,7 +58,7 @@
 
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
-        <?php if (isset($_SESSION['user_id'])): ?>
+        <?php if (isset($user['id'])): ?>
         <a class="main-footer__button button button--plus" href="/?page=add_task">Добавить задачу</a>
         <?php endif; ?>
         <div class="main-footer__social social">

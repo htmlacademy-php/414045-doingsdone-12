@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($errors) {
         $_GET['page'] = 'auth';
-        $layout_data = get_layout_data(errors: $errors);
+        $layout_data = get_layout_data($errors);
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
@@ -19,12 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($errors) {
         $_GET['page'] = 'auth';
-        $layout_data = get_layout_data(errors: $errors);
+        $layout_data = get_layout_data($errors);
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
 
-    session_start();
     $_SESSION['user_id'] = get_user_id($_POST['email']);
 
     header('location: /');
