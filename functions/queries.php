@@ -142,3 +142,39 @@ function add_new_user($email, $password, $name)
     }
     return true;
 }
+
+// аутентификация пользователя
+function get_user_auth_data($email)
+{
+    $con = connect_db();
+    $sql = "SELECT email, password FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+    $result = mysqli_fetch_assoc($result_sql);
+
+    if (mysqli_stmt_error($stmt)) {
+        return print mysqli_stmt_error($stmt);
+    }
+
+    return $result;
+}
+
+// получить id пользователя
+function get_user_id($email)
+{
+    $con = connect_db();
+    $sql = "SELECT id FROM users WHERE email = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+    $result = mysqli_fetch_assoc($result_sql);
+
+    if (mysqli_stmt_error($stmt)) {
+        return print mysqli_stmt_error($stmt);
+    }
+
+    return $result['id'];
+}
