@@ -2,12 +2,12 @@
 
 // задачи выбранного проекта
 
-function show_tasks($current_user_id): array
+function show_tasks(): array
 {
     if (!isset($_GET['id_chosen_project'])) {
-        return get_user_tasks($current_user_id);
+        return get_user_tasks();
     }
-    return get_user_tasks($current_user_id, $_GET['id_chosen_project']);
+    return get_user_tasks($_GET['id_chosen_project']);
 }
 
 // проверка выбранного проекта

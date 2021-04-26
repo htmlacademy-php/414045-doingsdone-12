@@ -28,8 +28,8 @@
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
-    <form class="search-form" action="../index.php" method="post" autocomplete="off">
-        <input class="search-form__input" type="text" name="" value="" placeholder="Поиск по задачам">
+    <form class="search-form" action="/index.php" method="get" autocomplete="off">
+        <input class="search-form__input" type="text" name="search" value="" placeholder="Поиск по задачам">
         <input class="search-form__submit" type="submit" name="" value="Искать">
     </form>
 
@@ -49,6 +49,7 @@
     </div>
 
     <table class="tasks">
+        <?= $search_error_message ?? '' ?>
         <!-- добавляем цикл для двумерного массива -->
         <?php foreach ($tasks as $task): ?>
             <?php if ($task['is_done'] && !$show_complete_tasks): ?>
