@@ -63,9 +63,8 @@ function get_projects($user_id)
 }
 
 // получаем из БД список задач текущего пользователя
-function get_user_tasks($project_id = null)
+function get_user_tasks($user_id, $project_id)
 {
-    $user_id = $_SESSION['user_id'];
     $con = connect_db();
     $sql
         = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
@@ -196,9 +195,8 @@ function get_user_id($email)
 }
 
 // поиск задачи
-function get_looking_for_task($task_name)
+function get_looking_for_task($user_id, $task_name)
 {
-    $user_id = $_SESSION['user_id'];
     $con = connect_db();
     $sql
         = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";

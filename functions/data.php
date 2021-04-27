@@ -1,34 +1,33 @@
 <?php
 
 // функция получения данных для шаблона main
-function get_main_data($current_user_id)
+function get_main_data()
 {
     // показывать или нет выполненные задачи
     $show_complete_tasks = rand(0, 1);
+    $user_id = $_SESSION['user_id'];
+    $tasks = search_task($user_id) ?? show_tasks();
+    $nothing_found_message = "";
 
-    $found_tasks = search_task();
-    $tasks = $found_tasks ?? show_tasks();
-    $search_error_message = "";
-
-    if (isset($_GET['search']) && !$found_tasks) {
-        $search_error_message = "Ничего не найдено по вашему запросу";
+    if (isset($_GET['search']) && !search_task($user_id)) {
+        $nothing_found_message = "Ничего не найдено по вашему запросу";
     }
 
     $main_data = [
-        'projects' => get_projects($current_user_id),
+        'projects' => get_projects($user_id),
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
-        'projects_count' => get_count_task_in_projects($current_user_id),
-        'search_error_message' => $search_error_message,
+        'projects_count' => get_count_task_in_projects($user_id),
+        'nothing_found_message' => $nothing_found_message,
     ];
 
     return $main_data;
 }
 
 // функция получения данных для шаблона form_task
-function get_form_task($current_user_id, $errors = null)
+function get_form_task($user_id, $errors = null)
 {
-    $form_task_data = get_main_data($current_user_id);
+    $form_task_data = get_main_data($user_id);
     if (isset($errors)) {
         $form_task_data['errors'] = $errors;
     }
@@ -59,23 +58,23 @@ function get_form_auth_data($errors = null)
 // функция получения данных для шаблона layout
 function get_layout_data($errors = null)
 {
-    $current_user_id = null;
+    $user_id = null;
     if (isset($_SESSION['user_id'])) {
-        $current_user_id = $_SESSION['user_id'];
+        $user_id = $_SESSION['user_id'];
     }
 
-    $main_data = get_main_data($current_user_id);
+    $main_data = get_main_data($user_id);
 
     // Данные для layout
-    $user['id'] = $current_user_id;
+    $user['id'] = $user_id;
     $title_name = 'Дела в порядке';
     $content = include_template('main.php', $main_data);
 
     // проверка id выбранного проекта
-    check_selected_project_id($current_user_id);
+    check_selected_project_id($user_id);
 
     // выбор страниц
-    if (!$current_user_id) {
+    if (!$user_id) {
         $content = include_template('guest.php');
     }
     if (isset($_GET['page']) && $_GET['page'] == 'auth') {
@@ -83,7 +82,7 @@ function get_layout_data($errors = null)
         $content = include_template('auth.php', $form_auth_data);
     }
     if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
-        $form_task_data = get_form_task($current_user_id, $errors);
+        $form_task_data = get_form_task($user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);
     }
     if (isset($_GET['page']) && $_GET['page'] == 'registration') {

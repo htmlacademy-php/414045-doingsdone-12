@@ -64,7 +64,7 @@
     </div>
 
     <table class="tasks">
-        <?= $search_error_message ?? '' ?>
+        <?= $nothing_found_message ?? '' ?>
         <!-- добавляем цикл для двумерного массива -->
         <?php
         foreach ($tasks as $task): ?>

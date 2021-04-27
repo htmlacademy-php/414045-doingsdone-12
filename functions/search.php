@@ -1,12 +1,14 @@
 <?php
 
-function search_task()
+function search_task($user_id)
 {
     $found_tasks = null;
-    if ($_SERVER['REQUEST_METHOD'] == "GET" && isset($_GET['search'])) {
-        $task_name = trim($_GET['search'], " ");
+    $searchString = $_GET['search'] ?? null;
+
+    if ($searchString) {
+        $task_name = trim($_GET['search']);
         if ($task_name) {
-            $found_tasks = get_looking_for_task($task_name);
+            $found_tasks = get_looking_for_task($user_id, $task_name);
         }
     }
 

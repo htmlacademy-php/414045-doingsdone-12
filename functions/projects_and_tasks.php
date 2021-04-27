@@ -4,11 +4,10 @@
 
 function show_tasks(): array
 {
-    if (!isset($_GET['id_chosen_project'])) {
-        return get_user_tasks();
-    }
+    $user_id = $_SESSION['user_id'];
+    $chosenProject = $_GET['id_chosen_project'] ?? null;
 
-    return get_user_tasks($_GET['id_chosen_project']);
+    return get_user_tasks($user_id, $chosenProject);
 }
 
 // проверка выбранного проекта
@@ -45,14 +44,14 @@ function save_file()
 }
 
 // добавляем новую задачу
-function add_new_task($current_user_id, $project_id, $task_name, $task_date)
+function add_new_task($user_id, $project_id, $task_name, $task_date)
 {
     // сохраняем файл
     $file_url = save_file();
 
     // запись в БД
     add_task_in_db(
-        $current_user_id,
+        $user_id,
         $project_id,
         $task_name,
         $file_url,
