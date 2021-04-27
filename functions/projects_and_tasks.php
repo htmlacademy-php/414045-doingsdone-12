@@ -2,9 +2,8 @@
 
 // задачи выбранного проекта
 
-function show_tasks(): array
+function show_tasks($user_id): array
 {
-    $user_id = $_SESSION['user_id'];
     $chosenProject = $_GET['id_chosen_project'] ?? null;
 
     return get_user_tasks($user_id, $chosenProject);

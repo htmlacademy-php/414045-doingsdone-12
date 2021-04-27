@@ -18,9 +18,9 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= is_active_project(
-                    $project['id']
-                ) ? " main-navigation__list-item--active" : "" ?>">
+                <li class="main-navigation__list-item<?= ($project['id']
+                    == $chosen_project_id)
+                    ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"
                        href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
                             $project['name']
@@ -34,7 +34,8 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="form-project.html">Добавить проект</a>
+       href="../pages/form-project.html" target="project_add">Добавить
+        проект</a>
 </section>
 
 <main class="content__main">

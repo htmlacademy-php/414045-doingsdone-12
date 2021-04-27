@@ -6,16 +6,20 @@ function get_main_data()
     // показывать или нет выполненные задачи
     $show_complete_tasks = rand(0, 1);
     $user_id = $_SESSION['user_id'];
-    $tasks = search_task($user_id) ?? show_tasks();
+    $chosen_project_id = $_GET['id_chosen_project'] ?? null;
+    $user_tasks = !isset($_GET['search']) ? show_tasks($user_id) : null;
+    $found_tasks = isset($_GET['search']) ? search_task($user_id) : null;
     $nothing_found_message = "";
 
-    if (isset($_GET['search']) && !search_task($user_id)) {
+    if (isset($_GET['search']) && !$found_tasks) {
         $nothing_found_message = "Ничего не найдено по вашему запросу";
     }
 
     $main_data = [
         'projects' => get_projects($user_id),
-        'tasks' => $tasks,
+        'chosen_project_id' => $chosen_project_id,
+        'user_tasks' => $user_tasks,
+        'found_tasks' => $found_tasks,
         'show_complete_tasks' => $show_complete_tasks,
         'projects_count' => get_count_task_in_projects($user_id),
         'nothing_found_message' => $nothing_found_message,
@@ -58,10 +62,7 @@ function get_form_auth_data($errors = null)
 // функция получения данных для шаблона layout
 function get_layout_data($errors = null)
 {
-    $user_id = null;
-    if (isset($_SESSION['user_id'])) {
-        $user_id = $_SESSION['user_id'];
-    }
+    $user_id = $_SESSION['user_id'] ?? null;
 
     $main_data = get_main_data($user_id);
 

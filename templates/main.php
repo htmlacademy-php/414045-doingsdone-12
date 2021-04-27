@@ -1,9 +1,11 @@
 <?php
 /**
- * @var array $projects
- * @var array $tasks
- * @var array $projects_count
- * @var int   $show_complete_tasks
+ * @var array-key $projects
+ * @var int       $chosen_project_id
+ * @var array-key $user_tasks
+ * @var array-key $found_tasks
+ * @var array     $projects_count
+ * @var int       $show_complete_tasks
  */
 
 ?>
@@ -16,9 +18,9 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= is_active_project(
-                    $project['id']
-                ) ? " main-navigation__list-item--active" : "" ?>">
+                <li class="main-navigation__list-item<?= ($project['id']
+                    == $chosen_project_id)
+                    ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"
                        href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
                             $project['name']
@@ -66,6 +68,8 @@
     <table class="tasks">
         <?= $nothing_found_message ?? '' ?>
         <!-- добавляем цикл для двумерного массива -->
+        <?php
+        $tasks = $user_tasks ?? $found_tasks ?? []; ?>
         <?php
         foreach ($tasks as $task): ?>
             <?php
