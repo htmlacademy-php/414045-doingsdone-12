@@ -33,6 +33,7 @@ function validate_project($project_id, $user_id)
 function check_format_date($date, $format = 'Y-m-d'): bool
 {
     $d = date_create_from_format($format, $date);
+
     return $d && date_format($d, $format) == $date && $date >= date('Y-m-d');
 }
 
@@ -42,6 +43,7 @@ function validate_date($date): bool
     if (!$date) {
         return true;
     }
+
     return check_format_date($date);
 }
 
@@ -52,8 +54,12 @@ function validate_file(): bool
 }
 
 // валидация формы добавления задачи
-function validate_task_form($user_id, $task_name, $project_id, $task_date): array
-{
+function validate_task_form(
+    $user_id,
+    $task_name,
+    $project_id,
+    $task_date
+): array {
     $errors = [];
 
     if (!validate_task_name($task_name)) {
@@ -63,7 +69,8 @@ function validate_task_form($user_id, $task_name, $project_id, $task_date): arra
         $errors['project'] = 'Ошибка, выбранного проекта не существует!';
     }
     if (!validate_date($task_date)) {
-        $errors['date'] = 'Введитие дату в формате ГГГГ-ММ-ДД. Дата ранее создания задачи не может быть выбранна.';
+        $errors['date']
+            = 'Введитие дату в формате ГГГГ-ММ-ДД. Дата ранее создания задачи не может быть выбранна.';
     }
     if (!validate_file()) {
         $errors['file'] = 'Ошибка загрузки файла';
@@ -80,6 +87,7 @@ function validate_email()
     if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
         return false;
     }
+
     return true;
 }
 
@@ -88,6 +96,7 @@ function validate_password()
     if (!$_POST['password']) {
         return false;
     }
+
     return true;
 }
 
@@ -96,6 +105,7 @@ function validate_login()
     if (!$_POST['name']) {
         return false;
     }
+
     return true;
 }
 
@@ -112,6 +122,7 @@ function validate_registration_form()
     if (!validate_password()) {
         $errors['password'] = 'введите пароль';
     }
+
     return $errors;
 }
 
@@ -125,6 +136,7 @@ function validate_auth_form()
     if (!validate_password()) {
         $errors['password'] = 'введите пароль';
     }
+
     return $errors;
 }
 
@@ -136,6 +148,7 @@ function auth_user()
 
     if (!email_exist($email)) {
         $errors['email'] = 'пользователя с введённым вами email не существует';
+
         return $errors;
     }
 
@@ -143,7 +156,9 @@ function auth_user()
 
     if (!password_verify($password, $user_data['password'])) {
         $errors['password'] = 'введён неверный пароль';
+
         return $errors;
     }
+
     return $errors;
 }

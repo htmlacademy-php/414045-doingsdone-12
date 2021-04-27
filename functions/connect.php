@@ -3,7 +3,7 @@
 // функция проверки соединения с БД
 function show_db_error()
 {
-    print("Ошибка подключения к БД: " . mysqli_connect_error());
+    print("Ошибка подключения к БД: ".mysqli_connect_error());
     die;
 }
 
@@ -15,5 +15,6 @@ function connect_db()
         show_db_error();
     }
     mysqli_set_charset($con, "utf8");
+
     return $con;
 }

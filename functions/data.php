@@ -1,4 +1,5 @@
 <?php
+
 // функция получения данных для шаблона main
 function get_main_data($current_user_id)
 {
@@ -18,8 +19,9 @@ function get_main_data($current_user_id)
         'tasks' => $tasks,
         'show_complete_tasks' => $show_complete_tasks,
         'projects_count' => get_count_task_in_projects($current_user_id),
-        'search_error_message' => $search_error_message
+        'search_error_message' => $search_error_message,
     ];
+
     return $main_data;
 }
 
@@ -30,6 +32,7 @@ function get_form_task($current_user_id, $errors = null)
     if (isset($errors)) {
         $form_task_data['errors'] = $errors;
     }
+
     return $form_task_data;
 }
 
@@ -39,6 +42,7 @@ function get_form_registration($errors = null)
     if ($errors !== null) {
         $form_registration_data['errors'] = $errors;
     }
+
     return $form_registration_data;
 }
 
@@ -48,6 +52,7 @@ function get_form_auth_data($errors = null)
     if ($errors !== null) {
         $form_auth_data['errors'] = $errors;
     }
+
     return $form_auth_data;
 }
 
@@ -83,13 +88,17 @@ function get_layout_data($errors = null)
     }
     if (isset($_GET['page']) && $_GET['page'] == 'registration') {
         $form_registration_data = get_form_registration($errors);
-        $content = include_template('form_registration.php', $form_registration_data);
+        $content = include_template(
+            'form_registration.php',
+            $form_registration_data
+        );
     }
 
     $layout_data = [
         'user' => $user,
         'title' => $title_name,
-        'content' => $content
+        'content' => $content,
     ];
+
     return $layout_data;
 }

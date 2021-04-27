@@ -9,6 +9,7 @@ function search_task()
             $found_tasks = get_looking_for_task($task_name);
         }
     }
+
     return $found_tasks;
 }
 

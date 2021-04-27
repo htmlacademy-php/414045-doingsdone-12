@@ -23,7 +23,8 @@ function find_project_id($user_id, $project_id)
 function get_count_task_in_projects($user_id)
 {
     $con = connect_db();
-    $sql = "SELECT project_id, COUNT(*) AS 'count_tasks' FROM tasks WHERE user_id = ? GROUP BY project_id";
+    $sql
+        = "SELECT project_id, COUNT(*) AS 'count_tasks' FROM tasks WHERE user_id = ? GROUP BY project_id";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
@@ -66,9 +67,11 @@ function get_user_tasks($project_id = null)
 {
     $user_id = $_SESSION['user_id'];
     $con = connect_db();
-    $sql = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
+    $sql
+        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
     if ($project_id) {
-        $sql = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
+        $sql
+            = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
     }
     $stmt = mysqli_prepare($con, $sql);
     if (!$project_id) {
@@ -93,6 +96,7 @@ function get_user_tasks($project_id = null)
         }
         array_push($tasks, $task);
     }
+
     return $tasks;
 }
 
@@ -103,14 +107,24 @@ function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
         $time_end = null;
     }
     $con = connect_db();
-    $sql = "INSERT INTO tasks (user_id, project_id, title, file_src, time_end) VALUES (?, ?, ?, ?, ?)";
+    $sql
+        = "INSERT INTO tasks (user_id, project_id, title, file_src, time_end) VALUES (?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'iisss', $user_id, $project_id, $title, $file_src, $time_end);
+    mysqli_stmt_bind_param(
+        $stmt,
+        'iisss',
+        $user_id,
+        $project_id,
+        $title,
+        $file_src,
+        $time_end
+    );
     mysqli_stmt_execute($stmt);
 
     if (mysqli_stmt_error($stmt)) {
         return print mysqli_stmt_error($stmt);
     }
+
     return true;
 }
 
@@ -141,6 +155,7 @@ function add_new_user($email, $password, $name)
     if (mysqli_stmt_error($stmt)) {
         return print mysqli_stmt_error($stmt);
     }
+
     return true;
 }
 
@@ -185,9 +200,10 @@ function get_looking_for_task($task_name)
 {
     $user_id = $_SESSION['user_id'];
     $con = connect_db();
-    $sql = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
+    $sql
+        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'is',  $user_id, $task_name);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $task_name);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
     $result = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
