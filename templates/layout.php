@@ -67,7 +67,7 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
         <?php
-        if (isset($user['id'])): ?>
+        if ($user['id']): ?>
             <a class="main-footer__button button button--plus"
                href="/?page=add_task">Добавить задачу</a>
         <?php

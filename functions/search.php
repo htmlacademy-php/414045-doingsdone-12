@@ -1,8 +1,9 @@
 <?php
 
-function search_task($user_id): array|null
+function search_task($user_id, $search_string): array|null
 {
-    $searchString = trim($_GET['search']) ?? null;
+    $search_string = trim($search_string) ?? null;
 
-    return $searchString ? get_looking_for_task($user_id, $searchString) : null;
+    return $search_string ? get_looking_for_task($user_id, $search_string)
+        : null;
 }

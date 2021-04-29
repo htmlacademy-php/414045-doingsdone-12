@@ -1,4 +1,7 @@
 <?php
+/**
+ * Подключение функций
+ */
 
 require_once(__DIR__.'/helpers.php'); //функции от создателей курса
 require_once(__DIR__.'/connect.php'); //подключение к базе данных

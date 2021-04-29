@@ -1,14 +1,23 @@
 <?php
 
-// функция получения данных для шаблона main
-function get_main_data()
-{
-    // показывать или нет выполненные задачи
-    $show_complete_tasks = rand(0, 1);
-    $user_id = $_SESSION['user_id'];
-    $chosen_project_id = $_GET['id_chosen_project'] ?? null;
-    $user_tasks = !isset($_GET['search']) ? show_tasks($user_id) : null;
-    $found_tasks = isset($_GET['search']) ? search_task($user_id) : null;
+/**
+ * Данные для шаблона main.php
+ *
+ * @param int        $user_id           id пользователя
+ * @param int|null   $chosen_project_id id выбранного проекта
+ * @param sting|null $search_string     поисковый запрос
+ *
+ * @return array данные для шаблона
+ */
+function get_main_data(
+    $user_id,
+    $chosen_project_id = null,
+    $search_string = null
+) {
+    $show_complete_tasks = 0;
+    $user_tasks = !$search_string ? show_tasks($user_id) : null;
+    $found_tasks = $search_string ? search_task($user_id, $search_string)
+        : null;
     $nothing_found_message = "";
 
     if (isset($_GET['search']) && !$found_tasks) {
@@ -28,7 +37,14 @@ function get_main_data()
     return $main_data;
 }
 
-// функция получения данных для шаблона form_task
+/**
+ * Данные для шаблона form_task.php
+ *
+ * @param int|null   $user_id id пользователя
+ * @param array|null $errors  список ошибок заполнения формы
+ *
+ * @return array данные для шаблона
+ */
 function get_form_task($user_id, $errors = null)
 {
     $form_task_data = get_main_data($user_id);
@@ -39,6 +55,13 @@ function get_form_task($user_id, $errors = null)
     return $form_task_data;
 }
 
+/**
+ * Данные для шаблона form_registration.php
+ *
+ * @param array|null $errors список ошибок заполнения формы
+ *
+ * @return array данные для шаблона
+ */
 function get_form_registration($errors = null)
 {
     $form_registration_data = [];
@@ -49,6 +72,13 @@ function get_form_registration($errors = null)
     return $form_registration_data;
 }
 
+/**
+ * Данные для шаблона auth.php
+ *
+ * @param array|null $errors список ошибок заполнения формы
+ *
+ * @return array данные для шаблона
+ */
 function get_form_auth_data($errors = null)
 {
     $form_auth_data = [];
@@ -59,12 +89,25 @@ function get_form_auth_data($errors = null)
     return $form_auth_data;
 }
 
-// функция получения данных для шаблона layout
-function get_layout_data($errors = null)
-{
-    $user_id = $_SESSION['user_id'] ?? null;
-
-    $main_data = get_main_data($user_id);
+/**
+ * Данные для шаблона layout.php
+ *
+ * @param int|null    $user_id           id пользователя
+ * @param int|null    $chosen_project_id id выбранного проекта
+ * @param string|null $current_page      выбранная страница
+ * @param string|null $search_string     поисковый запрос
+ * @param array|null  $errors            список ошибок заполнения формы
+ *
+ * @return array данные для формы
+ */
+function get_layout_data(
+    $user_id = null,
+    $chosen_project_id = null,
+    $current_page = null,
+    $search_string = null,
+    $errors = null
+) {
+    $main_data = get_main_data($user_id, $chosen_project_id, $search_string);
 
     // Данные для layout
     $user['id'] = $user_id;
@@ -72,21 +115,21 @@ function get_layout_data($errors = null)
     $content = include_template('main.php', $main_data);
 
     // проверка id выбранного проекта
-    check_selected_project_id($user_id);
+    check_selected_project_id($user_id, $chosen_project_id);
 
     // выбор страниц
     if (!$user_id) {
         $content = include_template('guest.php');
     }
-    if (isset($_GET['page']) && $_GET['page'] == 'auth') {
+    if ($current_page && $current_page == 'auth') {
         $form_auth_data = get_form_auth_data($errors);
         $content = include_template('auth.php', $form_auth_data);
     }
-    if (isset($_GET['page']) && $_GET['page'] == 'add_task') {
+    if ($current_page && $current_page == 'add_task') {
         $form_task_data = get_form_task($user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);
     }
-    if (isset($_GET['page']) && $_GET['page'] == 'registration') {
+    if ($current_page && $current_page == 'registration') {
         $form_registration_data = get_form_registration($errors);
         $content = include_template(
             'form_registration.php',

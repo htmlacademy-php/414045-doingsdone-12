@@ -1,6 +1,13 @@
 <?php
 
-// поиск id выбранного проекта пользователя
+/**
+ * Поиск id выбранного проекта пользователя
+ *
+ * @param int $user_id    id пользователя
+ * @param int $project_id id проекта
+ *
+ * @return array
+ */
 function find_project_id($user_id, $project_id)
 {
     $con = connect_db();
@@ -19,7 +26,13 @@ function find_project_id($user_id, $project_id)
     return $project_id_sql;
 }
 
-// получаем количество задач в проекте
+/**
+ * Получает количество задач в проектах
+ *
+ * @param int $user_id id пользователя
+ *
+ * @return array количество задач в проектах
+ */
 function get_count_task_in_projects($user_id)
 {
     $con = connect_db();
@@ -43,7 +56,13 @@ function get_count_task_in_projects($user_id)
     return $count_tasks;
 }
 
-// получаем из БД список проектов текущего пользователя
+/**
+ * Получает из БД список проектов текущего пользователя
+ *
+ * @param int $user_id id пользователя
+ *
+ * @return array проекты пользователя
+ */
 function get_projects($user_id)
 {
     $con = connect_db();
@@ -62,7 +81,16 @@ function get_projects($user_id)
     return $projects_sql;
 }
 
-// получаем из БД список задач текущего пользователя
+/**
+ * Получает из БД список задач текущего пользователя
+ *
+ * Получет задачи пользователя по id проекта. Если id проекта равен null, получает все задачи пользователя.
+ *
+ * @param int      $user_id    id пользователя
+ * @param int|null $project_id id проета
+ *
+ * @return array задачи пользователя
+ */
 function get_user_tasks($user_id, $project_id)
 {
     $con = connect_db();
@@ -99,7 +127,17 @@ function get_user_tasks($user_id, $project_id)
     return $tasks;
 }
 
-// добавляем новую задачу
+/**
+ * Добавляет новую задачу в БД
+ *
+ * @param int         $user_id    id пользователя
+ * @param int         $project_id id проекта
+ * @param string      $title      название задачи
+ * @param string|null $file_src   путь к файлу
+ * @param string|null $time_end   дедлайн задачи
+ *
+ * @return bool|string
+ */
 function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
     if ($time_end == '') {
@@ -127,7 +165,13 @@ function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
     return true;
 }
 
-// проверяем есть ли email в БД
+/**
+ * Проверяет есть ли email в БД
+ *
+ * @param string $email email пользователя
+ *
+ * @return bool
+ */
 function email_exist($email)
 {
     $con = connect_db();
@@ -141,7 +185,15 @@ function email_exist($email)
     return $result['exist'] > 0;
 }
 
-// сохраняем нового пользователя в БД
+/**
+ * Сохраняет нового пользователя в БД
+ *
+ * @param string $email    email пользователя
+ * @param string $password хеш пароля
+ * @param string $name     имя пользователя
+ *
+ * @return bool|string
+ */
 function add_new_user($email, $password, $name)
 {
     $password = password_hash($password, PASSWORD_DEFAULT);
@@ -158,7 +210,13 @@ function add_new_user($email, $password, $name)
     return true;
 }
 
-// аутентификация пользователя
+/**
+ * Аутентификация пользователя
+ *
+ * @param string $email email пользователя
+ *
+ * @return array|string
+ */
 function get_user_auth_data($email)
 {
     $con = connect_db();
@@ -176,7 +234,13 @@ function get_user_auth_data($email)
     return $result;
 }
 
-// получить id пользователя
+/**
+ * Получает id пользователя
+ *
+ * @param string $email email пользователя
+ *
+ * @return int|string
+ */
 function get_user_id($email)
 {
     $con = connect_db();
@@ -194,7 +258,14 @@ function get_user_id($email)
     return $result['id'];
 }
 
-// поиск задачи
+/**
+ * Поиск задачи
+ *
+ * @param int    $user_id   id пользователя
+ * @param string $task_name имя задачи, поисковый запрос
+ *
+ * @return array|string
+ */
 function get_looking_for_task($user_id, $task_name)
 {
     $con = connect_db();
