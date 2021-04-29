@@ -38,4 +38,4 @@ CREATE TABLE tasks (
 
 CREATE INDEX t_user_id ON tasks(user_id);
 CREATE INDEX t_project_id ON tasks(project_id);
-
+CREATE FULLTEXT INDEX ft_title ON tasks(title);

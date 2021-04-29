@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
@@ -24,8 +25,8 @@ function is_date_valid(string $date): bool
 /**
  * Создает подготовленное выражение на основе готового SQL запроса и переданных данных
  *
- * @param $link mysqli Ресурс соединения
- * @param $sql string SQL запрос с плейсхолдерами вместо значений
+ * @param       $link mysqli Ресурс соединения
+ * @param       $sql  string SQL запрос с плейсхолдерами вместо значений
  * @param array $data Данные для вставки на место плейсхолдеров
  *
  * @return mysqli_stmt Подготовленное выражение
@@ -35,7 +36,8 @@ function db_get_prepare_stmt($link, $sql, $data = [])
     $stmt = mysqli_prepare($link, $sql);
 
     if ($stmt === false) {
-        $errorMsg = 'Не удалось инициализировать подготовленное выражение: ' . mysqli_error($link);
+        $errorMsg = 'Не удалось инициализировать подготовленное выражение: '
+            .mysqli_error($link);
         die($errorMsg);
     }
 
@@ -48,10 +50,14 @@ function db_get_prepare_stmt($link, $sql, $data = [])
 
             if (is_int($value)) {
                 $type = 'i';
-            } else if (is_string($value)) {
-                $type = 's';
-            } else if (is_double($value)) {
-                $type = 'd';
+            } else {
+                if (is_string($value)) {
+                    $type = 's';
+                } else {
+                    if (is_double($value)) {
+                        $type = 'd';
+                    }
+                }
             }
 
             if ($type) {
@@ -66,7 +72,9 @@ function db_get_prepare_stmt($link, $sql, $data = [])
         $func(...$values);
 
         if (mysqli_errno($link) > 0) {
-            $errorMsg = 'Не удалось связать подготовленное выражение с параметрами: ' . mysqli_error($link);
+            $errorMsg
+                = 'Не удалось связать подготовленное выражение с параметрами: '
+                .mysqli_error($link);
             die($errorMsg);
         }
     }
@@ -89,15 +97,19 @@ function db_get_prepare_stmt($link, $sql, $data = [])
  *     );
  * Результат: "Я поставил таймер на 5 минут"
  *
- * @param int $number Число, по которому вычисляем форму множественного числа
- * @param string $one Форма единственного числа: яблоко, час, минута
- * @param string $two Форма множественного числа для 2, 3, 4: яблока, часа, минуты
- * @param string $many Форма множественного числа для остальных чисел
+ * @param int    $number Число, по которому вычисляем форму множественного числа
+ * @param string $one    Форма единственного числа: яблоко, час, минута
+ * @param string $two    Форма множественного числа для 2, 3, 4: яблока, часа, минуты
+ * @param string $many   Форма множественного числа для остальных чисел
  *
  * @return string Рассчитанная форма множественнго числа
  */
-function get_noun_plural_form(int $number, string $one, string $two, string $many): string
-{
+function get_noun_plural_form(
+    int $number,
+    string $one,
+    string $two,
+    string $many
+): string {
     $number = (int)$number;
     $mod10 = $number % 10;
     $mod100 = $number % 100;
@@ -122,13 +134,15 @@ function get_noun_plural_form(int $number, string $one, string $two, string $man
 
 /**
  * Подключает шаблон, передает туда данные и возвращает итоговый HTML контент
+ *
  * @param string $name Путь к файлу шаблона относительно папки templates
- * @param array $data Ассоциативный массив с данными для шаблона
+ * @param array  $data Ассоциативный массив с данными для шаблона
+ *
  * @return string Итоговый HTML
  */
 function include_template($name, array $data = [])
 {
-    $name = __DIR__ . '/../templates/' . $name;
+    $name = __DIR__.'/../templates/'.$name;
     $result = '';
 
     if (!is_readable($name)) {

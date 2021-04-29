@@ -3,11 +3,19 @@
 require_once('../bootstrap.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $errors = validate_registration_form();
+    $errors = validate_registration_form(
+        $_POST['email'],
+        $_POST['password'],
+        $_POST['name']
+    );
 //    если есть ошибки показываем страницу регистрации с подсвечеными полями
     if ($errors) {
-        $_GET['page'] = 'registration';
-        $layout_data = get_layout_data($errors);
+        $current_page = 'registration';
+        $layout_data = get_layout_data(
+            user_id: $user_id,
+            current_page: $current_page,
+            errors: $errors
+        );
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
