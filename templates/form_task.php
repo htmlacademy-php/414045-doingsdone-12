@@ -4,6 +4,7 @@
  * @var array $tasks
  * @var array $projects_count
  * @var int   $show_complete_tasks
+ * @var int   $chosen_project_id
  * @var array $errors
  */
 
@@ -34,14 +35,15 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="../pages/form-project.html" target="project_add">Добавить
+       href="/?page=add_project" target="project_add">Добавить
         проект</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Добавление задачи</h2>
 
-    <form class="form" action="/pages/add.php" method="post" autocomplete="off"
+    <form class="form" action="/pages/add_task.php" method="post"
+          autocomplete="off"
           enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>

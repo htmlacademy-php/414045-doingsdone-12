@@ -15,7 +15,8 @@ function get_main_data(
     $search_string = null
 ) {
     $show_complete_tasks = 0;
-    $user_tasks = !$search_string ? show_tasks($user_id) : null;
+    $user_tasks = !$search_string ? show_tasks($user_id, $chosen_project_id)
+        : null;
     $found_tasks = $search_string ? search_task($user_id, $search_string)
         : null;
     $nothing_found_message = "";
@@ -38,6 +39,24 @@ function get_main_data(
 }
 
 /**
+ * Данные для шаблона form_project.php
+ *
+ * @param int        $user_id id пользователя
+ * @param null|array $errors  массив с ашибками обработки формы
+ *
+ * @return array данные для шаблона
+ */
+function get_form_project_data($user_id, $errors = null)
+{
+    $form_project_data = get_main_data($user_id);
+    if (isset($errors)) {
+        $form_project_data['errors'] = $errors;
+    }
+
+    return $form_project_data;
+}
+
+/**
  * Данные для шаблона form_task.php
  *
  * @param int|null   $user_id id пользователя
@@ -45,7 +64,7 @@ function get_main_data(
  *
  * @return array данные для шаблона
  */
-function get_form_task($user_id, $errors = null)
+function get_form_task_data($user_id, $errors = null)
 {
     $form_task_data = get_main_data($user_id);
     if (isset($errors)) {
@@ -62,7 +81,7 @@ function get_form_task($user_id, $errors = null)
  *
  * @return array данные для шаблона
  */
-function get_form_registration($errors = null)
+function get_form_registration_data($errors = null)
 {
     $form_registration_data = [];
     if ($errors !== null) {
@@ -107,12 +126,9 @@ function get_layout_data(
     $search_string = null,
     $errors = null
 ) {
-    $main_data = get_main_data($user_id, $chosen_project_id, $search_string);
-
     // Данные для layout
     $user['id'] = $user_id;
     $title_name = 'Дела в порядке';
-    $content = include_template('main.php', $main_data);
 
     // проверка id выбранного проекта
     check_selected_project_id($user_id, $chosen_project_id);
@@ -121,16 +137,28 @@ function get_layout_data(
     if (!$user_id) {
         $content = include_template('guest.php');
     }
+    if (!$current_page) {
+        $main_data = get_main_data(
+            $user_id,
+            $chosen_project_id,
+            $search_string
+        );
+        $content = include_template('main.php', $main_data);
+    }
     if ($current_page && $current_page == 'auth') {
         $form_auth_data = get_form_auth_data($errors);
         $content = include_template('auth.php', $form_auth_data);
     }
     if ($current_page && $current_page == 'add_task') {
-        $form_task_data = get_form_task($user_id, $errors);
+        $form_task_data = get_form_task_data($user_id, $errors);
         $content = include_template('form_task.php', $form_task_data);
     }
+    if ($current_page && $current_page == 'add_project') {
+        $form_project_data = get_form_project_data($user_id, $errors);
+        $content = include_template('form_project.php', $form_project_data);
+    }
     if ($current_page && $current_page == 'registration') {
-        $form_registration_data = get_form_registration($errors);
+        $form_registration_data = get_form_registration_data($errors);
         $content = include_template(
             'form_registration.php',
             $form_registration_data

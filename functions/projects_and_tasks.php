@@ -5,13 +5,14 @@
  *
  * Если пользователь выбрал проект, отображаем только задачи выбранного проекта. Если проект не выбран, отображаются все задачи пользователя
  *
- * @param int $user_id id пользователя
+ * @param int $user_id           id пользователя
+ * @param int $id_chosen_project id выбранного проекта
  *
  * @return array отображаемые задачи
  */
-function show_tasks($user_id): array
+function show_tasks($user_id, $id_chosen_project): array
 {
-    $chosenProject = $_GET['id_chosen_project'] ?? null;
+    $chosenProject = $id_chosen_project ?? null;
 
     return get_user_tasks($user_id, $chosenProject);
 }

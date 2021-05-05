@@ -27,6 +27,33 @@ function find_project_id($user_id, $project_id)
 }
 
 /**
+ * Проверка существет ли проект с таким-же именем
+ *
+ * @param int $user_id id пользователя
+ * @param string $project_name имя проекта
+ *
+ * @return bool
+ */
+function project_name_is_be($user_id, $project_name)
+{
+    $con = connect_db();
+    $sql
+        = "SELECT COUNT(*) AS 'count' FROM projects WHERE user_id = ? AND title = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $project_name);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+
+    if (!$result_sql) {
+        show_db_error();;
+    }
+
+    $result = mysqli_fetch_assoc($result_sql);
+
+    return $result['count'] > 0;
+}
+
+/**
  * Получает количество задач в проектах
  *
  * @param int $user_id id пользователя
@@ -125,6 +152,29 @@ function get_user_tasks($user_id, $project_id)
     }
 
     return $tasks;
+}
+
+/**
+ * Добавляет новый проект в БД
+ *
+ * @param int $user_id id пользователя
+ * @param string $project_name название проекта
+ *
+ * @return bool|string возвращает true, при удачном добавлении проекта в БД и ошибки запроса, при неудаче
+ */
+function add_new_project($user_id, $project_name)
+{
+    $con = connect_db();
+    $sql = "INSERT INTO projects (user_id, title) VALUES (?, ?)";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $project_name);
+    mysqli_stmt_execute($stmt);
+
+    if (mysqli_stmt_error($stmt)) {
+        return print mysqli_stmt_error($stmt);
+    }
+
+    return true;
 }
 
 /**

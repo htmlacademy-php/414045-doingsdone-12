@@ -132,6 +132,20 @@ function validate_task_form(
     return $errors;
 }
 
+function validate_project_form($user_id, $project_name)
+{
+    $errors = [];
+
+    if (!$project_name) {
+        $errors['name'] = 'Название проета не может быть пустым';
+    }
+    if (project_name_is_be($user_id, $project_name)) {
+        $errors['name'] = 'Проект с таким именем уже существует';
+    }
+
+    return $errors;
+}
+
 /**
  * Валидация электронной почты
  *
