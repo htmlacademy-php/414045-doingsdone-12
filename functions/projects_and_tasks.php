@@ -31,15 +31,39 @@ function tasks_filter($chosen_tasks_filter)
  *
  * @param int $user_id           id пользователя
  * @param int $id_chosen_project id выбранного проекта
- * @param string $chosen_tasks_filter выбранный фильтр для отображения задач
+ * @param string $tasks_filter выбранный фильтр для отображения задач
  *
  * @return array отображаемые задачи
  */
-function show_tasks($user_id, $id_chosen_project, $chosen_tasks_filter): array
+function show_tasks($user_id, $id_chosen_project, $tasks_filter): array
 {
-    $chosenProject = $id_chosen_project ?? null;
+    $project_id = $id_chosen_project ?? null;
+    $tasks = [];
 
-    return get_chosen_tasks($user_id, $chosenProject, $chosen_tasks_filter);
+    if (!$project_id && !$tasks_filter) {
+        $tasks_result = get_user_all_tasks($user_id);
+    }
+    if ($project_id) {
+        $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
+    }
+    if ($tasks_filter) {
+        $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
+    }
+
+    foreach ($tasks_result as $task) {
+        $file_name = 'файл не загружен';
+        if ($task['file_src']) {
+            $file_name = ltrim($task['file_src'], '/');
+        }
+        $task['file_name'] = $file_name;
+
+        if ($task['time_end']) {
+            $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
+        }
+        array_push($tasks, $task);
+    }
+
+    return $tasks;
 }
 
 /**

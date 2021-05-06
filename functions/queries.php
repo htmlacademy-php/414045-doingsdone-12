@@ -160,47 +160,6 @@ function get_user_tasks_chosen_filter($user_id, $filter)
 }
 
 /**
- * Получает из БД список задач текущего пользователя
- *
- * Получет задачи пользователя по id проекта. Если id проекта равен null, получает все задачи пользователя.
- *
- * @param int         $user_id      id пользователя
- * @param int|null    $project_id   id проета
- * @param string|null $tasks_filter выбранный фильтр для задач
- *
- * @return array задачи пользователя
- */
-function get_chosen_tasks($user_id, $project_id, $tasks_filter)
-{
-    $tasks = [];
-
-    if (!$project_id && !$tasks_filter) {
-        $tasks_result = get_user_all_tasks($user_id);
-    }
-    if ($project_id) {
-        $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
-    }
-    if ($tasks_filter) {
-        $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
-    }
-
-    foreach ($tasks_result as $task) {
-        $file_name = 'файл не загружен';
-        if ($task['file_src']) {
-            $file_name = ltrim($task['file_src'], '/');
-        }
-        $task['file_name'] = $file_name;
-
-        if ($task['time_end']) {
-            $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
-        }
-        array_push($tasks, $task);
-    }
-
-    return $tasks;
-}
-
-/**
  * Добавляет новый проект в БД
  *
  * @param int    $user_id      id пользователя
