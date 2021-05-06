@@ -92,7 +92,7 @@
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox"
-                               type="checkbox" value="1">
+                               type="checkbox" value="<?= $task['id'] ?>" <?= $task['is_done'] ? 'checked' : '' ?>>
                         <span class="checkbox__text"><?= filter(
                                 $task['name']
                             ); ?></span>

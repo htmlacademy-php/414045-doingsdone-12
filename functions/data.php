@@ -3,10 +3,11 @@
 /**
  * Данные для шаблона main.php
  *
- * @param int         $user_id           id пользователя
- * @param int|null    $chosen_project_id id выбранного проекта
- * @param string|null  $search_string     поисковый запрос
- * @param string|null $tasks_filter      фильтр для отображения задач
+ * @param int         $user_id             id пользователя
+ * @param int|null    $chosen_project_id   id выбранного проекта
+ * @param string|null $search_string       поисковый запрос
+ * @param string|null $chosen_tasks_filter фильтр для отображения задач
+ * @param int|null    $show_complete_tasks показывать или нет выполненые задачи
  *
  * @return array данные для шаблона
  */
@@ -14,9 +15,9 @@ function get_main_data(
     $user_id,
     $chosen_project_id = null,
     $search_string = null,
-    $chosen_tasks_filter = null
+    $chosen_tasks_filter = null,
+    $show_complete_tasks = null
 ) {
-    $show_complete_tasks = 0;
     $user_tasks = !$search_string ? show_tasks(
         $user_id,
         $chosen_project_id,
@@ -132,6 +133,7 @@ function get_layout_data(
     $current_page = null,
     $search_string = null,
     $chosen_tasks_filter = null,
+    $show_complete_tasks = null,
     $errors = null
 ) {
     // Данные для layout
@@ -150,7 +152,8 @@ function get_layout_data(
             $user_id,
             $chosen_project_id,
             $search_string,
-            $chosen_tasks_filter
+            $chosen_tasks_filter,
+            $show_complete_tasks
         );
         $content = include_template('main.php', $main_data);
     }

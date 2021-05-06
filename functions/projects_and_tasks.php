@@ -5,13 +5,13 @@
  *
  * Если пользователь выбрал проект, отображаем только задачи выбранного проекта. Если проект не выбран, отображаются все задачи пользователя
  *
- * @param int $user_id           id пользователя
- * @param int $id_chosen_project id выбранного проекта
- * @param string $tasks_filter выбранный фильтр для отображения задач
+ * @param int    $user_id           id пользователя
+ * @param int|null    $id_chosen_project id выбранного проекта
+ * @param string $tasks_filter      выбранный фильтр для отображения задач
  *
  * @return array отображаемые задачи
  */
-function show_tasks($user_id, $id_chosen_project, $tasks_filter): array
+function show_tasks(int $user_id, int|null $id_chosen_project, string $tasks_filter): array
 {
     $project_id = $id_chosen_project ?? null;
     $tasks = [];
