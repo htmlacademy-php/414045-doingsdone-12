@@ -50,11 +50,11 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="/" class="tasks-switch__item tasks-switch__item--active">Все
+            <a href="<?= $chosen_project_id ? '/?id_chosen_project=' . $chosen_project_id : '/' ?>" class="tasks-switch__item tasks-switch__item--active">Все
                 задачи</a>
-            <a href="/" class="tasks-switch__item">Повестка дня</a>
-            <a href="/" class="tasks-switch__item">Завтра</a>
-            <a href="/" class="tasks-switch__item">Просроченные</a>
+            <a href="/?tasks_filter=today_tasks" class="tasks-switch__item">Повестка дня</a>
+            <a href="/?tasks_filter=next_day_tasks" class="tasks-switch__item">Завтра</a>
+            <a href="/?tasks_filter=overdue_tasks" class="tasks-switch__item">Просроченные</a>
         </nav>
 
         <label class="checkbox">

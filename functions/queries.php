@@ -29,7 +29,7 @@ function find_project_id($user_id, $project_id)
 /**
  * Проверка существет ли проект с таким-же именем
  *
- * @param int $user_id id пользователя
+ * @param int    $user_id      id пользователя
  * @param string $project_name имя проекта
  *
  * @return bool
@@ -45,7 +45,7 @@ function project_name_is_be($user_id, $project_name)
     $result_sql = mysqli_stmt_get_result($stmt);
 
     if (!$result_sql) {
-        show_db_error();;
+        show_db_error();
     }
 
     $result = mysqli_fetch_assoc($result_sql);
@@ -109,34 +109,80 @@ function get_projects($user_id)
 }
 
 /**
- * Получает из БД список задач текущего пользователя
+ * Получает все задачи пользователя
  *
- * Получет задачи пользователя по id проекта. Если id проекта равен null, получает все задачи пользователя.
+ * @param int $user_id id выбранного пользователя
  *
- * @param int      $user_id    id пользователя
- * @param int|null $project_id id проета
- *
- * @return array задачи пользователя
+ * @return array массив со всеми задачами пользователя
  */
-function get_user_tasks($user_id, $project_id)
+function get_user_all_tasks($user_id)
 {
     $con = connect_db();
     $sql
         = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
-    if ($project_id) {
-        $sql
-            = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
-    }
     $stmt = mysqli_prepare($con, $sql);
-    if (!$project_id) {
-        mysqli_stmt_bind_param($stmt, 'i', $user_id);
-    } else {
-        mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
-    }
+    mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
-    $tasks_result = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
+}
+
+/**
+ * Получает задачи пользователя по выбранному проекту
+ *
+ * @param int $user_id id выбранного пользователя
+ * @param int $project_id id выбранного проекта
+ *
+ * @return array массив с задачами пользователя по выбранному проекту
+ */
+function get_user_tasks_chosen_project($user_id, $project_id)
+{
+    $con = connect_db();
+    $sql
+        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
+}
+
+function get_user_tasks_chosen_filter($user_id, $filter)
+{
+    $con = connect_db();
+    $sql
+        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $filter);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
+}
+
+/**
+ * Получает из БД список задач текущего пользователя
+ *
+ * Получет задачи пользователя по id проекта. Если id проекта равен null, получает все задачи пользователя.
+ *
+ * @param int         $user_id      id пользователя
+ * @param int|null    $project_id   id проета
+ * @param string|null $tasks_filter выбранный фильтр для задач
+ *
+ * @return array задачи пользователя
+ */
+function get_chosen_tasks($user_id, $project_id, $tasks_filter)
+{
     $tasks = [];
+
+    if (!$project_id && !$tasks_filter) {
+        $tasks_result = get_user_all_tasks($user_id);
+    }
+    if ($project_id) {
+        $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
+    }
+    if ($tasks_filter) {
+        $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
+    }
 
     foreach ($tasks_result as $task) {
         $file_name = 'файл не загружен';
@@ -157,7 +203,7 @@ function get_user_tasks($user_id, $project_id)
 /**
  * Добавляет новый проект в БД
  *
- * @param int $user_id id пользователя
+ * @param int    $user_id      id пользователя
  * @param string $project_name название проекта
  *
  * @return bool|string возвращает true, при удачном добавлении проекта в БД и ошибки запроса, при неудаче

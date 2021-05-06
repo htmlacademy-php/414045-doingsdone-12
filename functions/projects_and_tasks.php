@@ -1,20 +1,45 @@
 <?php
 
 /**
+ * Фильтр для отображения задач
+ *
+ * @param string $chosen_tasks_filter выбранный фильтр для отображения задач
+ *
+ * @return string|null
+ */
+function tasks_filter($chosen_tasks_filter)
+{
+    $today = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+    $next_day = mktime(0, 0, 0, date('m'), date('d') + 1, date('Y'));
+    if ($chosen_tasks_filter == 'today_tasks') {
+        return '=='.$today;
+    }
+    if ($chosen_tasks_filter == 'next_day_tasks') {
+        return '=='.$next_day;
+    }
+    if ($chosen_tasks_filter == 'overdue_tasks') {
+        return '<'.$today;
+    }
+
+    return null;
+}
+
+/**
  * Отображаемые задачи
  *
  * Если пользователь выбрал проект, отображаем только задачи выбранного проекта. Если проект не выбран, отображаются все задачи пользователя
  *
  * @param int $user_id           id пользователя
  * @param int $id_chosen_project id выбранного проекта
+ * @param string $chosen_tasks_filter выбранный фильтр для отображения задач
  *
  * @return array отображаемые задачи
  */
-function show_tasks($user_id, $id_chosen_project): array
+function show_tasks($user_id, $id_chosen_project, $chosen_tasks_filter): array
 {
     $chosenProject = $id_chosen_project ?? null;
 
-    return get_user_tasks($user_id, $chosenProject);
+    return get_chosen_tasks($user_id, $chosenProject, $chosen_tasks_filter);
 }
 
 /**
