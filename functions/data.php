@@ -34,6 +34,7 @@ function get_main_data(
     $main_data = [
         'projects' => get_projects($user_id),
         'chosen_project_id' => $chosen_project_id,
+        'chosen_tasks_filter' => $chosen_tasks_filter,
         'user_tasks' => $user_tasks,
         'found_tasks' => $found_tasks,
         'show_complete_tasks' => $show_complete_tasks,
