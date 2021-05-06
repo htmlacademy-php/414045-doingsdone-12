@@ -147,13 +147,30 @@ function get_user_tasks_chosen_project($user_id, $project_id)
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
-function get_user_tasks_chosen_filter($user_id, $filter)
+function get_user_tasks_chosen_filter($user_id, $tasks_filter)
 {
+    $today = date('Y-m-d');
+    $next_day = date('Y-m-d', strtotime("+1 day"));
     $con = connect_db();
-    $sql
-        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end ?";
+
+    if ($tasks_filter == 'today_tasks' || $tasks_filter == 'next_day_tasks') {
+        $sql
+            = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end = ?";
+        if ($tasks_filter == 'today_tasks') {
+            $filter_date = $today;
+        }
+        if ($tasks_filter == 'next_day_tasks') {
+            $filter_date = $next_day;
+        }
+    }
+    if ($tasks_filter == 'overdue_tasks') {
+        $sql
+            = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end < ?";
+        $filter_date = $today;
+    }
+
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'is', $user_id, $filter);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $filter_date);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
@@ -172,7 +189,7 @@ function add_new_project($user_id, $project_name)
     $con = connect_db();
     $sql = "INSERT INTO projects (user_id, title) VALUES (?, ?)";
     $stmt = mysqli_prepare($con, $sql);
-    mysqli_stmt_bind_param($stmt, 'is', $user_id, $project_name);
+    mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_name);
     mysqli_stmt_execute($stmt);
 
     if (mysqli_stmt_error($stmt)) {
