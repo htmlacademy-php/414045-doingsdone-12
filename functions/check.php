@@ -15,26 +15,34 @@ function filter($input_data)
 /**
  * Проверка на существование проекта у пользователя
  *
- * Проверяет в БД существует ли проект у полбзователя, если нет ошибка 404
+ * Проверяет в БД существует ли проект у пользователя, если нет ошибка 404
  *
  * @param int $user_id           id пользователя
  * @param int $id_chosen_project id выбранного проета
+ *
+ * @return bool true в случае успеха, false если выбранного проекта нет в БД
  */
 function check_selected_project_id($user_id, $id_chosen_project)
 {
     if ($id_chosen_project) {
         if (!find_project_id($user_id, $id_chosen_project)) {
-            return header('Location: /error404/');
+            header('location: /error404/');
+
+            return false;
         }
     }
+
+    return true;
 }
 
 /**
  * Валидация названия задачи
  *
+ * Проверяет не пустое ли переменная, а так-же является ли она строкой
+ *
  * @param string $task_name имя задачи
  *
- * @return bool
+ * @return bool true в случае успаеха
  */
 function validate_task_name($task_name)
 {
@@ -44,37 +52,47 @@ function validate_task_name($task_name)
 /**
  * Валидация id проекта
  *
+ * Проверяет существует ли проект у пользователя
+ *
  * @param int $project_id id проекта
  * @param int $user_id    id пользователя
  *
- * @return array id проектов пользователя
+ * @return bool true, если проект у пользователя существует
  */
 function validate_project($project_id, $user_id)
 {
-    return find_project_id($user_id, $project_id);
+    if (find_project_id($user_id, $project_id)) {
+        return true;
+    }
+
+    return false;
 }
 
 /**
  * Проверка формата даты
  *
+ * Проверяет соответствует ли дата формату, по умолчанию Y-m-d
+ *
  * @param string $date   дата
  * @param string $format формат даты
  *
- * @return bool
+ * @return bool true, в случае успеха
  */
 function check_format_date($date, $format = 'Y-m-d'): bool
 {
     $d = date_create_from_format($format, $date);
 
-    return $d && date_format($d, $format) == $date && $date >= date('Y-m-d');
+    return $d && date_format($d, $format) == $date && $date >= date($format);
 }
 
 /**
  * Валидация даты
  *
+ * Проверяет существует выбранна ли дата, если да, соответствует ли она формату
+ *
  * @param string $date
  *
- * @return bool
+ * @return bool true если дата не выбранна, или выбранна и соответствует формату
  */
 function validate_date($date): bool
 {
@@ -88,7 +106,7 @@ function validate_date($date): bool
 /**
  * Проверка ошибок загрузки файла
  *
- * @return bool
+ * @return bool true, если ошибок при загрузке не было
  */
 function validate_file(): bool
 {
@@ -132,6 +150,16 @@ function validate_task_form(
     return $errors;
 }
 
+/**
+ * Валидация формы добавления нового проекта
+ *
+ * Проверяет что введено название и проекта с таким именем нет у текущего пользователя
+ *
+ * @param int    $user_id      id пользователя
+ * @param string $project_name название проекта
+ *
+ * @return array список ошибок, если ошибок нет, возвращает пустой массив.
+ */
 function validate_project_form($user_id, $project_name)
 {
     $errors = [];
@@ -153,7 +181,7 @@ function validate_project_form($user_id, $project_name)
  *
  * @param string $email почта
  *
- * @return bool
+ * @return bool true, при успешной валидации
  */
 function validate_email($email)
 {
@@ -174,7 +202,7 @@ function validate_email($email)
  *
  * @param string $password пароль
  *
- * @return bool
+ * @return bool true, при успешной валидации
  */
 function validate_password($password)
 {
@@ -192,7 +220,7 @@ function validate_password($password)
  *
  * @param string $name имя
  *
- * @return bool
+ * @return bool true, при успешной валидации
  */
 function validate_name($name)
 {
@@ -206,11 +234,13 @@ function validate_name($name)
 /**
  * Валидация формы регистрации
  *
+ * Проверяет введён ли корректно email, введено ли имя, введён ли пароль
+ *
  * @param string $email    почта
  * @param string $name     имя
  * @param string $password пароль
  *
- * @return array список ошибок
+ * @return array список ошибок, если ошибок нет возвращает пустой массив
  */
 function validate_registration_form($email, $name, $password)
 {
@@ -232,10 +262,12 @@ function validate_registration_form($email, $name, $password)
 /**
  * Валидация формы аутентификации
  *
+ * Проверяет корректно ли введены email и пароль
+ *
  * @param string $email    почта
  * @param string $password пароль
  *
- * @return array список ошибок
+ * @return array список ошибок, если ошибок нет возвращает пустой массив
  */
 function validate_auth_form($email, $password)
 {
@@ -259,7 +291,7 @@ function validate_auth_form($email, $password)
  * @param string $email    почта
  * @param string $password пароль
  *
- * @return array список ошибок
+ * @return array список ошибок, если ошибок нет возвращает пустой массив
  */
 function auth_user($email, $password)
 {

@@ -57,12 +57,17 @@
                    ? ' tasks-switch__item--active' : '' ?>">Все
                 задачи</a>
             <a href="/?tasks_filter=today_tasks"
-               class="tasks-switch__item<?= $chosen_tasks_filter == 'today_tasks'
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'today_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Повестка дня</a>
-            <a href="/?tasks_filter=next_day_tasks" class="tasks-switch__item<?= $chosen_tasks_filter == 'next_day_tasks'
-                ? ' tasks-switch__item--active' : '' ?>">Завтра</a>
-            <a href="/?tasks_filter=overdue_tasks" class="tasks-switch__item<?= $chosen_tasks_filter == 'overdue_tasks'
-                ? ' tasks-switch__item--active' : '' ?>">Просроченные</a>
+            <a href="/?tasks_filter=next_day_tasks"
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'next_day_tasks'
+                   ? ' tasks-switch__item--active' : '' ?>">Завтра</a>
+            <a href="/?tasks_filter=overdue_tasks"
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'overdue_tasks'
+                   ? ' tasks-switch__item--active' : '' ?>">Просроченные</a>
         </nav>
 
         <label class="checkbox">
@@ -92,7 +97,9 @@
                 <td class="task__select">
                     <label class="checkbox task__checkbox">
                         <input class="checkbox__input visually-hidden task__checkbox"
-                               type="checkbox" value="<?= $task['id'] ?>" <?= $task['is_done'] ? 'checked' : '' ?>>
+                               type="checkbox"
+                               value="<?= $task['id'] ?>" <?= $task['is_done']
+                            ? 'checked' : '' ?>>
                         <span class="checkbox__text"><?= filter(
                                 $task['name']
                             ); ?></span>

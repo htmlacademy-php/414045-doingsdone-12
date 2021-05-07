@@ -22,7 +22,7 @@
 <h1 class="visually-hidden">Дела в порядке</h1>
 
 <div class="page-wrapper">
-    <div class="container <?= isset($user['id']) ? 'container--with-sidebar'
+    <div class="container <?= $user['id'] ? 'container--with-sidebar'
         : '' ?>">
         <header class="main-header">
             <a href="/">

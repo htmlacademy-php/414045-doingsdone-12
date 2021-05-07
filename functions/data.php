@@ -147,7 +147,7 @@ function get_layout_data(
     if (!$user_id) {
         $content = include_template('guest.php');
     }
-    if (!$current_page) {
+    if (!$current_page && $user_id) {
         $main_data = get_main_data(
             $user_id,
             $chosen_project_id,

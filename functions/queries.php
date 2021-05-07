@@ -124,13 +124,14 @@ function get_user_all_tasks($user_id)
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
 /**
  * Получает задачи пользователя по выбранному проекту
  *
- * @param int $user_id id выбранного пользователя
+ * @param int $user_id    id выбранного пользователя
  * @param int $project_id id выбранного проекта
  *
  * @return array массив с задачами пользователя по выбранному проекту
@@ -144,6 +145,7 @@ function get_user_tasks_chosen_project($user_id, $project_id)
     mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
@@ -173,6 +175,7 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     mysqli_stmt_bind_param($stmt, 'is', $user_id, $filter_date);
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
@@ -369,4 +372,35 @@ function get_looking_for_task($user_id, $task_name)
     }
 
     return $tasks;
+}
+
+/**
+ * Получение задачи
+ *
+ * @param int $user_id id пользователя
+ * @param int $task_id id задачи
+ *
+ * @return array-key|null
+ */
+function get_task($user_id, $task_id)
+{
+    $con = connect_db();
+    $sql = "SELECT id, is_done FROM tasks WHERE user_id = ? AND id = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'ii', $user_id, $task_id);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+
+    return mysqli_fetch_assoc($result_sql);
+}
+
+function change_task_done_state($user_id, $task_id)
+{
+    $task = get_task($user_id, $task_id);
+    $task['is_done'] = !$task['is_done'];
+    $con = connect_db();
+    $sql = "UPDATE tasks SET is_done = ? WHERE id = ?";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'ii', $task['is_done'], $task_id);
+    mysqli_stmt_execute($stmt);
 }

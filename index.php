@@ -1,4 +1,12 @@
 <?php
+/**
+ * @var int|null    $user_id             id пользователя
+ * @var int|null    $chosen_project_id   id выбранного объекта
+ * @var string|null $current_page        выбранная страница
+ * @var string|null $search_string       поисковый запрос
+ * @var string|null $chosen_tasks_filter выбранный фильтр для отображения задач
+ * @var int|null    $show_complete_tasks параметр отображение выполненных задач
+ */
 
 require_once('bootstrap.php');
 
