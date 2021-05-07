@@ -367,7 +367,7 @@ function get_looking_for_task($user_id, $task_name)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'is', $user_id, $task_name);
     mysqli_stmt_execute($stmt);
