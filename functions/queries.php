@@ -6,7 +6,7 @@
  * @param int $user_id    id пользователя
  * @param int $project_id id проекта
  *
- * @return array
+ * @return array|false найденные id, false в случае ошибки
  */
 function find_project_id($user_id, $project_id)
 {
@@ -17,11 +17,11 @@ function find_project_id($user_id, $project_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
-    if (!$result_sql) {
-        show_db_error();
+    if (mysqli_stmt_error($stmt)) {
+        return false;
     }
 
-    $project_id_sql = mysqli_fetch_all($result_sql);
+    $project_id_sql = mysqli_fetch_assoc($result_sql);
 
     return $project_id_sql;
 }
@@ -32,7 +32,7 @@ function find_project_id($user_id, $project_id)
  * @param int    $user_id      id пользователя
  * @param string $project_name имя проекта
  *
- * @return bool
+ * @return bool true в случае успеха, false в случае ошибки
  */
 function project_name_is_be($user_id, $project_name)
 {
@@ -44,8 +44,8 @@ function project_name_is_be($user_id, $project_name)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
-    if (!$result_sql) {
-        show_db_error();
+    if (mysqli_stmt_error($stmt)) {
+        return false;
     }
 
     $result = mysqli_fetch_assoc($result_sql);
@@ -58,7 +58,7 @@ function project_name_is_be($user_id, $project_name)
  *
  * @param int $user_id id пользователя
  *
- * @return array количество задач в проектах
+ * @return array|false количество задач в проектах, false в случае ошибки
  */
 function get_count_task_in_projects($user_id)
 {
@@ -70,8 +70,8 @@ function get_count_task_in_projects($user_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
-    if (!$result_sql) {
-        show_db_error();
+    if (mysqli_stmt_error($stmt)) {
+        return false;
     }
 
     $count_tasks = [];
@@ -88,7 +88,7 @@ function get_count_task_in_projects($user_id)
  *
  * @param int $user_id id пользователя
  *
- * @return array проекты пользователя
+ * @return array|false проекты пользователя, false в случае ошибки
  */
 function get_projects($user_id)
 {
@@ -99,8 +99,8 @@ function get_projects($user_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
-    if (!$result_sql) {
-        show_db_error();
+    if (mysqli_stmt_error($stmt)) {
+        return false;
     }
 
     $projects_sql = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
@@ -113,7 +113,7 @@ function get_projects($user_id)
  *
  * @param int $user_id id выбранного пользователя
  *
- * @return array массив со всеми задачами пользователя
+ * @return array|false массив со всеми задачами пользователя, false в случае ошибки
  */
 function get_user_all_tasks($user_id)
 {
@@ -125,6 +125,10 @@ function get_user_all_tasks($user_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
+    if (mysqli_stmt_error($stmt)) {
+        return false;
+    }
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
@@ -134,7 +138,7 @@ function get_user_all_tasks($user_id)
  * @param int $user_id    id выбранного пользователя
  * @param int $project_id id выбранного проекта
  *
- * @return array массив с задачами пользователя по выбранному проекту
+ * @return array|false задачи пользователя по выбранному проекту, false в случае ошибки
  */
 function get_user_tasks_chosen_project($user_id, $project_id)
 {
@@ -146,9 +150,21 @@ function get_user_tasks_chosen_project($user_id, $project_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
+    if (mysqli_stmt_error($stmt)) {
+        return false;
+    }
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
+/**
+ * Получает задачи пользователя с применением фильтра
+ *
+ * @param int    $user_id      id пользователя
+ * @param string $tasks_filter фильтр задач
+ *
+ * @return array|false задачи пользователя с фильтром, false в случае ошибки
+ */
 function get_user_tasks_chosen_filter($user_id, $tasks_filter)
 {
     $today = date('Y-m-d');
@@ -176,6 +192,10 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
+    if (mysqli_stmt_error($stmt)) {
+        return false;
+    }
+
     return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
@@ -185,7 +205,7 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
  * @param int    $user_id      id пользователя
  * @param string $project_name название проекта
  *
- * @return bool|string возвращает true, при удачном добавлении проекта в БД и ошибки запроса, при неудаче
+ * @return bool true при удачном добавлении проекта в БД, false в случае ошибки
  */
 function add_new_project($user_id, $project_name)
 {
@@ -196,7 +216,7 @@ function add_new_project($user_id, $project_name)
     mysqli_stmt_execute($stmt);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     return true;
@@ -211,7 +231,7 @@ function add_new_project($user_id, $project_name)
  * @param string|null $file_src   путь к файлу
  * @param string|null $time_end   дедлайн задачи
  *
- * @return bool|string
+ * @return bool true в случае успеха, false в случае ошибки
  */
 function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
@@ -234,7 +254,7 @@ function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
     mysqli_stmt_execute($stmt);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     return true;
@@ -245,7 +265,7 @@ function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
  *
  * @param string $email email пользователя
  *
- * @return bool
+ * @return bool true если email найден, false в случае ошибки
  */
 function email_exist($email)
 {
@@ -267,7 +287,7 @@ function email_exist($email)
  * @param string $password хеш пароля
  * @param string $name     имя пользователя
  *
- * @return bool|string
+ * @return bool true в случае успеха, false в случае ошибки
  */
 function add_new_user($email, $password, $name)
 {
@@ -279,18 +299,20 @@ function add_new_user($email, $password, $name)
     mysqli_stmt_execute($stmt);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     return true;
 }
 
 /**
- * Аутентификация пользователя
+ * Получает данные для аутентификации
+ *
+ * Возвращает данные для аутентификации: email и хеш пароля
  *
  * @param string $email email пользователя
  *
- * @return array|string
+ * @return array|false данные аунтентификации, false в случае ошибки
  */
 function get_user_auth_data($email)
 {
@@ -303,7 +325,7 @@ function get_user_auth_data($email)
     $result = mysqli_fetch_assoc($result_sql);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     return $result;
@@ -314,7 +336,7 @@ function get_user_auth_data($email)
  *
  * @param string $email email пользователя
  *
- * @return int|string
+ * @return int|false id пользователя, false в случае ошибки
  */
 function get_user_id($email)
 {
@@ -327,7 +349,7 @@ function get_user_id($email)
     $result = mysqli_fetch_assoc($result_sql);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     return $result['id'];
@@ -339,7 +361,7 @@ function get_user_id($email)
  * @param int    $user_id   id пользователя
  * @param string $task_name имя задачи, поисковый запрос
  *
- * @return array|string
+ * @return array|false найденые задачи, false в случае ошибки
  */
 function get_looking_for_task($user_id, $task_name)
 {
@@ -353,7 +375,7 @@ function get_looking_for_task($user_id, $task_name)
     $result = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 
     if (mysqli_stmt_error($stmt)) {
-        return print mysqli_stmt_error($stmt);
+        return false;
     }
 
     $tasks = [];
@@ -380,7 +402,7 @@ function get_looking_for_task($user_id, $task_name)
  * @param int $user_id id пользователя
  * @param int $task_id id задачи
  *
- * @return array-key|null
+ * @return array|false задача, false в случае ошибки
  */
 function get_task($user_id, $task_id)
 {
@@ -391,9 +413,23 @@ function get_task($user_id, $task_id)
     mysqli_stmt_execute($stmt);
     $result_sql = mysqli_stmt_get_result($stmt);
 
+    if (mysqli_stmt_error($stmt)) {
+        return false;
+    }
+
     return mysqli_fetch_assoc($result_sql);
 }
 
+/**
+ * Изменение статуса задачи
+ *
+ * Изменяет статус выполнения задачи на противоположный
+ *
+ * @param int $user_id id пользователя
+ * @param int $task_id id задачи
+ *
+ * @return bool true в случае успеха, false в случае ошибки
+ */
 function change_task_done_state($user_id, $task_id)
 {
     $task = get_task($user_id, $task_id);
@@ -403,4 +439,10 @@ function change_task_done_state($user_id, $task_id)
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'ii', $task['is_done'], $task_id);
     mysqli_stmt_execute($stmt);
+
+    if (mysqli_stmt_error($stmt)) {
+        return false;
+    }
+
+    return true;
 }

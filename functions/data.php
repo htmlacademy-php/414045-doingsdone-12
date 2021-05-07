@@ -7,7 +7,7 @@
  * @param int|null    $chosen_project_id   id выбранного проекта
  * @param string|null $search_string       поисковый запрос
  * @param string|null $chosen_tasks_filter фильтр для отображения задач
- * @param int|null    $show_complete_tasks показывать или нет выполненые задачи
+ * @param int         $show_complete_tasks показывать или нет выполненые задачи
  *
  * @return array данные для шаблона
  */
@@ -32,7 +32,7 @@ function get_main_data(
         $nothing_found_message = "Ничего не найдено по вашему запросу";
     }
 
-    $main_data = [
+    return [
         'projects' => get_projects($user_id),
         'chosen_project_id' => $chosen_project_id,
         'chosen_tasks_filter' => $chosen_tasks_filter,
@@ -42,8 +42,6 @@ function get_main_data(
         'projects_count' => get_count_task_in_projects($user_id),
         'nothing_found_message' => $nothing_found_message,
     ];
-
-    return $main_data;
 }
 
 /**
@@ -119,11 +117,13 @@ function get_form_auth_data($errors = null)
 /**
  * Данные для шаблона layout.php
  *
- * @param int|null    $user_id           id пользователя
- * @param int|null    $chosen_project_id id выбранного проекта
- * @param string|null $current_page      выбранная страница
- * @param string|null $search_string     поисковый запрос
- * @param array|null  $errors            список ошибок заполнения формы
+ * @param int|null    $user_id             id пользователя
+ * @param int|null    $chosen_project_id   id выбранного проекта
+ * @param string|null $current_page        выбранная страница
+ * @param string|null $chosen_tasks_filter выбранный фильтр для отображения задач
+ * @param int|null    $show_complete_tasks параметр отображения выполненных задач
+ * @param string|null $search_string       поисковый запрос
+ * @param array|null  $errors              список ошибок заполнения формы
  *
  * @return array данные для формы
  */
@@ -177,11 +177,9 @@ function get_layout_data(
         );
     }
 
-    $layout_data = [
+    return [
         'user' => $user,
         'title' => $title_name,
         'content' => $content,
     ];
-
-    return $layout_data;
 }
