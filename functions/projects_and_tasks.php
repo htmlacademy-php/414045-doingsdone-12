@@ -20,13 +20,13 @@ function show_tasks(
     $project_id = $id_chosen_project ?? null;
     $tasks = [];
 
-    if (!$project_id && (!$tasks_filter || $tasks_filter == 'all')) {
+    if (!$project_id && (!$tasks_filter || $tasks_filter == TASK_FILTER_ALL_TASKS)) {
         $tasks_result = get_user_all_tasks($user_id);
     }
     if ($project_id) {
         $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
     }
-    if ($tasks_filter && ($tasks_filter != 'all')) {
+    if ($tasks_filter && ($tasks_filter != TASK_FILTER_ALL_TASKS)) {
         $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
     }
 

@@ -78,7 +78,7 @@ function validate_project($project_id, $user_id)
  *
  * @return bool true, в случае успеха
  */
-function check_format_date($date, $format = 'Y-m-d'): bool
+function check_format_date($date, $format = DEFAULT_DATE_FORMAT): bool
 {
     $d = date_create_from_format($format, $date);
 

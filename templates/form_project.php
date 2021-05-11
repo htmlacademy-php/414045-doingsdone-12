@@ -2,9 +2,10 @@
 /**
  * Форма добавления проекта
  *
- * @var array-key $projects          массив с проектами
- * @var int       $chosen_project_id id выбранного проекта
- * @var array-key $errors
+ * @var array-key $projects                массив с проектами
+ * @var int       $chosen_project_id       id выбранного проекта
+ * @var array-key $errors                  список ошибок
+ * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -17,9 +18,7 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= ($project['id']
-                    == $chosen_project_id)
-                    ? " main-navigation__list-item--active" : "" ?>">
+                <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link"
                        href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
                             $project['name']
@@ -47,7 +46,7 @@
             <?= isset($errors['name']) ? "<p class='form__message'>"
                 .$errors['name']."</p>" : "" ?>
             <input class="form__input <?= isset($errors['name'])
-                ? "form__input--error" : "" ?>" type="text" name="name"
+                ? $input_errors_class_name : "" ?>" type="text" name="name"
                    id="project_name"
                    value="" placeholder="Введите название проекта">
         </div>

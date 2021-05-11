@@ -54,12 +54,20 @@ function get_main_data(
  */
 function get_form_project_data($user_id, $errors = null)
 {
-    $form_project_data = get_main_data($user_id);
-    if (isset($errors)) {
-        $form_project_data['errors'] = $errors;
+    if ($errors) {
+        return [
+            'projects' => get_projects($user_id),
+            'projects_count' => get_count_task_in_projects($user_id),
+            'errors' => $errors,
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+        ];
     }
 
-    return $form_project_data;
+    return [
+        'projects' => get_projects($user_id),
+        'projects_count' => get_count_task_in_projects($user_id),
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+    ];
 }
 
 /**
@@ -72,12 +80,20 @@ function get_form_project_data($user_id, $errors = null)
  */
 function get_form_task_data($user_id, $errors = null)
 {
-    $form_task_data = get_main_data($user_id);
-    if (isset($errors)) {
-        $form_task_data['errors'] = $errors;
+    if ($errors) {
+        return [
+            'projects' => get_projects($user_id),
+            'projects_count' => get_count_task_in_projects($user_id),
+            'errors' => $errors,
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+        ];
     }
 
-    return $form_task_data;
+    return [
+        'projects' => get_projects($user_id),
+        'projects_count' => get_count_task_in_projects($user_id),
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+    ];
 }
 
 /**
@@ -89,12 +105,16 @@ function get_form_task_data($user_id, $errors = null)
  */
 function get_form_registration_data($errors = null)
 {
-    $form_registration_data = [];
-    if ($errors !== null) {
-        $form_registration_data['errors'] = $errors;
+    if ($errors) {
+        return [
+            'errors' => $errors,
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+        ];
     }
 
-    return $form_registration_data;
+    return [
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+    ];
 }
 
 /**
@@ -138,7 +158,7 @@ function get_layout_data(
 ) {
     // Данные для layout
     $user['id'] = $user_id;
-    $title_name = 'Дела в порядке';
+    $title_name = SITE_TITLE;
 
     // проверка id выбранного проекта
     check_selected_project_id($user_id, $chosen_project_id);

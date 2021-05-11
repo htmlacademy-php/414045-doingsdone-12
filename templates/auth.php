@@ -22,7 +22,7 @@
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['email'])
-                ? 'form__input--error' : '' ?>" type="text" name="email"
+                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="text" name="email"
                    id="email" value=""
                    placeholder="Введите e-mail">
             <?php
@@ -37,7 +37,7 @@
                 <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['password'])
-                ? 'form__input--error' : '' ?>" type="password" name="password"
+                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="password" name="password"
                    id="password" value=""
                    placeholder="Введите пароль">
             <?php
