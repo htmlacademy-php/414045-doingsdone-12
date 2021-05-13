@@ -10,19 +10,19 @@
         сайте</p>
 
     <a class="button button--transparent content__side-button"
-       href="/?page=auth">Войти</a>
+       href="/pages/auth.php">Войти</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Вход на сайт</h2>
 
-    <form class="form" action="/pages/auth.php" method="post"
+    <form class="form" action="/scripts/auth.php" method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['email'])
-                ? 'form__input--error' : '' ?>" type="text" name="email"
+                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="text" name="email"
                    id="email" value=""
                    placeholder="Введите e-mail">
             <?php
@@ -37,7 +37,7 @@
                 <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['password'])
-                ? 'form__input--error' : '' ?>" type="password" name="password"
+                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="password" name="password"
                    id="password" value=""
                    placeholder="Введите пароль">
             <?php

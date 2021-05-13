@@ -3,17 +3,47 @@
 /**
  * Отображаемые задачи
  *
- * Если пользователь выбрал проект, отображаем только задачи выбранного проекта. Если проект не выбран, отображаются все задачи пользователя
+ * Если пользователь выбрал проект, отображаем только задачи выбранного проекта.
+ * Если проект не выбран, отображаются все задачи пользователя
  *
- * @param int $user_id id пользователя
+ * @param int|null    $user_id           id пользователя
+ * @param int|null    $id_chosen_project id выбранного проекта
+ * @param string|null $tasks_filter      выбранный фильтр для отображения задач
  *
  * @return array отображаемые задачи
  */
-function show_tasks($user_id): array
-{
-    $chosenProject = $_GET['id_chosen_project'] ?? null;
+function show_tasks(
+    int|null $user_id,
+    int|null $id_chosen_project,
+    string|null $tasks_filter
+) {
+    $project_id = $id_chosen_project ?? null;
+    $tasks = [];
 
-    return get_user_tasks($user_id, $chosenProject);
+    if (!$project_id && (!$tasks_filter || $tasks_filter == TASK_FILTER_ALL_TASKS)) {
+        $tasks_result = get_user_all_tasks($user_id);
+    }
+    if ($project_id) {
+        $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
+    }
+    if ($tasks_filter && ($tasks_filter != TASK_FILTER_ALL_TASKS)) {
+        $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
+    }
+
+    foreach ($tasks_result as $task) {
+        $file_name = 'файл не загружен';
+        if ($task['file_src']) {
+            $file_name = ltrim($task['file_src'], '/');
+        }
+        $task['file_name'] = $file_name;
+
+        if ($task['time_end']) {
+            $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
+        }
+        array_push($tasks, $task);
+    }
+
+    return $tasks;
 }
 
 /**
@@ -23,7 +53,7 @@ function show_tasks($user_id): array
  *
  * @param string $task_time дата дедлайна
  *
- * @return bool
+ * @return bool true, если задача срочная
  */
 function is_task_important($task_time): bool
 {
@@ -77,4 +107,20 @@ function add_new_task($user_id, $project_id, $task_name, $task_date, $file)
         $file_url,
         $task_date
     );
+}
+
+/**
+ * Поиск задачи по поисковому запросу пользователя
+ *
+ * @param int    $user_id       id пользователя
+ * @param string $search_string поисковый запрос
+ *
+ * @return array|null найденые задачи, null если задачи не найдены
+ */
+function search_task($user_id, $search_string): array|null
+{
+    $search_string = trim($search_string) ?? null;
+
+    return $search_string ? get_looking_for_task($user_id, $search_string)
+        : null;
 }

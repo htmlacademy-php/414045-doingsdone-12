@@ -1,10 +1,12 @@
 <?php
 /**
- * @var array $projects
- * @var array $tasks
- * @var array $projects_count
- * @var int   $show_complete_tasks
- * @var array $errors
+ * @var array     $projects                проекты пользователя
+ * @var array     $tasks                   задачи пользователя
+ * @var array     $projects_count          количество задач в каждом проекте
+ * @var int       $show_complete_tasks     параметр отображения выполненных задач
+ * @var int       $chosen_project_id       выбранный проект
+ * @var array-key $errors                  список ошибок
+ * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -18,9 +20,7 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= ($project['id']
-                    == $chosen_project_id)
-                    ? " main-navigation__list-item--active" : "" ?>">
+                <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link"
                        href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
                             $project['name']
@@ -34,21 +34,22 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="../pages/form-project.html" target="project_add">Добавить
+       href="/pages/add_project.php" target="project_add">Добавить
         проект</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Добавление задачи</h2>
 
-    <form class="form" action="/pages/add.php" method="post" autocomplete="off"
+    <form class="form" action="/scripts/add_task.php" method="post"
+          autocomplete="off"
           enctype="multipart/form-data">
         <div class="form__row">
             <label class="form__label" for="name">Название <sup>*</sup></label>
             <?= isset($errors['name']) ? "<p class='form__message'>"
                 .$errors['name']."</p>" : "" ?>
             <input class="form__input <?= isset($errors['name'])
-                ? "form__input--error" : "" ?>" type="text" name="name"
+                ? $input_errors_class_name : "" ?>" type="text" name="name"
                    id="name" value="" placeholder="Введите название">
         </div>
         <div class="form__row">
@@ -56,7 +57,7 @@
             <?= isset($errors['project']) ? "<p class='form__message'>"
                 .$errors['project']."</p>" : "" ?>
             <select class="form__input form__input--select <?= isset($errors['project'])
-                ? "form__input--error" : "" ?>"
+                ? $input_errors_class_name : "" ?>"
                     name="project_id" id="project">
                 <?php
                 foreach ($projects as $key => $project): ?>
@@ -73,7 +74,7 @@
             <?= isset($errors['date']) ? "<p class='form__message'>"
                 .$errors['date']."</p>" : "" ?>
             <input class="form__input form__input--date <?= isset($errors['date'])
-                ? 'form__input--error' : '' ?>"
+                ? $input_errors_class_name : '' ?>"
                    type="text" name="date" id="date" value=""
                    placeholder="Введите дату в формате ГГГГ-ММ-ДД">
         </div>
@@ -83,7 +84,7 @@
             <?= isset($errors['file']) ? "<p class='form__message'>"
                 .$errors['file']."</p>" : "" ?>
             <div class="form__input-file <?= isset($errors['file'])
-                ? 'form__input--error' : '' ?>">
+                ? $input_errors_class_name : '' ?>">
                 <input class="visually-hidden" type="file" name="file" id="file"
                        value="">
 

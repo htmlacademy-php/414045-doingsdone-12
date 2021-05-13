@@ -1,11 +1,13 @@
 <?php
 /**
- * @var array-key $projects
- * @var int       $chosen_project_id
- * @var array-key $user_tasks
- * @var array-key $found_tasks
- * @var array     $projects_count
- * @var int       $show_complete_tasks
+ * @var array-key $projects            проекты пользователя
+ * @var int       $chosen_project_id   id выбранного проекта
+ * @var string    $chosen_tasks_filter выбранный фильтр для задач
+ * @var array-key $user_tasks          задачи пользователя
+ * @var array-key $found_tasks         задачи пользователя найденые по поисковому запросу
+ * @var array     $projects_count      количество задач в проектах
+ * @var int       $show_complete_tasks параметр отображения выполненных задач
+ * @var string $url_all_project_task путь для отображения всех задач в проекте
  */
 
 ?>
@@ -34,7 +36,7 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="../pages/form-project.html" target="project_add">Добавить
+       href="/pages/add_project.php" target="project_add">Добавить
         проект</a>
 </section>
 
@@ -50,11 +52,22 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="/" class="tasks-switch__item tasks-switch__item--active">Все
+            <a href="<?= $url_all_project_task ?>"
+               class="tasks-switch__item<?= $chosen_tasks_filter == 'all'
+                   ? ' tasks-switch__item--active' : '' ?>">Все
                 задачи</a>
-            <a href="/" class="tasks-switch__item">Повестка дня</a>
-            <a href="/" class="tasks-switch__item">Завтра</a>
-            <a href="/" class="tasks-switch__item">Просроченные</a>
+            <a href="/?tasks_filter=today_tasks"
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'today_tasks'
+                   ? ' tasks-switch__item--active' : '' ?>">Повестка дня</a>
+            <a href="/?tasks_filter=next_day_tasks"
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'next_day_tasks'
+                   ? ' tasks-switch__item--active' : '' ?>">Завтра</a>
+            <a href="/?tasks_filter=overdue_tasks"
+               class="tasks-switch__item<?= $chosen_tasks_filter
+               == 'overdue_tasks'
+                   ? ' tasks-switch__item--active' : '' ?>">Просроченные</a>
         </nav>
 
         <label class="checkbox">
@@ -82,13 +95,16 @@
                 : "" ?><?= is_task_important($task['time_end'])
                 ? " task--important" : "" ?>">
                 <td class="task__select">
-                    <label class="checkbox task__checkbox">
-                        <input class="checkbox__input visually-hidden task__checkbox"
-                               type="checkbox" value="1">
-                        <span class="checkbox__text"><?= filter(
-                                $task['name']
-                            ); ?></span>
-                    </label>
+                        <label class="checkbox task__checkbox">
+                            <input class="checkbox__input visually-hidden task__checkbox"
+                                   type="checkbox"
+                                   name="id_task_for_state_changing"
+                                   value="<?= $task['id'] ?>" <?= $task['is_done']
+                                ? 'checked' : '' ?>>
+                            <span class="checkbox__text"><?= filter(
+                                    $task['name']
+                                ); ?></span>
+                        </label>
                 </td>
                 <td class="task__file">
                     <a class="download-link"

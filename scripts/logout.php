@@ -4,4 +4,4 @@ require_once '../bootstrap.php';
 
 $_SESSION = [];
 
-header('location: /');
+redirect_to_home();

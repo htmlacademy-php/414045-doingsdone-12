@@ -28,7 +28,7 @@ CREATE TABLE tasks (
     user_id INT REFERENCES users(id),
     project_id INT REFERENCES projects(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    is_done INT(1) DEFAULT 0,
+    is_done BOOL DEFAULT false,
     title VARCHAR(64) NOT NULL,
     file_src VARCHAR(128),
     time_end TIMESTAMP DEFAULT NULL,

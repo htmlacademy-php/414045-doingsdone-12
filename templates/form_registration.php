@@ -1,6 +1,7 @@
 <?php
 /**
- * @var array $errors
+ * @var array-key $errors                  список ошибок
+ * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -10,19 +11,19 @@
         сайте</p>
 
     <a class="button button--transparent content__side-button"
-       href="/?page=auth">Войти</a>
+       href="/pages/auth.php">Войти</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="/pages/registration.php" method="post"
+    <form class="form" action="/scripts/registration.php" method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['email'])
-                ? 'form__input--error' : '' ?>" type="text"
+                ? $input_errors_class_name : '' ?>" type="text"
                    name="email" id="email" value=""
                    placeholder="Введите e-mail">
             <?= isset($errors['email'])
@@ -35,7 +36,7 @@
                 <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['password'])
-                ? 'form__input--error' : '' ?>" type="password"
+                ? $input_errors_class_name : '' ?>" type="password"
                    name="password" id="password" value=""
                    placeholder="Введите пароль">
             <?= isset($errors['password'])
@@ -46,7 +47,7 @@
             <label class="form__label" for="name">Имя <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['name'])
-                ? 'form__input--error' : '' ?>" type="text" name="name"
+                ? $input_errors_class_name : '' ?>" type="text" name="name"
                    id="name" value="" placeholder="Введите имя">
             <?= isset($errors['name'])
                 ? '<p class="form__message">Введите имя</p>' : '' ?>
