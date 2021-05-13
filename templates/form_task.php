@@ -34,14 +34,14 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="/?page=add_project" target="project_add">Добавить
+       href="/pages/add_project.php" target="project_add">Добавить
         проект</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Добавление задачи</h2>
 
-    <form class="form" action="/pages/add_task.php" method="post"
+    <form class="form" action="/scripts/add_task.php" method="post"
           autocomplete="off"
           enctype="multipart/form-data">
         <div class="form__row">

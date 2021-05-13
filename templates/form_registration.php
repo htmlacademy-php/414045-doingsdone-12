@@ -11,13 +11,13 @@
         сайте</p>
 
     <a class="button button--transparent content__side-button"
-       href="/?page=auth">Войти</a>
+       href="/pages/auth.php">Войти</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="/pages/registration.php" method="post"
+    <form class="form" action="/scripts/registration.php" method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>

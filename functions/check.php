@@ -15,7 +15,7 @@ function filter($input_data)
 /**
  * Проверка на существование проекта у пользователя
  *
- * Проверяет в БД существует ли проект у пользователя, если нет ошибка 404
+ * Проверяет в БД существует ли проект у пользователя
  *
  * @param int $user_id           id пользователя
  * @param int $id_chosen_project id выбранного проета
@@ -24,15 +24,7 @@ function filter($input_data)
  */
 function check_selected_project_id($user_id, $id_chosen_project)
 {
-    if ($id_chosen_project) {
-        if (!find_project_id($user_id, $id_chosen_project)) {
-            header('location: /error404/');
-
-            return false;
-        }
-    }
-
-    return true;
+    return $id_chosen_project && !find_project_id($user_id, $id_chosen_project);
 }
 
 /**
@@ -61,11 +53,7 @@ function validate_task_name($task_name)
  */
 function validate_project($project_id, $user_id)
 {
-    if (find_project_id($user_id, $project_id)) {
-        return true;
-    }
-
-    return false;
+    return find_project_id($user_id, $project_id);
 }
 
 /**
@@ -267,11 +255,11 @@ function validate_registration_form($email, $name, $password)
  * @param string $email    почта
  * @param string $password пароль
  *
- * @return array список ошибок, если ошибок нет возвращает пустой массив
+ * @return array|null список ошибок, если ошибок нет возвращает null
  */
 function validate_auth_form($email, $password)
 {
-    $errors = [];
+    $errors = null;
 
     if (!validate_email($email)) {
         $errors['email'] = 'некорректно указан email';
@@ -291,11 +279,11 @@ function validate_auth_form($email, $password)
  * @param string $email    почта
  * @param string $password пароль
  *
- * @return array список ошибок, если ошибок нет возвращает пустой массив
+ * @return array|null список ошибок, если ошибок нет возвращает null
  */
 function auth_user($email, $password)
 {
-    $errors = [];
+    $errors = null;
 
     if (!email_exist($email)) {
         $errors['email'] = 'пользователя с введённым вами email не существует';

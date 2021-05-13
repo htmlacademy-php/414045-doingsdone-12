@@ -34,19 +34,19 @@
                 <?php
                 if (isset($user['id'])): ?>
                     <a class="main-header__side-item button button--plus open-modal"
-                       href="?page=add_task">Добавить
+                       href="/pages/add_task.php">Добавить
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p>Константин</p>
+                            <p><?= $user['name'] ?></p>
 
-                            <a href="/pages/logout.php">Выйти</a>
+                            <a href="/scripts/logout.php">Выйти</a>
                         </div>
                     </div>
                 <?php
                 else: ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="/?page=auth">Войти</a>
+                       href="/pages/auth.php">Войти</a>
                 <?php
                 endif; ?>
 
@@ -69,7 +69,7 @@
         <?php
         if ($user['id']): ?>
             <a class="main-footer__button button button--plus"
-               href="/?page=add_task">Добавить задачу</a>
+               href="/pages/add_task.php">Добавить задачу</a>
         <?php
         endif; ?>
         <div class="main-footer__social social">
