@@ -1,7 +1,7 @@
 <?php
 /**
- * @var array-key $errors                  список ошибок
- * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
+ * @var array  $errors                  массив с ошибками формы
+ * @var string $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -27,7 +27,7 @@
                    name="email" id="email" value=""
                    placeholder="Введите e-mail">
             <?= isset($errors['email'])
-                ? '<p class="form__message">E-mail введён некорректно</p>'
+                ? '<p class="form__message">'.$errors['email'].'</p>'
                 : '' ?>
         </div>
 
@@ -40,7 +40,7 @@
                    name="password" id="password" value=""
                    placeholder="Введите пароль">
             <?= isset($errors['password'])
-                ? '<p class="form__message">Введите пароль</p>' : '' ?>
+                ? '<p class="form__message">' . $errors['password'] . '</p>' : '' ?>
         </div>
 
         <div class="form__row">
@@ -50,7 +50,7 @@
                 ? $input_errors_class_name : '' ?>" type="text" name="name"
                    id="name" value="" placeholder="Введите имя">
             <?= isset($errors['name'])
-                ? '<p class="form__message">Введите имя</p>' : '' ?>
+                ? '<p class="form__message">' . $errors['name'] . '</p>' : '' ?>
         </div>
 
         <div class="form__row form__row--controls">

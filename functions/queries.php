@@ -368,6 +368,20 @@ function get_user_name($user_id)
 }
 
 /**
+ * Получает id, имя и email всех пользователей
+ *
+ * @return array данные пользователей
+ */
+function get_users_data()
+{
+    $con = connect_db();
+    $sql = "SELECT id, name, email FROM users";
+    $result = mysqli_query($con, $sql);
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+/**
  * Поиск задачи
  *
  * @param int    $user_id   id пользователя
@@ -426,6 +440,27 @@ function get_task($user_id, $task_id)
     query_ok_or_fail($stmt);
 
     return mysqli_fetch_assoc($result_sql);
+}
+
+/**
+ * Получение невыполненных задач пользователя, срок которых истекает сегодня
+ * @var int $user_id id пользователя
+ *
+ * @return array|null задачи
+ */
+function get_today_tasks($user_id)
+{
+    $time_end = date('Y-m-d');
+    $con = connect_db();
+    $sql = "SELECT user_id, title FROM tasks WHERE user_id = ? AND time_end = ? AND is_done = 0";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $time_end);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+
+    query_ok_or_fail($stmt);
+
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
 /**

@@ -234,8 +234,11 @@ function validate_registration_form($email, $name, $password)
 {
     $errors = [];
 
-    if (!validate_email($email) || email_exist($email)) {
+    if (!validate_email($email)) {
         $errors['email'] = 'не введён, или не корректно указан email';
+    }
+    if (email_exist($email)) {
+        $errors['email'] = 'пользователь с таким email уже зарегистрирован';
     }
     if (!validate_name($name)) {
         $errors['name'] = 'введите имя';
