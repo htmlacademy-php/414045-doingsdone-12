@@ -151,7 +151,8 @@ function get_layout_data(
     $chosen_project_id = null,
     $search_string = null,
     $chosen_tasks_filter = null,
-    $show_complete_tasks = null
+    $show_complete_tasks = null,
+    $content = null
 ) {
     // Данные для layout
     $user['id'] = $user_id;
@@ -164,9 +165,6 @@ function get_layout_data(
         die;
     }
 
-    if (!$user_id) {
-        $content = include_template('guest.php');
-    }
     if ($user_id) {
         $main_data = get_main_data(
             $user_id,

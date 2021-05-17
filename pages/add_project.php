@@ -6,10 +6,7 @@
 
 require_once('../bootstrap.php');
 
-if (!isset($_SESSION['user_id'])) {
-    redirect_to_home();
-    exit(1);
-}
+redirect_guest();
 
 $layout_data['content'] = include_template(
     'form_project.php',

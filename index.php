@@ -5,4 +5,6 @@
 
 require_once('bootstrap.php');
 
+redirect_guest();
+
 print(include_template('layout.php', $layout_data));
