@@ -41,7 +41,8 @@
 <main class="content__main">
     <h2 class="content__main-heading">Добавление проекта</h2>
 
-    <form class="form" action="<?= get_url_add_project_script() ?>" method="post"
+    <form class="form" action="<?= get_url_add_project_script() ?>"
+          method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>

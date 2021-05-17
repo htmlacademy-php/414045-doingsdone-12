@@ -9,7 +9,9 @@
  */
 function get_url_all_project_tasks($chosen_project_id = null)
 {
-    $chosen_project = $chosen_project_id ? '&id_chosen_project=' . $chosen_project_id : '';
+    $chosen_project = $chosen_project_id ? '&id_chosen_project='
+        .$chosen_project_id : '';
+
     return '?task_filter=all'.$chosen_project;
 }
 
@@ -72,7 +74,7 @@ function get_url_registration_script()
  */
 function get_url_id_chosen_project($project_id)
 {
-    return '/?id_chosen_project=' . $project_id;
+    return '/?id_chosen_project='.$project_id;
 }
 
 /**

@@ -20,7 +20,10 @@ function show_tasks(
     $project_id = $id_chosen_project ?? null;
     $tasks = [];
 
-    if (!$project_id && (!$tasks_filter || $tasks_filter == TASK_FILTER_ALL_TASKS)) {
+    if (!$project_id
+        && (!$tasks_filter
+            || $tasks_filter == TASK_FILTER_ALL_TASKS)
+    ) {
         $tasks_result = get_user_all_tasks($user_id);
     }
     if ($project_id) {

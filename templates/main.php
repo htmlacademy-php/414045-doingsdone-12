@@ -1,13 +1,13 @@
 <?php
 /**
- * @var array-key $projects            проекты пользователя
- * @var int       $chosen_project_id   id выбранного проекта
- * @var string    $chosen_tasks_filter выбранный фильтр для задач
- * @var array-key $user_tasks          задачи пользователя
- * @var array-key $found_tasks         задачи пользователя найденые по поисковому запросу
- * @var array     $projects_count      количество задач в проектах
- * @var int       $show_complete_tasks параметр отображения выполненных задач
- * @var string $url_all_project_task путь для отображения всех задач в проекте
+ * @var array-key $projects             проекты пользователя
+ * @var int       $chosen_project_id    id выбранного проекта
+ * @var string    $chosen_tasks_filter  выбранный фильтр для задач
+ * @var array-key $user_tasks           задачи пользователя
+ * @var array-key $found_tasks          задачи пользователя найденые по поисковому запросу
+ * @var array     $projects_count       количество задач в проектах
+ * @var int       $show_complete_tasks  параметр отображения выполненных задач
+ * @var string    $url_all_project_task путь для отображения всех задач в проекте
  */
 
 ?>
@@ -24,7 +24,9 @@
                     == $chosen_project_id)
                     ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"
-                       href="<?= get_url_id_chosen_project($project['id']) ?>"><?= filter(
+                       href="<?= get_url_id_chosen_project(
+                           $project['id']
+                       ) ?>"><?= filter(
                             $project['name']
                         ); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
@@ -95,22 +97,26 @@
                 : "" ?><?= is_task_important($task['time_end'])
                 ? " task--important" : "" ?>">
                 <td class="task__select">
-                        <label class="checkbox task__checkbox">
-                            <input class="checkbox__input visually-hidden task__checkbox"
-                                   type="checkbox"
-                                   name="id_task_for_state_changing"
-                                   value="<?= $task['id'] ?>" <?= $task['is_done']
-                                ? 'checked' : '' ?>>
-                            <span class="checkbox__text"><?= filter(
-                                    $task['name']
-                                ); ?></span>
-                        </label>
+                    <label class="checkbox task__checkbox">
+                        <input class="checkbox__input visually-hidden task__checkbox"
+                               type="checkbox"
+                               name="id_task_for_state_changing"
+                               value="<?= $task['id'] ?>" <?= $task['is_done']
+                            ? 'checked' : '' ?>>
+                        <span class="checkbox__text"><?= filter(
+                                $task['name']
+                            ); ?></span>
+                    </label>
                 </td>
                 <td class="task__file">
-                    <?php if ($task['file_name']): ?>
-                    <a class="download-link"
-                       href="<?= get_url_task_file($task) ?>"><?= $task['file_name'] ?? ''; ?></a>
-                    <?php endif; ?>
+                    <?php
+                    if ($task['file_name']): ?>
+                        <a class="download-link"
+                           href="<?= get_url_task_file(
+                               $task
+                           ) ?>"><?= $task['file_name'] ?? ''; ?></a>
+                    <?php
+                    endif; ?>
                 </td>
                 <td class="task__date"><?= filter($task['time_end']); ?></td>
             </tr>

@@ -37,7 +37,8 @@
                 <sup>*</sup></label>
 
             <input class="form__input <?= isset($errors['password'])
-                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="password" name="password"
+                ? INPUT_ERROR_CLASS_NAME : '' ?>" type="password"
+                   name="password"
                    id="password" value=""
                    placeholder="Введите пароль">
             <?php

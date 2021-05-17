@@ -1,6 +1,6 @@
 <?php
 /**
- * @var array       $layout_data         данные для шаблона layout.php
+ * @var array $layout_data данные для шаблона layout.php
  */
 
 require_once('bootstrap.php');

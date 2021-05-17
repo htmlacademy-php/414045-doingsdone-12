@@ -108,12 +108,12 @@ function get_form_registration_data($errors = null)
     if ($errors) {
         return [
             'errors' => $errors,
-            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
         ];
     }
 
     return [
-        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
     ];
 }
 
