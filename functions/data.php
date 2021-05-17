@@ -41,7 +41,6 @@ function get_main_data(
         'show_complete_tasks' => $show_complete_tasks,
         'projects_count' => get_count_task_in_projects($user_id),
         'nothing_found_message' => $nothing_found_message,
-        'url_all_project_task' => get_url_all_project_tasks($chosen_project_id)
     ];
 }
 

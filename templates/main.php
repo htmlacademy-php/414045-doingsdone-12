@@ -24,7 +24,7 @@
                     == $chosen_project_id)
                     ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"
-                       href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
+                       href="<?= get_url_id_chosen_project($project['id']) ?>"><?= filter(
                             $project['name']
                         ); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
@@ -36,14 +36,14 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="/pages/add_project.php" target="project_add">Добавить
+       href="<?= get_url_add_project_page() ?>" target="project_add">Добавить
         проект</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Список задач</h2>
 
-    <form class="search-form" action="/index.php" method="get"
+    <form class="search-form" action="<?= get_url_homepage() ?>" method="get"
           autocomplete="off">
         <input class="search-form__input" type="text" name="search" value=""
                placeholder="Поиск по задачам">
@@ -52,19 +52,19 @@
 
     <div class="tasks-controls">
         <nav class="tasks-switch">
-            <a href="<?= $url_all_project_task ?>"
+            <a href="<?= get_url_all_project_tasks($chosen_project_id) ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter == 'all'
                    ? ' tasks-switch__item--active' : '' ?>">Все
                 задачи</a>
-            <a href="/?tasks_filter=today_tasks"
+            <a href="<?= get_url_tasks_filter_today() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
                == 'today_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Повестка дня</a>
-            <a href="/?tasks_filter=next_day_tasks"
+            <a href="<?= get_url_tasks_filter_next_day() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
                == 'next_day_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Завтра</a>
-            <a href="/?tasks_filter=overdue_tasks"
+            <a href="<?= get_url_tasks_filter_overdue() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
                == 'overdue_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Просроченные</a>
@@ -107,8 +107,10 @@
                         </label>
                 </td>
                 <td class="task__file">
+                    <?php if ($task['file_name']): ?>
                     <a class="download-link"
-                       href="<?= $task['file_src']; ?>"><?= $task['file_name']; ?></a>
+                       href="<?= get_url_task_file($task) ?>"><?= $task['file_name'] ?? ''; ?></a>
+                    <?php endif; ?>
                 </td>
                 <td class="task__date"><?= filter($task['time_end']); ?></td>
             </tr>

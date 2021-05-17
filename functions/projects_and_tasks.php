@@ -31,7 +31,7 @@ function show_tasks(
     }
 
     foreach ($tasks_result as $task) {
-        $file_name = 'файл не загружен';
+        $file_name = null;
         if ($task['file_src']) {
             $file_name = ltrim($task['file_src'], '/');
         }

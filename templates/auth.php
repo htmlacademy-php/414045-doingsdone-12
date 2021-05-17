@@ -10,13 +10,13 @@
         сайте</p>
 
     <a class="button button--transparent content__side-button"
-       href="/pages/auth.php">Войти</a>
+       href="<?= get_url_auth_page() ?>">Войти</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Вход на сайт</h2>
 
-    <form class="form" action="/scripts/auth.php" method="post"
+    <form class="form" action="<?= get_url_auth_script() ?>" method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
