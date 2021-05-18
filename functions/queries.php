@@ -372,13 +372,20 @@ function get_user_name($user_id)
 /**
  * Получает id, имя и email всех пользователей
  *
- * @return array данные пользователей
+ * @return array|false данные пользователей
  */
 function get_users_data()
 {
     $con = connect_db();
     $sql = "SELECT id, name, email FROM users";
     $result = mysqli_query($con, $sql);
+
+    if (!$result) {
+        $error = mysqli_error($con);
+        redirect_to_db_error_page();
+        print ("Ошибка MySQL: ".$error);
+        die;
+    }
 
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
