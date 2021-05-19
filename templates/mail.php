@@ -635,9 +635,9 @@
                                         <h3>Веб-приложение для удобного ведения
                                             списка дел.</h3>
                                         <br/>
-                                        <br/>
                                         <h2>Уведомление от сервиса</h2>
                                         <?= $mail_text ?>
+                                        <br/>
                                     </td>
                                 </tr>
                             </table>
@@ -651,6 +651,7 @@
                                    width="100%" id="templateFooter">
                                 <tr>
                                     <td valign="top" class="footerContent"
+                                        style="padding-top:15px;"
                                         mc:edit="footer_content00">
                                         <a href="#">Twitter</a>&nbsp;&nbsp;&nbsp;<a
                                                 href="#">Facebook</a>&nbsp;&nbsp;&nbsp;<a
