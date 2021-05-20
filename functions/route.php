@@ -42,7 +42,7 @@ function get_url_auth_script()
  */
 function get_url_logout_script()
 {
-    return '/script/auth.php';
+    return '/scripts/logout.php';
 }
 
 /**
