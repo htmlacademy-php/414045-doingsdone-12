@@ -1,0 +1,13 @@
+{
+    "name": "studio/414045-doingsdone-12",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Kuzmin Roman",
+            "email": "archer039@gmail.com"
+        }
+    ],
+    "require": {
+        "swiftmailer/swiftmailer": "^6.2"
+    }
+}

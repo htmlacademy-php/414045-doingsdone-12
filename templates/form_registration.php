@@ -1,7 +1,7 @@
 <?php
 /**
- * @var array-key $errors                  список ошибок
- * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
+ * @var array  $errors                  массив с ошибками формы
+ * @var string $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -11,13 +11,14 @@
         сайте</p>
 
     <a class="button button--transparent content__side-button"
-       href="/pages/auth.php">Войти</a>
+       href="<?= get_url_auth_page() ?>">Войти</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Регистрация аккаунта</h2>
 
-    <form class="form" action="/scripts/registration.php" method="post"
+    <form class="form" action="<?= get_url_registration_script() ?>"
+          method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="email">E-mail <sup>*</sup></label>
@@ -27,7 +28,7 @@
                    name="email" id="email" value=""
                    placeholder="Введите e-mail">
             <?= isset($errors['email'])
-                ? '<p class="form__message">E-mail введён некорректно</p>'
+                ? '<p class="form__message">'.$errors['email'].'</p>'
                 : '' ?>
         </div>
 
@@ -40,7 +41,7 @@
                    name="password" id="password" value=""
                    placeholder="Введите пароль">
             <?= isset($errors['password'])
-                ? '<p class="form__message">Введите пароль</p>' : '' ?>
+                ? '<p class="form__message">'.$errors['password'].'</p>' : '' ?>
         </div>
 
         <div class="form__row">
@@ -50,7 +51,7 @@
                 ? $input_errors_class_name : '' ?>" type="text" name="name"
                    id="name" value="" placeholder="Введите имя">
             <?= isset($errors['name'])
-                ? '<p class="form__message">Введите имя</p>' : '' ?>
+                ? '<p class="form__message">'.$errors['name'].'</p>' : '' ?>
         </div>
 
         <div class="form__row form__row--controls">

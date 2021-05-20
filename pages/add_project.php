@@ -6,6 +6,8 @@
 
 require_once('../bootstrap.php');
 
+redirect_guest();
+
 $layout_data['content'] = include_template(
     'form_project.php',
     get_form_project_data(

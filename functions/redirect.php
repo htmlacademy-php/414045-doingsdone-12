@@ -10,6 +10,17 @@ function redirect_to_home()
 }
 
 /**
+ * Перенаправляет неавторизованного пользователя на страницу гостя
+ */
+function redirect_guest()
+{
+    if (!isset($_SESSION['user_id'])) {
+        header('location: /pages/guest.php');
+        die;
+    }
+}
+
+/**
  * Перенаправляет на страницу ошибки 404
  */
 function redirect_to_not_found()

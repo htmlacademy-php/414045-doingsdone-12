@@ -171,7 +171,9 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     $next_day = date(DEFAULT_DATE_FORMAT, strtotime("+1 day"));
     $con = connect_db();
 
-    if ($tasks_filter == TASK_FILTER_TODAY_TASKS || $tasks_filter == TASK_FILTER_NEXT_DAY_TASKS) {
+    if ($tasks_filter == TASK_FILTER_TODAY_TASKS
+        || $tasks_filter == TASK_FILTER_NEXT_DAY_TASKS
+    ) {
         $sql
             = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end = ?";
         if ($tasks_filter == TASK_FILTER_TODAY_TASKS) {
@@ -368,6 +370,24 @@ function get_user_name($user_id)
 }
 
 /**
+ * Получает id, имя и email всех пользователей
+ *
+ * @return array данные пользователей
+ */
+function get_users_data()
+{
+    $con = connect_db();
+    $sql = "SELECT id, name, email FROM users";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    query_ok_or_fail($stmt);
+
+    return mysqli_fetch_all($result, MYSQLI_ASSOC);
+}
+
+/**
  * Поиск задачи
  *
  * @param int    $user_id   id пользователя
@@ -426,6 +446,29 @@ function get_task($user_id, $task_id)
     query_ok_or_fail($stmt);
 
     return mysqli_fetch_assoc($result_sql);
+}
+
+/**
+ * Получение невыполненных задач пользователя, срок которых истекает сегодня
+ *
+ * @return array|null задачи
+ * @var int $user_id id пользователя
+ *
+ */
+function get_today_tasks($user_id)
+{
+    $time_end = date('Y-m-d');
+    $con = connect_db();
+    $sql
+        = "SELECT user_id, title FROM tasks WHERE user_id = ? AND time_end = ? AND is_done = 0";
+    $stmt = mysqli_prepare($con, $sql);
+    mysqli_stmt_bind_param($stmt, 'is', $user_id, $time_end);
+    mysqli_stmt_execute($stmt);
+    $result_sql = mysqli_stmt_get_result($stmt);
+
+    query_ok_or_fail($stmt);
+
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
 /**

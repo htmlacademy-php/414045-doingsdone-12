@@ -20,7 +20,9 @@
             foreach ($projects as $key => $project): ?>
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link"
-                       href="/?id_chosen_project=<?= $project['id'] ?>"><?= filter(
+                       href="<?= get_url_id_chosen_project(
+                           $project['id']
+                       ) ?>"><?= filter(
                             $project['name']
                         ); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
@@ -32,14 +34,15 @@
     </nav>
 
     <a class="button button--transparent button--plus content__side-button"
-       href="/?page=add_project" target="project_add">Добавить
+       href="<?= get_url_add_project_page() ?>" target="project_add">Добавить
         проект</a>
 </section>
 
 <main class="content__main">
     <h2 class="content__main-heading">Добавление проекта</h2>
 
-    <form class="form" action="/scripts/add_project.php" method="post"
+    <form class="form" action="<?= get_url_add_project_script() ?>"
+          method="post"
           autocomplete="off">
         <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>

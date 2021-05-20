@@ -26,7 +26,7 @@
         : '' ?>">
         <header class="main-header">
             <a href="/">
-                <img src="../img/logo.png" width="153" height="42"
+                <img src="<?= get_url_logo() ?>" width="153" height="42"
                      alt="Логотип Дела в порядке">
             </a>
 
@@ -34,19 +34,19 @@
                 <?php
                 if (isset($user['id'])): ?>
                     <a class="main-header__side-item button button--plus open-modal"
-                       href="/pages/add_task.php">Добавить
+                       href="<?= get_url_add_task_page() ?>">Добавить
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
                             <p><?= $user['name'] ?></p>
 
-                            <a href="/scripts/logout.php">Выйти</a>
+                            <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>
                     </div>
                 <?php
                 else: ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="/pages/auth.php">Войти</a>
+                       href="<?= get_url_auth_page(); ?>">Войти</a>
                 <?php
                 endif; ?>
 
@@ -69,7 +69,7 @@
         <?php
         if ($user['id']): ?>
             <a class="main-footer__button button button--plus"
-               href="/pages/add_task.php">Добавить задачу</a>
+               href="<?= get_url_add_task_page() ?>">Добавить задачу</a>
         <?php
         endif; ?>
         <div class="main-footer__social social">

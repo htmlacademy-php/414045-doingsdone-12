@@ -41,7 +41,6 @@ function get_main_data(
         'show_complete_tasks' => $show_complete_tasks,
         'projects_count' => get_count_task_in_projects($user_id),
         'nothing_found_message' => $nothing_found_message,
-        'url_all_project_task' => get_url_all_project_tasks($chosen_project_id)
     ];
 }
 
@@ -109,12 +108,12 @@ function get_form_registration_data($errors = null)
     if ($errors) {
         return [
             'errors' => $errors,
-            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
         ];
     }
 
     return [
-        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
     ];
 }
 
@@ -151,7 +150,8 @@ function get_layout_data(
     $chosen_project_id = null,
     $search_string = null,
     $chosen_tasks_filter = null,
-    $show_complete_tasks = null
+    $show_complete_tasks = null,
+    $content = null
 ) {
     // Данные для layout
     $user['id'] = $user_id;
@@ -164,9 +164,6 @@ function get_layout_data(
         die;
     }
 
-    if (!$user_id) {
-        $content = include_template('guest.php');
-    }
     if ($user_id) {
         $main_data = get_main_data(
             $user_id,
@@ -182,5 +179,37 @@ function get_layout_data(
         'user' => $user,
         'title' => $title_name,
         'content' => $content,
+    ];
+}
+
+/**
+ * Данные для шаблона письма напоминания о задачах на текущий день
+ *
+ * @param $user_data
+ *
+ * @return array данные для шаблона mail.php
+ */
+function get_mail_data($user_data)
+{
+    $name = $user_data['name'];
+    $tasks = get_today_tasks($user_data['id']);
+    $mail_text = null;
+
+    if ($tasks) {
+        $task_list = '. У вас запланирована задача: '.$tasks[0]['title'];
+
+        if (count($tasks) > 1) {
+            $task_list = '. У вас запланированы задачи:';
+            foreach ($tasks as $task) {
+                $task_list .= ' '.$task['title'].',';
+            }
+            $task_list = trim($task_list, ',');
+        }
+
+        $mail_text = 'Уважаемый, '.$name.$task_list.' на '.date('d-m-Y').'.';
+    }
+
+    return [
+        'mail_text' => $mail_text,
     ];
 }
