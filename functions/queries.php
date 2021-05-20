@@ -411,7 +411,7 @@ function get_looking_for_task($user_id, $task_name)
     $tasks = [];
 
     foreach ($result as $task) {
-        $file_name = 'файл не загружен';
+        $file_name = null;
         if ($task['file_src']) {
             $file_name = ltrim($task['file_src'], '/');
         }
