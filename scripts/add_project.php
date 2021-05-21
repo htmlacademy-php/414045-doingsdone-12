@@ -14,14 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $layout_data['content'] = include_template(
             'form_project.php',
             get_form_project_data(
-                user_id: $user_id,
-                errors: $errors
+                $user_id,
+                $errors
             )
         );
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
-    add_new_project(user_id: $user_id, project_name: $_POST['name']);
+    add_new_project($user_id, $_POST['name']);
 
     redirect_to_home();
 }

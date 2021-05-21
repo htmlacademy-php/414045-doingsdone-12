@@ -5,14 +5,14 @@ require_once('../bootstrap.php');
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $errors = validate_registration_form(
         $_POST['email'],
-        $_POST['password'],
-        $_POST['name']
+        $_POST['name'],
+        $_POST['password']
     );
 //    если есть ошибки показываем страницу регистрации с подсвечеными полями
     if ($errors) {
         $layout_data['content'] = include_template(
             'form_registration.php',
-            get_form_registration_data(errors: $errors)
+            get_form_registration_data($errors)
         );
         print(include_template('layout.php', $layout_data));
         exit(1);
