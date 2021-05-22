@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * Проверка запроса на ошибки
+ *
+ * В случае ошибки, редирект на db_error_page
+ *
  * @param mysqli_stmt $stmt подготовленное выражение
  */
 function query_ok_or_fail($stmt)
@@ -8,7 +12,8 @@ function query_ok_or_fail($stmt)
     if (!mysqli_stmt_error($stmt)) {
         return;
     }
-    redirect_to_db_error_page();
+    $error = mysqli_stmt_error($stmt);
+    redirect_to_db_error_page($error);
     die;
 }
 

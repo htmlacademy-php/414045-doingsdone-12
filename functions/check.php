@@ -1,18 +1,6 @@
 <?php
 
 /**
- * Фильтрация спецсимволов html
- *
- * @param string $input_data входные данные для фильтрации
- *
- * @return string отфильтрованые данные
- */
-function filter($input_data)
-{
-    return htmlspecialchars($input_data);
-}
-
-/**
  * Проверка на существование проекта у пользователя
  *
  * Проверяет в БД существует ли проект у пользователя

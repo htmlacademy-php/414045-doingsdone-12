@@ -32,8 +32,8 @@ function redirect_to_not_found()
 /**
  * Перенаправляет на страницу с ошибками БД
  */
-function redirect_to_db_error_page()
+function redirect_to_db_error_page($error)
 {
-    header('location: /db_error_page.php');
+    header('location: /pages/db_error_page.php?error='.$error);
     die;
 }
