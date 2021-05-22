@@ -17,7 +17,7 @@ CREATE INDEX u_email ON users(email);
 CREATE TABLE projects (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
-    title VARCHAR(64) NOT NULL,
+    title VARCHAR(20) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 

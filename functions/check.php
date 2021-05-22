@@ -42,21 +42,6 @@ function validate_task_name($task_name)
 }
 
 /**
- * Валидация id проекта
- *
- * Проверяет существует ли проект у пользователя
- *
- * @param int $project_id id проекта
- * @param int $user_id    id пользователя
- *
- * @return array true, если проект у пользователя существует
- */
-function validate_project($project_id, $user_id)
-{
-    return find_project_id($user_id, $project_id);
-}
-
-/**
  * Проверка формата даты
  *
  * Проверяет соответствует ли дата формату, по умолчанию Y-m-d
@@ -98,7 +83,7 @@ function validate_date($date)
  */
 function validate_file()
 {
-    return ($_FILES['file']['error'] == 0 || $_FILES['file']['error'] == 4);
+    return ($_FILES['file']['error'] === 0 || $_FILES['file']['error'] === 4);
 }
 
 /**
@@ -124,7 +109,10 @@ function validate_task_form(
     if (!validate_task_name($task_name)) {
         $errors['name'] = 'Введите название задачи!';
     }
-    if (!validate_project($project_id, $user_id)) {
+    if (strlen($task_name) > 64) {
+        $errors['name'] = 'Название задачи не может быть длиннее 64-х символов';
+    }
+    if (!find_project_id($user_id, $project_id)) {
         $errors['project']
             = 'Ошибка, у вас нет проектов или выбранного проекта не существует!';
     }
@@ -134,6 +122,9 @@ function validate_task_form(
     }
     if (!validate_file()) {
         $errors['file'] = 'Ошибка загрузки файла';
+    }
+    if (strlen($_FILES['file']['name']) > 64) {
+        $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее 64-х символов';
     }
 
     return $errors;
@@ -156,6 +147,9 @@ function validate_project_form($user_id, $project_name)
     if (!$project_name) {
         $errors['name'] = 'Название проета не может быть пустым';
     }
+    if (strlen($project_name) > 20) {
+        $errors['name'] = 'Название проекта не может быть длиннее 20-х символов';
+    }
     if (project_name_is_be($user_id, $project_name)) {
         $errors['name'] = 'Проект с таким именем уже существует';
     }
@@ -166,7 +160,7 @@ function validate_project_form($user_id, $project_name)
 /**
  * Валидация электронной почты
  *
- * Если почта введена и соответствует формату возвращает true
+ * Если почта введена, не длинее 128 символов и соответствует формату возвращает true
  *
  * @param string $email почта
  *
@@ -174,7 +168,7 @@ function validate_project_form($user_id, $project_name)
  */
 function validate_email($email)
 {
-    if (!$email) {
+    if (!$email || strlen($email) > 128) {
         return false;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -187,7 +181,7 @@ function validate_email($email)
 /**
  * Валидация паролья
  *
- * Если пароль введён возвращает true
+ * Если пароль введён и он длиннее 4, но не более 64 символов возвращает true
  *
  * @param string $password пароль
  *
@@ -195,7 +189,7 @@ function validate_email($email)
  */
 function validate_password($password)
 {
-    if (!$password) {
+    if (!$password || strlen($password) < 4 || strlen($password) > 64) {
         return false;
     }
 
@@ -205,7 +199,7 @@ function validate_password($password)
 /**
  * Валидация имени
  *
- * Если имя введено возвращает true
+ * Если имя введено возвращает и оно не длинее 64 символов true
  *
  * @param string $name имя
  *
@@ -213,7 +207,7 @@ function validate_password($password)
  */
 function validate_name($name)
 {
-    if (!$name) {
+    if (!$name || strlen($name) > 64) {
         return false;
     }
 
@@ -242,10 +236,10 @@ function validate_registration_form($email, $name, $password)
         $errors['email'] = 'пользователь с таким email уже зарегистрирован';
     }
     if (!validate_name($name)) {
-        $errors['name'] = 'введите имя';
+        $errors['name'] = 'введите имя, должно быть не длиннее 64 символов';
     }
     if (!validate_password($password)) {
-        $errors['password'] = 'введите пароль';
+        $errors['password'] = 'введите пароль, должен быть длинее 4 символов, но не длинее 64';
     }
 
     return $errors;
@@ -268,8 +262,11 @@ function validate_auth_form($email, $password)
     if (!validate_email($email)) {
         $errors['email'] = 'некорректно указан email';
     }
-    if (!validate_password($password)) {
+    if (!$password) {
         $errors['password'] = 'введите пароль';
+    }
+    if (strlen($password) > 64) {
+        $errors['password'] = 'введён неверный пароль';
     }
 
     return $errors;
