@@ -7,11 +7,14 @@ require_once('../bootstrap.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // проверяем есть ли ошибки валидачии
+    $project_id = $_POST['project_id'] ?? null;
+    $task_name = $_POST['name'];
+    $task_time_end = $_POST['date'];
     $errors = validate_task_form(
         $user_id,
-        $_POST['name'],
-        $_POST['project_id'],
-        $_POST['date']
+        $task_name,
+        $project_id,
+        $task_time_end
     );
 
     // сохраняем задачу в БД и файл в корень проекта

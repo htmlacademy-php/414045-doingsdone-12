@@ -125,7 +125,8 @@ function validate_task_form(
         $errors['name'] = 'Введите название задачи!';
     }
     if (!validate_project($project_id, $user_id)) {
-        $errors['project'] = 'Ошибка, выбранного проекта не существует!';
+        $errors['project']
+            = 'Ошибка, у вас нет проектов или выбранного проекта не существует!';
     }
     if (!validate_date($task_date)) {
         $errors['date']
