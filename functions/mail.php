@@ -3,8 +3,8 @@
 /**
  * Отправляет уведомление на электронную почту о задачах на текущий день
  *
- * @param string $name         имя пользователя
- * @param string $email        электронная почта пользователя
+ * @param string $name имя пользователя
+ * @param string $email электронная почта пользователя
  * @param string $mail_content шаблон письма с данными
  */
 function send_reminder_for_tasks($name, $email, $mail_content)

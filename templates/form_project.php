@@ -2,11 +2,11 @@
 /**
  * Форма добавления проекта
  *
- * @var array-key $projects                массив с проектами
- * @var int       $chosen_project_id       id выбранного проекта
- * @var array-key $errors                  список ошибок
- * @var array-key $input                   данные введённые пользователем
- * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
+ * @var array-key $projects массив с проектами
+ * @var int $chosen_project_id id выбранного проекта
+ * @var array-key $errors список ошибок
+ * @var array-key $input данные введённые пользователем
+ * @var string $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -48,7 +48,7 @@
         <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>
             <?= isset($errors['name']) ? "<p class='form__message'>"
-                .$errors['name']."</p>" : "" ?>
+                . $errors['name'] . "</p>" : "" ?>
             <input class="form__input <?= isset($errors['name'])
                 ? $input_errors_class_name : "" ?>" type="text" name="name"
                    id="project_name"

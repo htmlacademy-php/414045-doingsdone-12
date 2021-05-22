@@ -3,7 +3,7 @@
  * @var array $layout_data данные для шаблона layout.php
  */
 
-require_once(__DIR__.'/bootstrap.php');
+require_once(__DIR__ . '/bootstrap.php');
 
 redirect_guest();
 

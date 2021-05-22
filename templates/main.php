@@ -1,13 +1,13 @@
 <?php
 /**
- * @var array-key $projects             проекты пользователя
- * @var int       $chosen_project_id    id выбранного проекта
- * @var string    $chosen_tasks_filter  выбранный фильтр для задач
- * @var array-key $user_tasks           задачи пользователя
- * @var array-key $found_tasks          задачи пользователя найденые по поисковому запросу
- * @var array     $projects_count       количество задач в проектах
- * @var int       $show_complete_tasks  параметр отображения выполненных задач
- * @var string    $url_all_project_task путь для отображения всех задач в проекте
+ * @var array-key $projects проекты пользователя
+ * @var int $chosen_project_id id выбранного проекта
+ * @var string $chosen_tasks_filter выбранный фильтр для задач
+ * @var array-key $user_tasks задачи пользователя
+ * @var array-key $found_tasks задачи пользователя найденые по поисковому запросу
+ * @var array $projects_count количество задач в проектах
+ * @var int $show_complete_tasks параметр отображения выполненных задач
+ * @var string $url_all_project_task путь для отображения всех задач в проекте
  */
 ?>
 
@@ -19,7 +19,7 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= ((int) $project['id']
+                <li class="main-navigation__list-item<?= ((int)$project['id']
                     === $chosen_project_id)
                     ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"

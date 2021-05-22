@@ -1,8 +1,8 @@
 <?php
 /**
- * @var array     $errors
- * @var array-key $input                   данные введеные пользователем
- * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
+ * @var array $errors
+ * @var array-key $input данные введеные пользователем
+ * @var string $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>

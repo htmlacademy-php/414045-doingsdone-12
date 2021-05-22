@@ -5,7 +5,7 @@
  *
  * Проверяет в БД существует ли проект у пользователя
  *
- * @param int $user_id           id пользователя
+ * @param int $user_id id пользователя
  * @param int $id_chosen_project id выбранного проета
  *
  * @return bool true в случае успеха, false если выбранного проекта нет в БД
@@ -34,7 +34,7 @@ function validate_task_name($task_name)
  *
  * Проверяет соответствует ли дата формату, по умолчанию Y-m-d
  *
- * @param string $date   дата
+ * @param string $date дата
  * @param string $format формат даты
  *
  * @return bool true, в случае успеха
@@ -43,7 +43,7 @@ function check_format_date($date, $format = DEFAULT_DATE_FORMAT): bool
 {
     $d = date_create_from_format($format, $date);
 
-    return $d && date_format($d, $format) === (string) $date && (string) $date >= date($format);
+    return $d && date_format($d, $format) === (string)$date && (string)$date >= date($format);
 }
 
 /**
@@ -71,7 +71,7 @@ function validate_date($date)
  */
 function validate_file()
 {
-    return ((int) $_FILES['file']['error'] === 0 || (int) $_FILES['file']['error'] === 4);
+    return ((int)$_FILES['file']['error'] === 0 || (int)$_FILES['file']['error'] === 4);
 }
 
 /**
@@ -79,10 +79,10 @@ function validate_file()
  *
  * Если валидация прохзодит без ошибок, возвращает пустой массив.
  *
- * @param int    $user_id    id ползователя
- * @param string $task_name  имя задачи
- * @param int    $project_id id проекта
- * @param string $task_date  дата дедлайна
+ * @param int $user_id id ползователя
+ * @param string $task_name имя задачи
+ * @param int $project_id id проекта
+ * @param string $task_date дата дедлайна
  *
  * @return array список ошибок
  */
@@ -123,7 +123,7 @@ function validate_task_form(
  *
  * Проверяет что введено название и проекта с таким именем нет у текущего пользователя
  *
- * @param int    $user_id      id пользователя
+ * @param int $user_id id пользователя
  * @param string $project_name название проекта
  *
  * @return array список ошибок, если ошибок нет, возвращает пустой массив.
@@ -207,8 +207,8 @@ function validate_name($name)
  *
  * Проверяет введён ли корректно email, введено ли имя, введён ли пароль
  *
- * @param string $email    почта
- * @param string $name     имя
+ * @param string $email почта
+ * @param string $name имя
  * @param string $password пароль
  *
  * @return array список ошибок, если ошибок нет возвращает пустой массив
@@ -238,7 +238,7 @@ function validate_registration_form($email, $name, $password)
  *
  * Проверяет корректно ли введены email и пароль
  *
- * @param string $email    почта
+ * @param string $email почта
  * @param string $password пароль
  *
  * @return array|null список ошибок, если ошибок нет возвращает null
@@ -265,7 +265,7 @@ function validate_auth_form($email, $password)
  *
  * Проверяет существует ли пользователь с таким email в БД, если существет проверяет совпадает ли хеш введённого пароля с хешем из БД
  *
- * @param string $email    почта
+ * @param string $email почта
  * @param string $password пароль
  *
  * @return array|null список ошибок, если ошибок нет возвращает null

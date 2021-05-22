@@ -1,7 +1,7 @@
 <?php
 /**
- * @var string    $title
- * @var string    $content
+ * @var string $title
+ * @var string $content
  * @var array-key $user
  */
 

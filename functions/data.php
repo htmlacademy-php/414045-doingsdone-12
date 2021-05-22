@@ -3,11 +3,11 @@
 /**
  * Данные для шаблона main.php
  *
- * @param int         $user_id             id пользователя
- * @param int|null    $chosen_project_id   id выбранного проекта
- * @param string|null $search_string       поисковый запрос
+ * @param int $user_id id пользователя
+ * @param int|null $chosen_project_id id выбранного проекта
+ * @param string|null $search_string поисковый запрос
  * @param string|null $chosen_tasks_filter фильтр для отображения задач
- * @param int         $show_complete_tasks показывать или нет выполненые задачи
+ * @param int $show_complete_tasks показывать или нет выполненые задачи
  *
  * @return array данные для шаблона
  */
@@ -47,8 +47,8 @@ function get_main_data(
 /**
  * Данные для шаблона form_project.php
  *
- * @param int        $user_id id пользователя
- * @param null|array $errors  массив с ашибками обработки формы
+ * @param int $user_id id пользователя
+ * @param null|array $errors массив с ашибками обработки формы
  *
  * @return array данные для шаблона
  */
@@ -74,8 +74,8 @@ function get_form_project_data($user_id, $errors = null, $input = null)
 /**
  * Данные для шаблона form_task.php
  *
- * @param int|null   $user_id id пользователя
- * @param array|null $errors  список ошибок заполнения формы
+ * @param int|null $user_id id пользователя
+ * @param array|null $errors список ошибок заполнения формы
  *
  * @return array данные для шаблона
  */
@@ -145,11 +145,11 @@ function get_form_auth_data($errors = null, $input = null)
 /**
  * Данные для шаблона layout.php
  *
- * @param int|null    $user_id             id пользователя
- * @param int|null    $chosen_project_id   id выбранного проекта
+ * @param int|null $user_id id пользователя
+ * @param int|null $chosen_project_id id выбранного проекта
  * @param string|null $chosen_tasks_filter выбранный фильтр для отображения задач
- * @param int|null    $show_complete_tasks параметр отображения выполненных задач
- * @param string|null $search_string       поисковый запрос
+ * @param int|null $show_complete_tasks параметр отображения выполненных задач
+ * @param string|null $search_string поисковый запрос
  *
  * @return array данные для формы
  */
@@ -204,17 +204,17 @@ function get_mail_data($user_data)
     $mail_text = null;
 
     if ($tasks) {
-        $task_list = '. У вас запланирована задача: '.htmlspecialchars($tasks[0]['title']);
+        $task_list = '. У вас запланирована задача: ' . htmlspecialchars($tasks[0]['title']);
 
         if (count($tasks) > 1) {
             $task_list = '. У вас запланированы задачи:';
             foreach ($tasks as $task) {
-                $task_list .= ' '.htmlspecialchars($task['title']).',';
+                $task_list .= ' ' . htmlspecialchars($task['title']) . ',';
             }
             $task_list = trim($task_list, ',');
         }
 
-        $mail_text = 'Уважаемый, '.$name.$task_list.' на '.date('d-m-Y').'.';
+        $mail_text = 'Уважаемый, ' . $name . $task_list . ' на ' . date('d-m-Y') . '.';
     }
 
     return [
