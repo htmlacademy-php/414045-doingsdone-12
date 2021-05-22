@@ -7,11 +7,14 @@ require_once('../bootstrap.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // проверяем есть ли ошибки валидачии
+    $project_id = $_POST['project_id'] ?? null;
+    $task_name = $_POST['name'];
+    $task_time_end = $_POST['date'];
     $errors = validate_task_form(
-        user_id: $user_id,
-        task_name: $_POST['name'],
-        project_id: $_POST['project_id'],
-        task_date: $_POST['date']
+        $user_id,
+        $task_name,
+        $project_id,
+        $task_time_end
     );
 
     // сохраняем задачу в БД и файл в корень проекта
@@ -20,19 +23,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $layout_data['content'] = include_template(
             'form_task.php',
             get_form_task_data(
-                user_id: $user_id,
-                errors: $errors
+                $user_id,
+                $errors
             )
         );
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
     add_new_task(
-        user_id: $user_id,
-        project_id: $_POST['project_id'],
-        task_name: $_POST['name'],
-        task_date: $_POST['date'],
-        file: $_FILES['file']
+        $user_id,
+        $_POST['project_id'],
+        $_POST['name'],
+        $_POST['date'],
+        $_FILES['file']
     );
 
     // перенаправляем на главную страницу

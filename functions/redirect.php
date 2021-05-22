@@ -29,6 +29,9 @@ function redirect_to_not_found()
     die;
 }
 
+/**
+ * Перенаправляет на страницу с ошибками БД
+ */
 function redirect_to_db_error_page()
 {
     header('location: /db_error_page.php');

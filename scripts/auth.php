@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($errors) {
         $layout_data['content'] = include_template(
             'auth.php',
-            get_form_auth_data(errors: $errors)
+            get_form_auth_data($errors)
         );
         print(include_template('layout.php', $layout_data));
         exit(1);

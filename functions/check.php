@@ -49,7 +49,7 @@ function validate_task_name($task_name)
  * @param int $project_id id проекта
  * @param int $user_id    id пользователя
  *
- * @return bool true, если проект у пользователя существует
+ * @return array true, если проект у пользователя существует
  */
 function validate_project($project_id, $user_id)
 {
@@ -82,7 +82,7 @@ function check_format_date($date, $format = DEFAULT_DATE_FORMAT): bool
  *
  * @return bool true если дата не выбранна, или выбранна и соответствует формату
  */
-function validate_date($date): bool
+function validate_date($date)
 {
     if (!$date) {
         return true;
@@ -96,7 +96,7 @@ function validate_date($date): bool
  *
  * @return bool true, если ошибок при загрузке не было
  */
-function validate_file(): bool
+function validate_file()
 {
     return ($_FILES['file']['error'] == 0 || $_FILES['file']['error'] == 4);
 }
@@ -125,7 +125,8 @@ function validate_task_form(
         $errors['name'] = 'Введите название задачи!';
     }
     if (!validate_project($project_id, $user_id)) {
-        $errors['project'] = 'Ошибка, выбранного проекта не существует!';
+        $errors['project']
+            = 'Ошибка, у вас нет проектов или выбранного проекта не существует!';
     }
     if (!validate_date($task_date)) {
         $errors['date']

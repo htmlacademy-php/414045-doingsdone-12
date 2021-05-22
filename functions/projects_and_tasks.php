@@ -13,9 +13,9 @@
  * @return array отображаемые задачи
  */
 function show_tasks(
-    int|null $user_id,
-    int|null $id_chosen_project,
-    string|null $tasks_filter
+    $user_id,
+    $id_chosen_project,
+    $tasks_filter
 ) {
     $project_id = $id_chosen_project ?? null;
     $tasks = [];
@@ -76,7 +76,7 @@ function is_task_important($task_time): bool
  *
  * @return string|null путь к файлу на сервере
  */
-function save_file($file): string|null
+function save_file($file)
 {
     $file_url = null;
     if ($file['name']) {
@@ -120,7 +120,7 @@ function add_new_task($user_id, $project_id, $task_name, $task_date, $file)
  *
  * @return array|null найденые задачи, null если задачи не найдены
  */
-function search_task($user_id, $search_string): array|null
+function search_task($user_id, $search_string)
 {
     $search_string = trim($search_string) ?? null;
 
