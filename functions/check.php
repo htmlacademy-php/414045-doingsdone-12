@@ -43,7 +43,7 @@ function check_format_date($date, $format = DEFAULT_DATE_FORMAT): bool
 {
     $d = date_create_from_format($format, $date);
 
-    return $d && date_format($d, $format) == $date && $date >= date($format);
+    return $d && date_format($d, $format) === (string) $date && (string) $date >= date($format);
 }
 
 /**
@@ -71,7 +71,7 @@ function validate_date($date)
  */
 function validate_file()
 {
-    return ($_FILES['file']['error'] === 0 || $_FILES['file']['error'] === 4);
+    return ((int) $_FILES['file']['error'] === 0 || (int) $_FILES['file']['error'] === 4);
 }
 
 /**

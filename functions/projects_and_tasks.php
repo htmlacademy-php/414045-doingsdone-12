@@ -22,7 +22,7 @@ function show_tasks(
 
     if (!$project_id
         && (!$tasks_filter
-            || $tasks_filter == TASK_FILTER_ALL_TASKS)
+            || (string) $tasks_filter === TASK_FILTER_ALL_TASKS)
     ) {
         $tasks_result = get_user_all_tasks($user_id);
     }
@@ -53,6 +53,7 @@ function show_tasks(
  * Проверка времени до истечения срока задачи
  *
  * Если до дедлана осталось менее 24ч, возвращает true
+ * Если дедлайн не установлен, возвращает false
  *
  * @param string $task_time дата дедлайна
  *
@@ -60,6 +61,10 @@ function show_tasks(
  */
 function is_task_important($task_time): bool
 {
+    if (!$task_time) {
+        return false;
+    }
+
     $current_time = time();
     $task_time = strtotime($task_time);
     $task_time_to_end_limit = 24 * 3600; //24 часа

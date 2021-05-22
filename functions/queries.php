@@ -176,19 +176,19 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     $next_day = date(DEFAULT_DATE_FORMAT, strtotime("+1 day"));
     $con = connect_db();
 
-    if ($tasks_filter == TASK_FILTER_TODAY_TASKS
-        || $tasks_filter == TASK_FILTER_NEXT_DAY_TASKS
+    if ((string) $tasks_filter === TASK_FILTER_TODAY_TASKS
+        ||(string) $tasks_filter === TASK_FILTER_NEXT_DAY_TASKS
     ) {
         $sql
             = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end = ?";
-        if ($tasks_filter == TASK_FILTER_TODAY_TASKS) {
+        if ((string) $tasks_filter === TASK_FILTER_TODAY_TASKS) {
             $filter_date = $today;
         }
-        if ($tasks_filter == TASK_FILTER_NEXT_DAY_TASKS) {
+        if ((string) $tasks_filter === TASK_FILTER_NEXT_DAY_TASKS) {
             $filter_date = $next_day;
         }
     }
-    if ($tasks_filter == TASK_FILTER_OVERDUE_TASKS) {
+    if ((string) $tasks_filter === TASK_FILTER_OVERDUE_TASKS) {
         $sql
             = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end < ?";
         $filter_date = $today;
@@ -238,7 +238,7 @@ function add_new_project($user_id, $project_name)
  */
 function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
-    if ($time_end == '') {
+    if ((string) $time_end === '') {
         $time_end = null;
     }
     $con = connect_db();

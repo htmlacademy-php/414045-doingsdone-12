@@ -67,7 +67,7 @@
                 foreach ($projects as $key => $project): ?>
                     <option <?php
                     if (isset($input['project_id'])): ?>
-                        <?= $project['id'] === $input['project_id'] ? 'selected'
+                        <?= (int) $project['id'] === (int) $input['project_id'] ? 'selected'
                             : '' ?>
                     <?php
                     endif; ?>

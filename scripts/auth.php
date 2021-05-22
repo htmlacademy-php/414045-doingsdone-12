@@ -2,7 +2,7 @@
 
 require_once '../bootstrap.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 //    валидачия формы
     $errors = validate_auth_form($_POST['email'], $_POST['password']) ??
         auth_user($_POST['email'], $_POST['password']) ?? null;

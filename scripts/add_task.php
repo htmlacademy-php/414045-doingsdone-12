@@ -5,10 +5,9 @@
 
 require_once('../bootstrap.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // проверяем есть ли ошибки валидачии
-    settype($_POST['project_id'], 'int');
-    $project_id = $_POST['project_id'] ?? null;
+    $project_id = (int) $_POST['project_id'] ?? null;
     $task_name = $_POST['name'];
     $task_time_end = $_POST['date'];
     $errors = validate_task_form(

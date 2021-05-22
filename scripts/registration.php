@@ -2,7 +2,7 @@
 
 require_once('../bootstrap.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate_registration_form(
         $_POST['email'],
         $_POST['name'],

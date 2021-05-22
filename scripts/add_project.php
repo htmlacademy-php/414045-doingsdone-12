@@ -7,7 +7,7 @@
 
 require_once('../bootstrap.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate_project_form($user_id, $_POST['name']);
     if ($errors) {
         $input = [
