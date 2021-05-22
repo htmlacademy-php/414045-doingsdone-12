@@ -5,6 +5,7 @@
  * @var array-key $projects                массив с проектами
  * @var int       $chosen_project_id       id выбранного проекта
  * @var array-key $errors                  список ошибок
+ * @var array-key $input                   данные введённые пользователем
  * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
@@ -51,7 +52,8 @@
             <input class="form__input <?= isset($errors['name'])
                 ? $input_errors_class_name : "" ?>" type="text" name="name"
                    id="project_name"
-                   value="" placeholder="Введите название проекта">
+                   value="<?= $input['project_name'] ?? '' ?>"
+                   placeholder="Введите название проекта">
         </div>
 
         <div class="form__row form__row--controls">

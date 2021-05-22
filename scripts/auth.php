@@ -8,9 +8,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         auth_user($_POST['email'], $_POST['password']) ?? null;
 
     if ($errors) {
+        $input = [
+            'email' => $_POST['email'],
+            'password' => $_POST['password']
+        ];
         $layout_data['content'] = include_template(
             'auth.php',
-            get_form_auth_data($errors)
+            get_form_auth_data($errors, $input)
         );
         print(include_template('layout.php', $layout_data));
         exit(1);

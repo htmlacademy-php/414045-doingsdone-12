@@ -10,9 +10,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     );
 //    если есть ошибки показываем страницу регистрации с подсвечеными полями
     if ($errors) {
+        $input = [
+            'email' => $_POST['email'],
+            'name' => $_POST['name'],
+            'password' => $_POST['password']
+        ];
         $layout_data['content'] = include_template(
             'form_registration.php',
-            get_form_registration_data($errors)
+            get_form_registration_data($errors, $input)
         );
         print(include_template('layout.php', $layout_data));
         exit(1);

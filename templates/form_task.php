@@ -6,6 +6,7 @@
  * @var int       $show_complete_tasks     параметр отображения выполненных задач
  * @var int       $chosen_project_id       выбранный проект
  * @var array-key $errors                  список ошибок
+ * @var array-key $input                   данные введёные пользователем
  * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
@@ -52,7 +53,8 @@
                 .$errors['name']."</p>" : "" ?>
             <input class="form__input <?= isset($errors['name'])
                 ? $input_errors_class_name : "" ?>" type="text" name="name"
-                   id="name" value="" placeholder="Введите название">
+                   id="name" value="<?= $input['task_name'] ?? '' ?>"
+                   placeholder="Введите название">
         </div>
         <div class="form__row">
             <label class="form__label" for="project">Проект <sup>*</sup></label>
@@ -63,7 +65,13 @@
                     name="project_id" id="project">
                 <?php
                 foreach ($projects as $key => $project): ?>
-                    <option value="<?= $project['id']; ?>"><?= filter(
+                    <option <?php
+                    if (isset($input['project_id'])): ?>
+                        <?= $project['id'] === $input['project_id'] ? 'selected'
+                            : '' ?>
+                    <?php
+                    endif; ?>
+                            value="<?= $project['id'] ?>"><?= filter(
                             $project['name']
                         ); ?></option>
                 <?php
@@ -77,7 +85,8 @@
                 .$errors['date']."</p>" : "" ?>
             <input class="form__input form__input--date <?= isset($errors['date'])
                 ? $input_errors_class_name : '' ?>"
-                   type="text" name="date" id="date" value=""
+                   type="text" name="date" id="date"
+                   value="<?= $input['task_time_end'] ?? '' ?>"
                    placeholder="Введите дату в формате ГГГГ-ММ-ДД">
         </div>
 

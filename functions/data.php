@@ -52,13 +52,14 @@ function get_main_data(
  *
  * @return array данные для шаблона
  */
-function get_form_project_data($user_id, $errors = null)
+function get_form_project_data($user_id, $errors = null, $input = null)
 {
     if ($errors) {
         return [
             'projects' => get_projects($user_id),
             'projects_count' => get_count_task_in_projects($user_id),
             'errors' => $errors,
+            'input' => $input,
             'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
         ];
     }
@@ -78,13 +79,14 @@ function get_form_project_data($user_id, $errors = null)
  *
  * @return array данные для шаблона
  */
-function get_form_task_data($user_id, $errors = null)
+function get_form_task_data($user_id, $errors = null, $input = null)
 {
     if ($errors) {
         return [
             'projects' => get_projects($user_id),
             'projects_count' => get_count_task_in_projects($user_id),
             'errors' => $errors,
+            'input' => $input,
             'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
         ];
     }
@@ -103,11 +105,12 @@ function get_form_task_data($user_id, $errors = null)
  *
  * @return array данные для шаблона
  */
-function get_form_registration_data($errors = null)
+function get_form_registration_data($errors = null, $input = null)
 {
     if ($errors) {
         return [
             'errors' => $errors,
+            'input' => $input,
             'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
         ];
     }
@@ -124,14 +127,19 @@ function get_form_registration_data($errors = null)
  *
  * @return array данные для шаблона
  */
-function get_form_auth_data($errors = null)
+function get_form_auth_data($errors = null, $input = null)
 {
-    $form_auth_data = [];
-    if ($errors !== null) {
-        $form_auth_data['errors'] = $errors;
+    if ($errors) {
+        return [
+            'errors' => $errors,
+            'input' => $input,
+            'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+        ];
     }
 
-    return $form_auth_data;
+    return [
+        'input_errors_class_name' => INPUT_ERROR_CLASS_NAME,
+    ];
 }
 
 /**
