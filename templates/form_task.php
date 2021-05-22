@@ -71,7 +71,7 @@
                             : '' ?>
                     <?php
                     endif; ?>
-                        value="<?= $project['id'] ?>"><?= htmlspecialchars(
+                            value="<?= $project['id'] ?>"><?= htmlspecialchars(
                             $project['name']
                         ); ?></option>
                 <?php
