@@ -199,17 +199,17 @@ function get_layout_data(
  */
 function get_mail_data($user_data)
 {
-    $name = $user_data['name'];
+    $name = htmlspecialchars($user_data['name']);
     $tasks = get_today_tasks($user_data['id']);
     $mail_text = null;
 
     if ($tasks) {
-        $task_list = '. У вас запланирована задача: '.$tasks[0]['title'];
+        $task_list = '. У вас запланирована задача: '.htmlspecialchars($tasks[0]['title']);
 
         if (count($tasks) > 1) {
             $task_list = '. У вас запланированы задачи:';
             foreach ($tasks as $task) {
-                $task_list .= ' '.$task['title'].',';
+                $task_list .= ' '.htmlspecialchars($task['title']).',';
             }
             $task_list = trim($task_list, ',');
         }

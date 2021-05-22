@@ -38,7 +38,7 @@
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= $user['name'] ?></p>
+                            <p><?= htmlspecialchars($user['name']) ?></p>
 
                             <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>

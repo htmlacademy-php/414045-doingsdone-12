@@ -103,7 +103,7 @@
                                name="id_task_for_state_changing"
                                value="<?= $task['id'] ?>" <?= $task['is_done']
                             ? 'checked' : '' ?>>
-                        <span class="checkbox__text"><?= filter(
+                        <span class="checkbox__text"><?= htmlspecialchars(
                                 $task['name']
                             ); ?></span>
                     </label>
@@ -118,7 +118,7 @@
                     <?php
                     endif; ?>
                 </td>
-                <td class="task__date"><?= filter($task['time_end']); ?></td>
+                <td class="task__date"><?= htmlspecialchars($task['time_end']); ?></td>
             </tr>
         <?php
         endforeach; ?>
