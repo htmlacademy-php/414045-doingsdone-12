@@ -98,7 +98,7 @@ function validate_task_form(
         $errors['name'] = 'Введите название задачи!';
     }
     if (strlen($task_name) > MAX_LENGTH_TASK_NAME) {
-        $errors['name'] = 'Название задачи не может быть длиннее 64-х символов';
+        $errors['name'] = 'Название задачи не может быть длиннее ' . MAX_LENGTH_TASK_NAME . ' символов';
     }
     if (!find_project_id($user_id, $project_id)) {
         $errors['project']
@@ -112,7 +112,7 @@ function validate_task_form(
         $errors['file'] = 'Ошибка загрузки файла';
     }
     if (strlen($_FILES['file']['name']) > MAX_LENGTH_FILE_NAME) {
-        $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее 64-х символов';
+        $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее ' . MAX_LENGTH_FILE_NAME . ' символов';
     }
 
     return $errors;
@@ -136,7 +136,7 @@ function validate_project_form($user_id, $project_name)
         $errors['name'] = 'Название проета не может быть пустым';
     }
     if (strlen($project_name) > MAX_LENGTH_PROJECT_NAME) {
-        $errors['name'] = 'Название проекта не может быть длиннее 20-х символов';
+        $errors['name'] = 'Название проекта не может быть длиннее ' . MAX_LENGTH_PROJECT_NAME . ' символов';
     }
     if (project_name_is_be($user_id, $project_name)) {
         $errors['name'] = 'Проект с таким именем уже существует';
@@ -224,10 +224,10 @@ function validate_registration_form($email, $name, $password)
         $errors['email'] = 'пользователь с таким email уже зарегистрирован';
     }
     if (!validate_name($name)) {
-        $errors['name'] = 'введите имя, должно быть не длиннее 64 символов';
+        $errors['name'] = 'введите имя, должно быть не длиннее ' . MAX_LENGTH_USER_NAME . ' символов';
     }
     if (!validate_password($password)) {
-        $errors['password'] = 'введите пароль, должен быть длинее 4 символов, но не длинее 64';
+        $errors['password'] = 'введите пароль, должен быть длинее ' . MIN_LENGTH_PASSWORD . ' символов, но не длинее ' . MAX_LENGTH_PASSWORD;
     }
 
     return $errors;
