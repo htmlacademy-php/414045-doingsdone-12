@@ -1,7 +1,7 @@
 <?php
 /**
- * @var string    $title
- * @var string    $content
+ * @var string $title
+ * @var string $content
  * @var array-key $user
  */
 
@@ -32,22 +32,22 @@
 
             <div class="main-header__side">
                 <?php
-                if (isset($user['id'])): ?>
+                if (isset($user['id'])) : ?>
                     <a class="main-header__side-item button button--plus open-modal"
                        href="<?= get_url_add_task_page() ?>">Добавить
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= $user['name'] ?></p>
+                            <p><?= htmlspecialchars($user['name']) ?></p>
 
                             <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>
                     </div>
-                <?php
-                else: ?>
+                    <?php
+                else : ?>
                     <a class="main-header__side-item button button--transparent"
                        href="<?= get_url_auth_page(); ?>">Войти</a>
-                <?php
+                    <?php
                 endif; ?>
 
             </div>
@@ -67,10 +67,10 @@
             <p>Веб-приложение для удобного ведения списка дел.</p>
         </div>
         <?php
-        if ($user['id']): ?>
+        if ($user['id']) : ?>
             <a class="main-footer__button button button--plus"
                href="<?= get_url_add_task_page() ?>">Добавить задачу</a>
-        <?php
+            <?php
         endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>
@@ -81,7 +81,8 @@
                     <circle stroke="#879296" fill="none" cx="13.5" cy="13.5"
                             r="12.667"/>
                     <path fill="#879296"
-                          d="M14.26 20.983h-2.816v-6.626H10.04v-2.28h1.404v-1.364c0-1.862.79-2.922 3.04-2.922h1.87v2.28h-1.17c-.876 0-.972.322-.972.916v1.14h2.212l-.245 2.28h-1.92v6.625z"/>
+                          d="M14.26 20.983h-2.816v-6.626H10.04v-2.28h1.404v-1.364c0-1.862.79-2.922 3.04-2.922h1.87v2.
+                          28h-1.17c-.876 0-.972.322-.972.916v1.14h2.212l-.245 2.28h-1.92v6.625z"/>
                 </svg>
             </a><span class="visually-hidden">
                     ,</span>

@@ -31,9 +31,11 @@ function redirect_to_not_found()
 
 /**
  * Перенаправляет на страницу с ошибками БД
+ *
+ * @param string $error последняя ошибка запроса
  */
-function redirect_to_db_error_page()
+function redirect_to_db_error_page($error)
 {
-    header('location: /db_error_page.php');
+    header(get_url_db_error_page($error));
     die;
 }

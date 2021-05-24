@@ -7,15 +7,19 @@
 
 require_once('../bootstrap.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors = validate_project_form($user_id, $_POST['name']);
     if ($errors) {
+        $input = [
+            'project_name' => $_POST['name'],
+        ];
         $current_page = 'add_project';
         $layout_data['content'] = include_template(
             'form_project.php',
             get_form_project_data(
                 $user_id,
-                $errors
+                $errors,
+                $input
             )
         );
         print(include_template('layout.php', $layout_data));

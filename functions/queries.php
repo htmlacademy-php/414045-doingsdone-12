@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * Проверка запроса на ошибки
+ *
+ * В случае ошибки, редирект на db_error_page
+ *
  * @param mysqli_stmt $stmt подготовленное выражение
  */
 function query_ok_or_fail($stmt)
@@ -8,14 +12,15 @@ function query_ok_or_fail($stmt)
     if (!mysqli_stmt_error($stmt)) {
         return;
     }
-    redirect_to_db_error_page();
+    $error = mysqli_stmt_error($stmt);
+    redirect_to_db_error_page($error);
     die;
 }
 
 /**
  * Поиск id выбранного проекта пользователя
  *
- * @param int $user_id    id пользователя
+ * @param int $user_id id пользователя
  * @param int $project_id id проекта
  *
  * @return array найденные id
@@ -39,7 +44,7 @@ function find_project_id($user_id, $project_id)
 /**
  * Проверка существет ли проект с таким-же именем
  *
- * @param int    $user_id      id пользователя
+ * @param int $user_id id пользователя
  * @param string $project_name имя проекта
  *
  * @return true в случае успеха
@@ -123,7 +128,8 @@ function get_user_all_tasks($user_id)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src 
+        FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
@@ -137,7 +143,7 @@ function get_user_all_tasks($user_id)
 /**
  * Получает задачи пользователя по выбранному проекту
  *
- * @param int $user_id    id выбранного пользователя
+ * @param int $user_id id выбранного пользователя
  * @param int $project_id id выбранного проекта
  *
  * @return array задачи пользователя по выбранному проекту
@@ -146,7 +152,9 @@ function get_user_tasks_chosen_project($user_id, $project_id)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+        FROM tasks t JOIN projects p ON t.project_id = p.id 
+        WHERE t.user_id = ? AND t.project_id = ?";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
     mysqli_stmt_execute($stmt);
@@ -160,7 +168,7 @@ function get_user_tasks_chosen_project($user_id, $project_id)
 /**
  * Получает задачи пользователя с применением фильтра
  *
- * @param int    $user_id      id пользователя
+ * @param int $user_id id пользователя
  * @param string $tasks_filter фильтр задач
  *
  * @return array задачи пользователя с фильтром
@@ -171,21 +179,25 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     $next_day = date(DEFAULT_DATE_FORMAT, strtotime("+1 day"));
     $con = connect_db();
 
-    if ($tasks_filter == TASK_FILTER_TODAY_TASKS
-        || $tasks_filter == TASK_FILTER_NEXT_DAY_TASKS
+    if ((string)$tasks_filter === TASK_FILTER_TODAY_TASKS
+        || (string)$tasks_filter === TASK_FILTER_NEXT_DAY_TASKS
     ) {
         $sql
-            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end = ?";
-        if ($tasks_filter == TASK_FILTER_TODAY_TASKS) {
+            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+            FROM tasks t JOIN projects p ON t.project_id = p.id 
+            WHERE t.user_id = ? AND t.time_end = ?";
+        if ((string)$tasks_filter === TASK_FILTER_TODAY_TASKS) {
             $filter_date = $today;
         }
-        if ($tasks_filter == TASK_FILTER_NEXT_DAY_TASKS) {
+        if ((string)$tasks_filter === TASK_FILTER_NEXT_DAY_TASKS) {
             $filter_date = $next_day;
         }
     }
-    if ($tasks_filter == TASK_FILTER_OVERDUE_TASKS) {
+    if ((string)$tasks_filter === TASK_FILTER_OVERDUE_TASKS) {
         $sql
-            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end < ?";
+            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+            FROM tasks t JOIN projects p ON t.project_id = p.id 
+            WHERE t.user_id = ? AND t.time_end < ?";
         $filter_date = $today;
     }
 
@@ -202,7 +214,7 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
 /**
  * Добавляет новый проект в БД
  *
- * @param int    $user_id      id пользователя
+ * @param int $user_id id пользователя
  * @param string $project_name название проекта
  *
  * @return true при удачном добавлении проекта в БД
@@ -223,17 +235,17 @@ function add_new_project($user_id, $project_name)
 /**
  * Добавляет новую задачу в БД
  *
- * @param int         $user_id    id пользователя
- * @param int         $project_id id проекта
- * @param string      $title      название задачи
- * @param string|null $file_src   путь к файлу
- * @param string|null $time_end   дедлайн задачи
+ * @param int $user_id id пользователя
+ * @param int $project_id id проекта
+ * @param string $title название задачи
+ * @param string|null $file_src путь к файлу
+ * @param string|null $time_end дедлайн задачи
  *
  * @return true в случае успеха
  */
 function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
-    if ($time_end == '') {
+    if (empty($time_end)) {
         $time_end = null;
     }
     $con = connect_db();
@@ -281,9 +293,9 @@ function email_exist($email)
 /**
  * Сохраняет нового пользователя в БД
  *
- * @param string $email    email пользователя
+ * @param string $email email пользователя
  * @param string $password хеш пароля
- * @param string $name     имя пользователя
+ * @param string $name имя пользователя
  *
  * @return true в случае успеха
  */
@@ -390,7 +402,7 @@ function get_users_data()
 /**
  * Поиск задачи
  *
- * @param int    $user_id   id пользователя
+ * @param int $user_id id пользователя
  * @param string $task_name имя задачи, поисковый запрос
  *
  * @return array найденые задачи
@@ -399,7 +411,9 @@ function get_looking_for_task($user_id, $task_name)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src 
+        FROM tasks t JOIN projects p ON t.project_id = p.id 
+        WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'is', $user_id, $task_name);
     mysqli_stmt_execute($stmt);

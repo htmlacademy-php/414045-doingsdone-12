@@ -10,9 +10,9 @@
 function get_url_all_project_tasks($chosen_project_id = null)
 {
     $chosen_project = $chosen_project_id ? '&id_chosen_project='
-        .$chosen_project_id : '';
+        . $chosen_project_id : '';
 
-    return '?task_filter=all'.$chosen_project;
+    return '?task_filter=all' . $chosen_project;
 }
 
 /**
@@ -74,7 +74,7 @@ function get_url_registration_script()
  */
 function get_url_id_chosen_project($project_id)
 {
-    return '/?id_chosen_project='.$project_id;
+    return '/?id_chosen_project=' . $project_id;
 }
 
 /**
@@ -177,4 +177,17 @@ function get_url_tasks_filter_overdue()
 function get_url_task_file($task)
 {
     return $task['file_src'];
+}
+
+/**
+ * Возвразает адрес страницы ошибки БД
+ *
+ * @param string $error последняя ошибка запроса
+ *
+ * @return string
+ */
+
+function get_url_db_error_page($error)
+{
+    return 'location: /pages/db_error_page.php?error=' . $error;
 }

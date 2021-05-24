@@ -1,15 +1,14 @@
 <?php
 /**
- * @var array-key $projects             проекты пользователя
- * @var int       $chosen_project_id    id выбранного проекта
- * @var string    $chosen_tasks_filter  выбранный фильтр для задач
- * @var array-key $user_tasks           задачи пользователя
- * @var array-key $found_tasks          задачи пользователя найденые по поисковому запросу
- * @var array     $projects_count       количество задач в проектах
- * @var int       $show_complete_tasks  параметр отображения выполненных задач
- * @var string    $url_all_project_task путь для отображения всех задач в проекте
+ * @var array-key $projects проекты пользователя
+ * @var int $chosen_project_id id выбранного проекта
+ * @var string $chosen_tasks_filter выбранный фильтр для задач
+ * @var array-key $user_tasks задачи пользователя
+ * @var array-key $found_tasks задачи пользователя найденые по поисковому запросу
+ * @var array $projects_count количество задач в проектах
+ * @var int $show_complete_tasks параметр отображения выполненных задач
+ * @var string $url_all_project_task путь для отображения всех задач в проекте
  */
-
 ?>
 
 <section class="content__side">
@@ -20,13 +19,13 @@
             <!-- добавляем цикл с массивом проектов -->
             <?php
             foreach ($projects as $key => $project): ?>
-                <li class="main-navigation__list-item<?= ($project['id']
-                    == $chosen_project_id)
+                <li class="main-navigation__list-item<?= ((int)$project['id']
+                    === $chosen_project_id)
                     ? " main-navigation__list-item--active" : "" ?>">
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(
                            $project['id']
-                       ) ?>"><?= filter(
+                       ) ?>"><?= htmlspecialchars(
                             $project['name']
                         ); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
@@ -55,20 +54,20 @@
     <div class="tasks-controls">
         <nav class="tasks-switch">
             <a href="<?= get_url_all_project_tasks($chosen_project_id) ?>"
-               class="tasks-switch__item<?= $chosen_tasks_filter == 'all'
+               class="tasks-switch__item<?= $chosen_tasks_filter === 'all'
                    ? ' tasks-switch__item--active' : '' ?>">Все
                 задачи</a>
             <a href="<?= get_url_tasks_filter_today() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
-               == 'today_tasks'
+               === 'today_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Повестка дня</a>
             <a href="<?= get_url_tasks_filter_next_day() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
-               == 'next_day_tasks'
+               === 'next_day_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Завтра</a>
             <a href="<?= get_url_tasks_filter_overdue() ?>"
                class="tasks-switch__item<?= $chosen_tasks_filter
-               == 'overdue_tasks'
+               === 'overdue_tasks'
                    ? ' tasks-switch__item--active' : '' ?>">Просроченные</a>
         </nav>
 
@@ -103,7 +102,7 @@
                                name="id_task_for_state_changing"
                                value="<?= $task['id'] ?>" <?= $task['is_done']
                             ? 'checked' : '' ?>>
-                        <span class="checkbox__text"><?= filter(
+                        <span class="checkbox__text"><?= htmlspecialchars(
                                 $task['name']
                             ); ?></span>
                     </label>
@@ -118,7 +117,7 @@
                     <?php
                     endif; ?>
                 </td>
-                <td class="task__date"><?= filter($task['time_end']); ?></td>
+                <td class="task__date"><?= htmlspecialchars($task['time_end']); ?></td>
             </tr>
         <?php
         endforeach; ?>

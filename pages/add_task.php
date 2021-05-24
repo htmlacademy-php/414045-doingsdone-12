@@ -1,7 +1,7 @@
 <?php
 /**
  * @var array $layout_data данные для шаблона layout.php
- * @var int   $user_id     id пользователя
+ * @var int $user_id id пользователя
  */
 
 require_once('../bootstrap.php');

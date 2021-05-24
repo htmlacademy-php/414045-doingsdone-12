@@ -5,7 +5,7 @@
  */
 function show_db_error()
 {
-    print("Ошибка подключения к БД: ".mysqli_connect_error());
+    print("Ошибка подключения к БД: " . mysqli_connect_error());
     die;
 }
 

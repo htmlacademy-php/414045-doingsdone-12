@@ -1,3 +1,6 @@
 <?php
+require_once('../bootstrap.php');
 
-print 'Ошибка БД';
+$error = $_GET['error'];
+
+print 'Ошибка БД: ' . $error;

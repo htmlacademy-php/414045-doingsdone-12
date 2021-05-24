@@ -1,11 +1,18 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
 /**
  * Форма добавления проекта
  *
- * @var array-key $projects                массив с проектами
- * @var int       $chosen_project_id       id выбранного проекта
- * @var array-key $errors                  список ошибок
- * @var string    $input_errors_class_name имя класса поля ввода с ошибкой
+ * @var array-key $projects массив с проектами
+ * @var int $chosen_project_id id выбранного проекта
+ * @var array-key $errors список ошибок
+ * @var array-key $input данные введённые пользователем
+ * @var string $input_errors_class_name имя класса поля ввода с ошибкой
  */
 
 ?>
@@ -16,13 +23,12 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <!-- добавляем цикл с массивом проектов -->
-            <?php
-            foreach ($projects as $key => $project): ?>
+            <?php foreach ($projects as $key => $project): ?>
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(
                            $project['id']
-                       ) ?>"><?= filter(
+                       ) ?>"><?= htmlspecialchars(
                             $project['name']
                         ); ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
@@ -47,11 +53,12 @@
         <div class="form__row">
             <label class="form__label" for="project_name">Название <sup>*</sup></label>
             <?= isset($errors['name']) ? "<p class='form__message'>"
-                .$errors['name']."</p>" : "" ?>
+                . $errors['name'] . "</p>" : "" ?>
             <input class="form__input <?= isset($errors['name'])
                 ? $input_errors_class_name : "" ?>" type="text" name="name"
                    id="project_name"
-                   value="" placeholder="Введите название проекта">
+                   value="<?= $input['project_name'] ?? '' ?>"
+                   placeholder="Введите название проекта">
         </div>
 
         <div class="form__row form__row--controls">

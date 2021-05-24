@@ -89,7 +89,8 @@
         /**
         * @tab Page
         * @section background style
-        * @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
+        * @tip Set the background color and top border for your email.
+        * You may want to choose colors that match your company's branding.
         * @theme page
         */
         body, #bodyTable {
@@ -100,7 +101,8 @@
         /**
         * @tab Page
         * @section background style
-        * @tip Set the background color and top border for your email. You may want to choose colors that match your company's branding.
+        * @tip Set the background color and top border for your email.
+        * You may want to choose colors that match your company's branding.
         * @theme page
         */
         #bodyCell {
@@ -121,7 +123,8 @@
         /**
         * @tab Page
         * @section heading 1
-        * @tip Set the styling for all first-level headings in your emails. These should be the largest of your headings.
+        * @tip Set the styling for all first-level headings in your emails.
+        * These should be the largest of your headings.
         * @style heading 1
         */
         h1 {
@@ -211,7 +214,8 @@
         /**
         * @tab Page
         * @section heading 4
-        * @tip Set the styling for all fourth-level headings in your emails. These should be the smallest of your headings.
+        * @tip Set the styling for all fourth-level headings in your emails.
+        * These should be the smallest of your headings.
         * @style heading 4
         */
         h4 {
@@ -274,7 +278,8 @@
         /**
         * @tab Header
         * @section preheader link
-        * @tip Set the styling for your email's preheader links. Choose a color that helps them stand out from your text.
+        * @tip Set the styling for your email's preheader links.
+        * Choose a color that helps them stand out from your text.
         */
         .preheaderContent a:link, .preheaderContent a:visited, /* Yahoo! Mail Override */
         .preheaderContent a .yshortcuts /* Yahoo! Mail Override */
@@ -395,7 +400,8 @@
         /**
         * @tab Body
         * @section body link
-        * @tip Set the styling for your email's main content links. Choose a color that helps them stand out from your text.
+        * @tip Set the styling for your email's main content links.
+        * Choose a color that helps them stand out from your text.
         */
         .bodyContent a:link, .bodyContent a:visited, /* Yahoo! Mail Override */
         .bodyContent a .yshortcuts /* Yahoo! Mail Override */
@@ -493,7 +499,8 @@
             /**
             * @tab Mobile Styles
             * @section template width
-            * @tip Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
+            * @tip Make the template fluid for portrait or landscape view adaptability.
+            * If a fluid layout doesn't work for you, set the width to 300px instead.
             */
             #templateContainer {
                 max-width: 600px !important;
@@ -558,7 +565,9 @@
             /**
             * @tab Mobile Styles
             * @section header image
-            * @tip Make the main header image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
+            * @tip Make the main header image fluid for portrait or landscape view adaptability,
+            * and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width
+            * to half its original size instead.
             */
             #headerImage {
                 height: auto !important;
@@ -571,7 +580,8 @@
             /**
             * @tab Mobile Styles
             * @section header text
-            * @tip Make the header content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+            * @tip Make the header content text larger in size for better readability on small screens.
+            * We recommend a font size of at least 16px.
             */
             .headerContent {
                 /*@editable*/
@@ -584,7 +594,8 @@
             /**
             * @tab Mobile Styles
             * @section body text
-            * @tip Make the body content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
+            * @tip Make the body content text larger in size for better readability on small screens.
+            * We recommend a font size of at least 16px.
             */
             .bodyContent {
                 /*@editable*/
