@@ -128,7 +128,8 @@ function get_user_all_tasks($user_id)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src 
+        FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ?";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'i', $user_id);
     mysqli_stmt_execute($stmt);
@@ -151,7 +152,9 @@ function get_user_tasks_chosen_project($user_id, $project_id)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.project_id = ?";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+        FROM tasks t JOIN projects p ON t.project_id = p.id 
+        WHERE t.user_id = ? AND t.project_id = ?";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'ii', $user_id, $project_id);
     mysqli_stmt_execute($stmt);
@@ -180,7 +183,9 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
         || (string)$tasks_filter === TASK_FILTER_NEXT_DAY_TASKS
     ) {
         $sql
-            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end = ?";
+            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+            FROM tasks t JOIN projects p ON t.project_id = p.id 
+            WHERE t.user_id = ? AND t.time_end = ?";
         if ((string)$tasks_filter === TASK_FILTER_TODAY_TASKS) {
             $filter_date = $today;
         }
@@ -190,7 +195,9 @@ function get_user_tasks_chosen_filter($user_id, $tasks_filter)
     }
     if ((string)$tasks_filter === TASK_FILTER_OVERDUE_TASKS) {
         $sql
-            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND t.time_end < ?";
+            = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src  
+            FROM tasks t JOIN projects p ON t.project_id = p.id 
+            WHERE t.user_id = ? AND t.time_end < ?";
         $filter_date = $today;
     }
 
@@ -238,7 +245,7 @@ function add_new_project($user_id, $project_name)
  */
 function add_task_in_db($user_id, $project_id, $title, $file_src, $time_end)
 {
-    if ((string)$time_end === '') {
+    if (empty($time_end)) {
         $time_end = null;
     }
     $con = connect_db();
@@ -404,7 +411,9 @@ function get_looking_for_task($user_id, $task_name)
 {
     $con = connect_db();
     $sql
-        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src FROM tasks t JOIN projects p ON t.project_id = p.id WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
+        = "SELECT t.id, t.title AS name, time_end, p.id AS project_id, p.title AS project, is_done, file_src 
+        FROM tasks t JOIN projects p ON t.project_id = p.id 
+        WHERE t.user_id = ? AND MATCH(t.title) AGAINST(?)";
     $stmt = mysqli_prepare($con, $sql);
     mysqli_stmt_bind_param($stmt, 'is', $user_id, $task_name);
     mysqli_stmt_execute($stmt);

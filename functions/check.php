@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection ALL */
 
 /**
  * Проверка на существование проекта у пользователя
@@ -71,7 +71,7 @@ function validate_date($date)
  */
 function validate_file()
 {
-    return ((int)$_FILES['file']['error'] === 0 || (int)$_FILES['file']['error'] === 4);
+    return ((int)$_FILES['file']['error'] === UPLOAD_ERR_OK || (int)$_FILES['file']['error'] === UPLOAD_ERR_NO_FILE);
 }
 
 /**
@@ -97,7 +97,7 @@ function validate_task_form(
     if (!validate_task_name($task_name)) {
         $errors['name'] = 'Введите название задачи!';
     }
-    if (strlen($task_name) > 64) {
+    if (strlen($task_name) > MAX_LENGTH_TASK_NAME) {
         $errors['name'] = 'Название задачи не может быть длиннее 64-х символов';
     }
     if (!find_project_id($user_id, $project_id)) {
@@ -111,7 +111,7 @@ function validate_task_form(
     if (!validate_file()) {
         $errors['file'] = 'Ошибка загрузки файла';
     }
-    if (strlen($_FILES['file']['name']) > 64) {
+    if (strlen($_FILES['file']['name']) > MAX_LENGTH_FILE_NAME) {
         $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее 64-х символов';
     }
 
@@ -135,7 +135,7 @@ function validate_project_form($user_id, $project_name)
     if (!$project_name) {
         $errors['name'] = 'Название проета не может быть пустым';
     }
-    if (strlen($project_name) > 20) {
+    if (strlen($project_name) > MAX_LENGTH_PROJECT_NAME) {
         $errors['name'] = 'Название проекта не может быть длиннее 20-х символов';
     }
     if (project_name_is_be($user_id, $project_name)) {
@@ -156,7 +156,7 @@ function validate_project_form($user_id, $project_name)
  */
 function validate_email($email)
 {
-    if (!$email || strlen($email) > 128) {
+    if (!$email || strlen($email) > MAX_LENGTH_EMAIL) {
         return false;
     }
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -177,7 +177,7 @@ function validate_email($email)
  */
 function validate_password($password)
 {
-    if (!$password || strlen($password) < 4 || strlen($password) > 64) {
+    if (!$password || strlen($password) < MIN_LENGTH_PASSWORD || strlen($password) > MAX_LENGTH_PASSWORD) {
         return false;
     }
 
@@ -195,7 +195,7 @@ function validate_password($password)
  */
 function validate_name($name)
 {
-    if (!$name || strlen($name) > 64) {
+    if (!$name || strlen($name) > MAX_LENGTH_USER_NAME) {
         return false;
     }
 
@@ -253,7 +253,7 @@ function validate_auth_form($email, $password)
     if (!$password) {
         $errors['password'] = 'введите пароль';
     }
-    if (strlen($password) > 64) {
+    if (strlen($password) > MAX_LENGTH_PASSWORD) {
         $errors['password'] = 'введён неверный пароль';
     }
 

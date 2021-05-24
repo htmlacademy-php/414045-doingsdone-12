@@ -1,4 +1,10 @@
-<?php
+<?php /** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
+/** @noinspection ALL */
 /**
  * Форма добавления проекта
  *
@@ -17,8 +23,7 @@
     <nav class="main-navigation">
         <ul class="main-navigation__list">
             <!-- добавляем цикл с массивом проектов -->
-            <?php
-            foreach ($projects as $key => $project): ?>
+            <?php foreach ($projects as $key => $project): ?>
                 <li class="main-navigation__list-item">
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(

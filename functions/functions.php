@@ -13,5 +13,3 @@ require_once(__DIR__
 require_once(__DIR__ . '/check.php'); // функции проверки и валидации
 require_once(__DIR__ . '/data.php'); // функции работы с данными
 require_once(__DIR__ . '/mail.php'); // функции отправки электронной почты
-
-

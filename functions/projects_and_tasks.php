@@ -83,13 +83,14 @@ function is_task_important($task_time): bool
  */
 function save_file($file)
 {
-    $file_url = null;
-    if ($file['name']) {
-        $file_name = $file['name'];
-        $file_path = '../';
-        $file_url = '/' . $file_name;
-        move_uploaded_file($file['tmp_name'], $file_path . $file_name);
+    if (!$file['name']) {
+        return null;
     }
+
+    $file_name = $file['name'];
+    $file_path = '../';
+    $file_url = '/' . $file_name;
+    move_uploaded_file($file['tmp_name'], $file_path . $file_name);
 
     return $file_url;
 }

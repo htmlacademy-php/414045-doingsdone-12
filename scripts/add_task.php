@@ -47,10 +47,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // перенаправляем на главную страницу
     redirect_to_home();
 }
-
-
-
-
-
-
-

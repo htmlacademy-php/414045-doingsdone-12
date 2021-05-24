@@ -28,9 +28,9 @@
                    id="email" value="<?= $input['email'] ?? '' ?>"
                    placeholder="Введите e-mail">
             <?php
-            if (isset($errors['email'])): ?>
+            if (isset($errors['email'])) : ?>
                 <p class="form__message"><?= $errors['email'] ?></p>
-            <?php
+                <?php
             endif; ?>
         </div>
 
@@ -44,9 +44,9 @@
                    id="password" value="<?= $input['password'] ?? '' ?>"
                    placeholder="Введите пароль">
             <?php
-            if (isset($errors['password'])): ?>
+            if (isset($errors['password'])) : ?>
                 <p class="form__message"><?= $errors['password'] ?></p>
-            <?php
+                <?php
             endif; ?>
         </div>
 

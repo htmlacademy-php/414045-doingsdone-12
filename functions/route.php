@@ -178,3 +178,16 @@ function get_url_task_file($task)
 {
     return $task['file_src'];
 }
+
+/**
+ * Возвразает адрес страницы ошибки БД
+ *
+ * @param string $error последняя ошибка запроса
+ *
+ * @return string
+ */
+
+function get_url_db_error_page($error)
+{
+    return 'location: /pages/db_error_page.php?error=' . $error;
+}
