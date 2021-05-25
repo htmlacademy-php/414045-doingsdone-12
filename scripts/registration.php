@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['name'],
         $_POST['password']
     );
-//    если есть ошибки показываем страницу регистрации с подсвечеными полями
+    //    если есть ошибки показываем страницу регистрации с подсвечеными полями
     if ($errors) {
         $input = [
             'email' => $_POST['email'],
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         print(include_template('layout.php', $layout_data));
         exit(1);
     }
-//    при успехе перенаправляем на главную
+    //    при успехе перенаправляем на главную
     add_new_user($_POST['email'], $_POST['password'], $_POST['name']);
 
     $_SESSION['user_id'] = get_user_id($_POST['email']);

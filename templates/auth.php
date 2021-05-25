@@ -30,7 +30,7 @@
             <?php
             if (isset($errors['email'])) : ?>
                 <p class="form__message"><?= $errors['email'] ?></p>
-                <?php
+            <?php
             endif; ?>
         </div>
 
@@ -46,7 +46,7 @@
             <?php
             if (isset($errors['password'])) : ?>
                 <p class="form__message"><?= $errors['password'] ?></p>
-                <?php
+            <?php
             endif; ?>
         </div>
 

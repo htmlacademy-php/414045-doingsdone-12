@@ -9,6 +9,7 @@
  * @var int $show_complete_tasks параметр отображения выполненных задач
  * @var string $url_all_project_task путь для отображения всех задач в проекте
  */
+
 ?>
 
 <section class="content__side">
