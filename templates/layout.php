@@ -40,16 +40,16 @@
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= htmlspecialchars($user['name'], ENT_QUOTES | ENT_HTML5) ?></p>
+                            <p><?= filter($user['name']) ?></p>
 
                             <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>
                     </div>
-                    <?php
+                <?php
                 else : ?>
                     <a class="main-header__side-item button button--transparent"
                        href="<?= get_url_auth_page() ?>">Войти</a>
-                    <?php
+                <?php
                 endif; ?>
 
             </div>
@@ -72,7 +72,7 @@
         if ($user['id']) : ?>
             <a class="main-footer__button button button--plus"
                href="<?= get_url_add_task_page() ?>">Добавить задачу</a>
-            <?php
+        <?php
         endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>

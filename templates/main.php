@@ -25,7 +25,7 @@
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(
                            $project['id']
-                       ) ?>"><?= htmlspecialchars($project['name'], ENT_QUOTES | ENT_HTML5) ?></a>
+                       ) ?>"><?= filter($project['name']) ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
                         ?? 0 ?></span>
                 </li>
@@ -101,7 +101,7 @@
                                value="<?= $task['id'] ?>" <?= $task['is_done']
                             ? 'checked' : '' ?>>
                         <span class="checkbox__text">
-                            <?= htmlspecialchars($task['name'], ENT_QUOTES | ENT_HTML5) ?>
+                            <?= filter($task['name']) ?>
                         </span>
                     </label>
                 </td>
@@ -115,7 +115,7 @@
                     <?php
                     endif; ?>
                 </td>
-                <td class="task__date"><?= htmlspecialchars($task['time_end'], ENT_QUOTES | ENT_HTML5) ?></td>
+                <td class="task__date"><?= filter($task['time_end']) ?></td>
             </tr>
         <?php
         endforeach; ?>

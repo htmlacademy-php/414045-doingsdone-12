@@ -36,7 +36,7 @@
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(
                            $project['id']
-                       ) ?>"><?= htmlspecialchars($project['name'], ENT_QUOTES | ENT_HTML5) ?></a>
+                       ) ?>"><?= filter($project['name']) ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
                         ?? 0 ?></span>
                 </li>
@@ -80,8 +80,7 @@
                             : '' ?>
                     <?php
                     endif; ?>
-                            value="<?= $project['id'] ?>"><?= htmlspecialchars($project['name'],
-                            ENT_QUOTES | ENT_HTML5) ?></option>
+                            value="<?= $project['id'] ?>"><?= filter($project['name']) ?></option>
                 <?php
                 endforeach; ?>
             </select>

@@ -1,4 +1,16 @@
-<?php /** @noinspection ALL */
+<?php
+
+/**
+ * Экранирует опасные символы
+ *
+ * @param string $string входящая строка
+ *
+ * @return string строка с экранироваными опасными символами
+ */
+function filter($string)
+{
+    return htmlspecialchars($string, ENT_QUOTES | ENT_HTML5);
+}
 
 /**
  * Проверка на существование проекта у пользователя
@@ -112,7 +124,8 @@ function validate_task_form(
         $errors['file'] = 'Ошибка загрузки файла';
     }
     if (strlen($_FILES['file']['name']) > MAX_LENGTH_FILE_NAME) {
-        $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее ' . MAX_LENGTH_FILE_NAME . ' символов';
+        $errors['file'] = 'Слишком длинное имя файла, имя файла должно быть не длинее ' .
+            MAX_LENGTH_FILE_NAME . ' символов';
     }
 
     return $errors;
@@ -227,7 +240,8 @@ function validate_registration_form($email, $name, $password)
         $errors['name'] = 'введите имя, должно быть не длиннее ' . MAX_LENGTH_USER_NAME . ' символов';
     }
     if (!validate_password($password)) {
-        $errors['password'] = 'введите пароль, должен быть длинее ' . MIN_LENGTH_PASSWORD . ' символов, но не длинее ' . MAX_LENGTH_PASSWORD;
+        $errors['password'] = 'введите пароль, должен быть длинее ' .
+            MIN_LENGTH_PASSWORD . ' символов, но не длинее ' . MAX_LENGTH_PASSWORD;
     }
 
     return $errors;
@@ -263,7 +277,8 @@ function validate_auth_form($email, $password)
 /**
  * Аутентификация пользователя
  *
- * Проверяет существует ли пользователь с таким email в БД, если существет проверяет совпадает ли хеш введённого пароля с хешем из БД
+ * Проверяет существует ли пользователь с таким email в БД,
+ * если существет проверяет совпадает ли хеш введённого пароля с хешем из БД
  *
  * @param string $email почта
  * @param string $password пароль
