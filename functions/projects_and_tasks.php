@@ -29,7 +29,7 @@ function show_tasks(
     if ($project_id) {
         $tasks_result = get_user_tasks_chosen_project($user_id, $project_id);
     }
-    if ($tasks_filter && ($tasks_filter != TASK_FILTER_ALL_TASKS)) {
+    if ($tasks_filter && ($tasks_filter !== TASK_FILTER_ALL_TASKS)) {
         $tasks_result = get_user_tasks_chosen_filter($user_id, $tasks_filter);
     }
 
@@ -43,7 +43,7 @@ function show_tasks(
         if ($task['time_end']) {
             $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
         }
-        array_push($tasks, $task);
+        $tasks[] = $task;
     }
 
     return $tasks;
@@ -65,11 +65,9 @@ function is_task_important($task_time): bool
         return false;
     }
 
-    $current_time = time();
     $task_time = strtotime($task_time);
-    $task_time_to_end_limit = 24 * 3600; //24 часа
 
-    return $task_time - $current_time < $task_time_to_end_limit;
+    return $task_time < strtotime("+1 day");
 }
 
 /**
@@ -128,7 +126,7 @@ function add_new_task($user_id, $project_id, $task_name, $task_date, $file)
  */
 function search_task($user_id, $search_string)
 {
-    $search_string = trim($search_string) ?? null;
+    $search_string = trim($search_string);
 
     return $search_string ? get_looking_for_task($user_id, $search_string)
         : null;

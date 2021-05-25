@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpCSValidationInspection */
+/** @noinspection PhpCSValidationInspection */
+/** @noinspection PhpCSValidationInspection */
 /**
  * @var string $title
  * @var string $content
@@ -12,7 +14,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $title; ?></title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
@@ -38,16 +40,16 @@
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= htmlspecialchars($user['name']) ?></p>
+                            <p><?= filter($user['name']) ?></p>
 
                             <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>
                     </div>
-                    <?php
+                <?php
                 else : ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="<?= get_url_auth_page(); ?>">Войти</a>
-                    <?php
+                       href="<?= get_url_auth_page() ?>">Войти</a>
+                <?php
                 endif; ?>
 
             </div>
@@ -70,7 +72,7 @@
         if ($user['id']) : ?>
             <a class="main-footer__button button button--plus"
                href="<?= get_url_add_task_page() ?>">Добавить задачу</a>
-            <?php
+        <?php
         endif; ?>
         <div class="main-footer__social social">
             <span class="visually-hidden">Мы в соцсетях:</span>

@@ -25,9 +25,7 @@
                     <a class="main-navigation__list-item-link"
                        href="<?= get_url_id_chosen_project(
                            $project['id']
-                       ) ?>"><?= htmlspecialchars(
-                            $project['name']
-                        ); ?></a>
+                       ) ?>"><?= filter($project['name']) ?></a>
                     <span class="main-navigation__list-item-count"><?= $projects_count[$project['id']]
                         ?? 0 ?></span>
                 </li>
@@ -102,9 +100,9 @@
                                name="id_task_for_state_changing"
                                value="<?= $task['id'] ?>" <?= $task['is_done']
                             ? 'checked' : '' ?>>
-                        <span class="checkbox__text"><?= htmlspecialchars(
-                                $task['name']
-                            ); ?></span>
+                        <span class="checkbox__text">
+                            <?= filter($task['name']) ?>
+                        </span>
                     </label>
                 </td>
                 <td class="task__file">
@@ -113,11 +111,11 @@
                         <a class="download-link"
                            href="<?= get_url_task_file(
                                $task
-                           ) ?>"><?= $task['file_name'] ?? ''; ?></a>
+                           ) ?>"><?= $task['file_name'] ?? '' ?></a>
                     <?php
                     endif; ?>
                 </td>
-                <td class="task__date"><?= htmlspecialchars($task['time_end']); ?></td>
+                <td class="task__date"><?= filter($task['time_end']) ?></td>
             </tr>
         <?php
         endforeach; ?>

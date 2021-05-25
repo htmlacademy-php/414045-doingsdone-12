@@ -36,9 +36,7 @@ function find_project_id($user_id, $project_id)
 
     query_ok_or_fail($stmt);
 
-    $project_id_sql = mysqli_fetch_assoc($result_sql);
-
-    return $project_id_sql;
+    return mysqli_fetch_assoc($result_sql);
 }
 
 /**
@@ -86,8 +84,7 @@ function get_count_task_in_projects($user_id)
     query_ok_or_fail($stmt);
 
     $count_tasks = [];
-    $count_tasks_sql = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
-    foreach ($count_tasks_sql as $value) {
+    foreach (mysqli_fetch_all($result_sql, MYSQLI_ASSOC) as $value) {
         $count_tasks[$value['project_id']] = $value['count_tasks'];
     }
 
@@ -112,9 +109,7 @@ function get_projects($user_id)
 
     query_ok_or_fail($stmt);
 
-    $projects_sql = mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
-
-    return $projects_sql;
+    return mysqli_fetch_all($result_sql, MYSQLI_ASSOC);
 }
 
 /**
@@ -434,7 +429,7 @@ function get_looking_for_task($user_id, $task_name)
         if ($task['time_end']) {
             $task['time_end'] = date("d.m.Y", strtotime($task['time_end']));
         }
-        array_push($tasks, $task);
+        $tasks[] = $task;
     }
 
     return $tasks;

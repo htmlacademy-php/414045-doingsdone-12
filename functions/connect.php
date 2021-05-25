@@ -18,11 +18,11 @@ function show_db_error()
  */
 function connect_db()
 {
-    $con = mysqli_connect("localhost", "root", "root", "doingsdone");
+    $con = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
     if (!$con) {
         show_db_error();
     }
-    mysqli_set_charset($con, "utf8");
+    mysqli_set_charset($con, DB_CHARSET);
 
     return $con;
 }

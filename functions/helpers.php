@@ -18,7 +18,7 @@ function include_template($name, array $data = [])
     }
 
     ob_start();
-    extract($data);
+    extract($data, EXTR_OVERWRITE);
     require $name;
 
     $result = ob_get_clean();
