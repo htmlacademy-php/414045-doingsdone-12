@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpCSValidationInspection */
+/** @noinspection PhpCSValidationInspection */
+/** @noinspection PhpCSValidationInspection */
 /**
  * @var string $title
  * @var string $content
@@ -12,7 +14,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title><?= $title; ?></title>
+    <title><?= $title ?></title>
     <link rel="stylesheet" href="../css/normalize.css">
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/flatpickr.min.css">
@@ -38,7 +40,7 @@
                         задачу</a>
                     <div class="main-header__side-item user-menu">
                         <div class="user-menu__data">
-                            <p><?= htmlspecialchars($user['name']) ?></p>
+                            <p><?= htmlspecialchars($user['name'], ENT_QUOTES | ENT_HTML5) ?></p>
 
                             <a href="<?= get_url_logout_script() ?>">Выйти</a>
                         </div>
@@ -46,7 +48,7 @@
                     <?php
                 else : ?>
                     <a class="main-header__side-item button button--transparent"
-                       href="<?= get_url_auth_page(); ?>">Войти</a>
+                       href="<?= get_url_auth_page() ?>">Войти</a>
                     <?php
                 endif; ?>
 
